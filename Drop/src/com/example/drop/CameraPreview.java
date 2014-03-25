@@ -3,6 +3,7 @@ package com.example.drop;
 import java.io.IOException;
 
 import android.content.Context;
+import android.graphics.ImageFormat;
 import android.hardware.Camera;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -30,9 +31,11 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         try {
             mCamera.setPreviewDisplay(holder);
             mCamera.setDisplayOrientation(90);
-            Camera.Parameters params = mCamera.getParameters();
-            params.setRotation(180);
-            mCamera.setParameters(params);
+        	Camera.Parameters cameraParameters = mCamera.getParameters();
+            //cameraParameters.setRotation(90); 
+        	cameraParameters.setPictureFormat(ImageFormat.JPEG); 
+        	cameraParameters.set("orientation", "portrait");
+        	cameraParameters.setRotation(90);
             mCamera.startPreview();
         } catch (IOException e) {
             Log.d(TAG, "Error setting camera preview: " + e.getMessage());

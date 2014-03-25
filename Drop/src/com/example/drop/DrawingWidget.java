@@ -40,7 +40,7 @@ public class DrawingWidget extends View
 		mCanvas = new Canvas(mBitmap);
 		mBitmapPaint = new Paint(Paint.DITHER_FLAG);
 		mPaint = new Paint();
-		mPaint.setStrokeWidth(4);
+		mPaint.setStrokeWidth(6);
 		mBitmap.eraseColor(Color.WHITE);
 		strokes = new ArrayList <Integer> ();
 		invalidate();
@@ -54,7 +54,7 @@ public class DrawingWidget extends View
 		mCanvas = new Canvas(mBitmap);
 		mBitmapPaint = new Paint(Paint.DITHER_FLAG);
 		mPaint = new Paint();
-		mPaint.setStrokeWidth(4);
+		mPaint.setStrokeWidth(6);
 		mPaint.setColor(Color.BLACK);
 		mBitmap.eraseColor(Color.WHITE);
 		strokes = new ArrayList <Integer> ();
@@ -70,7 +70,7 @@ public class DrawingWidget extends View
 		mCanvas = new Canvas(mBitmap);
 		mBitmapPaint = new Paint(Paint.DITHER_FLAG);
 		mPaint = new Paint();
-		mPaint.setStrokeWidth(4);
+		mPaint.setStrokeWidth(6);
 		mPaint.setColor(Color.BLACK);
 		mBitmap.eraseColor(Color.WHITE);
 		strokes = new ArrayList <Integer> ();

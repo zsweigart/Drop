@@ -16,10 +16,15 @@ import android.graphics.Matrix;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.view.View.OnFocusChangeListener;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
 public class DrawScreen extends Activity {
-
+    
+	byte [] data;
+	 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +32,7 @@ public class DrawScreen extends Activity {
         
         Intent i = getIntent();
         File pictureFile = (File)i.getSerializableExtra("image");
-        byte [] data  = new byte[(int) pictureFile.length()];
+        data  = new byte[(int) pictureFile.length()];
         
         try 
         {
@@ -40,22 +45,29 @@ public class DrawScreen extends Activity {
         {
         	e.printStackTrace();
         }
-        BitmapFactory factory = new BitmapFactory();
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inMutable = true;
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        Bitmap b = BitmapFactory.decodeByteArray(data, 0, data.length, options);
-        b = Bitmap.createScaledBitmap(b, metrics.widthPixels, metrics.heightPixels, true);
+        final DrawingWidget background = (DrawingWidget)findViewById(R.id.background_picture);
+        
+        background.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
-        // Rotating Bitmap 
-        /*int w = b.getWidth();
-        int h = b.getHeight();
-        Matrix mtx = new Matrix();
-        mtx.preRotate(90);
-        b = Bitmap.createBitmap(b, 0, 0, w, h, mtx, false);*/
-        DrawingWidget background = (DrawingWidget)findViewById(R.id.background_picture);
-        background.setBitmap(b);
+            public void onGlobalLayout() {
+                // Ensure you call it only once :
+            	background.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+
+            	//Get image taken
+		        BitmapFactory.Options options = new BitmapFactory.Options();
+		        options.inMutable = true;
+		        Bitmap b = BitmapFactory.decodeByteArray(data, 0, data.length, options);
+		        
+		        //Rotate and scale image
+		        Log.i("DRAW", background.getHeight() +" x "+ background.getWidth());
+		        b = Bitmap.createScaledBitmap(b, background.getHeight(), background.getWidth(), true);
+		        Matrix matrix = new Matrix();
+		        matrix.postRotate(90);
+		        b = Bitmap.createBitmap(b , 0, 0, b.getWidth(), b.getHeight(), matrix, true);
+		        
+		        background.setBitmap(b);
+            }
+        });
     }
 
     @Override

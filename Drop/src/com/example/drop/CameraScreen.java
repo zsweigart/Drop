@@ -5,14 +5,18 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.ImageFormat;
+import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -33,6 +37,12 @@ public class CameraScreen extends Activity {
         // Create an instance of Camera
         mCamera = getCameraInstance();
         mCamera.setDisplayOrientation(90);
+    	Camera.Parameters cameraParameters = mCamera.getParameters();
+        //cameraParameters.setRotation(90); 
+    	cameraParameters.setPictureFormat(ImageFormat.JPEG); 
+    	cameraParameters.set("orientation", "portrait");
+    	cameraParameters.setRotation(90);
+        mCamera.setParameters(cameraParameters);
 
         // Create our Preview view and set it as the content of our activity.
         mPreview = new CameraPreview(this, mCamera);
@@ -83,20 +93,19 @@ public class CameraScreen extends Activity {
     };
     
     @Override
-    public void onPause() {
-    	super.onPause();
-    	mCamera.release();
-    }
-    
-    @Override
-    public void onResume() {
-    	super.onResume();
-        /*mCamera = getCameraInstance();
-        if(mCamera != null)
-        {
-        	mCamera.setDisplayOrientation(90);
-        }*/
-    }
+	protected void onResume() {
+		super.onResume();
+		//mCamera = Camera.open();
+	}
+
+	@Override
+	protected void onPause() {
+		if(mCamera != null) {
+			mCamera.release();
+			mCamera = null;
+		}
+		super.onPause();
+	}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
