@@ -1,0 +1,22 @@
+package com.example.drop;
+
+import java.io.Serializable;
+
+public class Note implements Serializable{
+	byte [] picture;
+	
+	Note(byte [] p)
+	{
+		picture = p;
+	}
+	
+	public byte[] getPicture()
+	{
+		return picture;
+	}
+	
+	public void setPicture(byte [] p)
+	{
+		picture = p;
+	}
+}

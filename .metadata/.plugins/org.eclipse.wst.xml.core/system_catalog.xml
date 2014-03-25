@@ -108,4 +108,5 @@
   <system systemId="http://www.w3.org/2001/xml.xsd" uri="jar:file:/C:/eclipse/plugins/org.eclipse.xsd_2.8.0.v20120319-0555.jar!/cache/www.w3.org/2001/xml.xsd"/>
   <uri name="http://www.w3.org/2001/XMLSchema" uri="jar:file:/C:/eclipse/plugins/org.eclipse.xsd_2.8.0.v20120319-0555.jar!/cache/www.w3.org/2001/XMLSchema.xsd"/>
   <uri id="org.w3c.xinclude" name="http://www.w3.org/2001/XInclude" uri="jar:file:/C:/eclipse/plugins/org.eclipse.wst.xsl.core_1.1.100.v201102270516.jar!/xslt-schemas/xinclude.xsd"/>
+  <uri name="http://ant.apache.org/ivy/schemas/ivy.xsd" uri="file:/C:/eclipse/plugins/org.apache.ivyde.eclipse_2.2.0.final-201311091524-RELEASE/xsd/ivy.xsd"/>
 </catalog>
