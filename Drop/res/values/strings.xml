@@ -16,5 +16,16 @@
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_login_screen">LoginScreen</string>
     <string name="title_activity_view_note_screen">ViewNoteScreen</string>
-
+    
+    <!-- Preferences -->
+    <string name="pref_monkeys">Monkeys?</string>
+    <string name="pref_monkeys_summ">If you want monkeys.</string>
+    
+    <string name="pref_spying_level">Location Spying Intrusiveness</string>
+    <string-array name="pref_spying_level_entries">
+        <item>Low</item>
+        <item>Moderate</item>
+        <item>Extreme</item>
+        <item>Echelon</item>
+    </string-array>     
 </resources>
