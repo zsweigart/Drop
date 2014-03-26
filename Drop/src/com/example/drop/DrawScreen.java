@@ -59,11 +59,19 @@ public class DrawScreen extends Activity {
 		        Bitmap b = BitmapFactory.decodeByteArray(data, 0, data.length, options);
 		        
 		        //Rotate and scale image
-		        Log.i("DRAW", background.getHeight() +" x "+ background.getWidth());
-		        b = Bitmap.createScaledBitmap(b, background.getHeight(), background.getWidth(), true);
-		        Matrix matrix = new Matrix();
-		        matrix.postRotate(90);
-		        b = Bitmap.createBitmap(b , 0, 0, b.getWidth(), b.getHeight(), matrix, true);
+		        if(b.getHeight() < b.getWidth())
+		        {
+			        Log.i("DRAW", background.getHeight() +" x "+ background.getWidth());
+			        b = Bitmap.createScaledBitmap(b, background.getHeight(), background.getWidth(), true);
+			        Matrix matrix = new Matrix();
+			        matrix.postRotate(90);
+			        b = Bitmap.createBitmap(b , 0, 0, b.getWidth(), b.getHeight(), matrix, true);
+		        }
+		        else
+		        {
+		        	Log.i("DRAW", background.getHeight() +" x "+ background.getWidth());
+			        b = Bitmap.createScaledBitmap(b, background.getWidth(), background.getHeight(), true);
+		        }
 		        
 		        background.setBitmap(b);
             }
@@ -74,5 +82,15 @@ public class DrawScreen extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_draw_screen, menu);
         return true;
+    }
+    
+    @Override
+    public void onBackPressed() {
+        // Open up the CameraScreen
+    	Intent i = new Intent(this, CameraScreen.class);
+        startActivity(i);
+        this.finish();
+        
+        super.onBackPressed();
     }
 }

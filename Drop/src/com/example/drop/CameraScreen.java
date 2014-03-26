@@ -89,18 +89,36 @@ public class CameraScreen extends Activity {
         	Intent i = new Intent(CameraScreen.this, DrawScreen.class);
         	i.putExtra("image", pictureFile);
         	startActivity(i);
+        	CameraScreen.this.finish();
         }
     };
     
     @Override
 	protected void onResume() {
 		super.onResume();
-		//mCamera = Camera.open();
+		if(mCamera == null) {
+			Log.i("CAMERA", "OPENING");
+			
+			// Create an instance of Camera
+	        mCamera = getCameraInstance();
+	        mCamera.setDisplayOrientation(90);
+	    	Camera.Parameters cameraParameters = mCamera.getParameters();
+	    	cameraParameters.setPictureFormat(ImageFormat.JPEG); 
+	    	cameraParameters.set("orientation", "portrait");
+	    	cameraParameters.setRotation(90);
+	        mCamera.setParameters(cameraParameters);
+
+	        // Create our Preview view and set it as the content of our activity.
+	        mPreview = new CameraPreview(this, mCamera);
+	        FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+	        preview.addView(mPreview);
+		}
 	}
 
 	@Override
 	protected void onPause() {
 		if(mCamera != null) {
+			mCamera.stopPreview();
 			mCamera.release();
 			mCamera = null;
 		}
