@@ -88,8 +88,6 @@ public class DrawScreen extends Activity {
     @Override
     public void onStop() {
     	b.recycle();
-    	b = null;
-    	System.gc();
         
         super.onStop();
     }

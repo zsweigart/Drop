@@ -88,8 +88,6 @@ public class DrawScreen extends Activity {
     @Override
     public void onStop() {
     	b.recycle();
-    	b = null;
-    	System.gc();
         
         super.onStop();
     }
@@ -98,6 +96,7 @@ public class DrawScreen extends Activity {
     public void onBackPressed() {
         // Open up the CameraScreen
     	Intent i = new Intent(this, CameraScreen.class);
+    	b.recycle();
         startActivity(i);
         this.finish();
         

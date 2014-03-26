@@ -24,7 +24,6 @@ import android.widget.ImageView;
 public class DrawScreen extends Activity {
     
 	byte [] data;
-	Bitmap b;
 	 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,7 +56,7 @@ public class DrawScreen extends Activity {
             	//Get image taken
 		        BitmapFactory.Options options = new BitmapFactory.Options();
 		        options.inMutable = true;
-		        b = BitmapFactory.decodeByteArray(data, 0, data.length, options);
+		        Bitmap b = BitmapFactory.decodeByteArray(data, 0, data.length, options);
 		        
 		        //Rotate and scale image
 		        if(b.getHeight() < b.getWidth())
@@ -83,15 +82,6 @@ public class DrawScreen extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_draw_screen, menu);
         return true;
-    }
-    
-    @Override
-    public void onStop() {
-    	b.recycle();
-    	b = null;
-    	System.gc();
-        
-        super.onStop();
     }
     
     @Override
