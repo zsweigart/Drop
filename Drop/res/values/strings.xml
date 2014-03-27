@@ -16,5 +16,6 @@
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_login_screen">LoginScreen</string>
     <string name="title_activity_view_note_screen">ViewNoteScreen</string>
+    <string name="Login">Log In</string>
 
 </resources>

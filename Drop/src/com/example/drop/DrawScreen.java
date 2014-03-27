@@ -19,9 +19,11 @@ import android.util.Log;
 import android.view.DragEvent;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnDragListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -32,6 +34,7 @@ public class DrawScreen extends Activity {
 	Bitmap b;
 	SeekBar colorBar;
 	DrawingWidget drawingWidget;
+	Button nextButton;
 	 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -114,6 +117,19 @@ public class DrawScreen extends Activity {
         	
         });
         colorBar.setProgress(0);
+        
+        Button nextButton = (Button)findViewById(R.id.drawscreen_button_next);
+        nextButton.setOnClickListener(new OnClickListener() {
+
+			public void onClick(View arg0) {
+				Intent i = new Intent(DrawScreen.this, EditNoteScreen.class);
+                startActivity(i);
+ 
+                // close this activity
+                finish();
+			}
+        	
+        });
     }
 
     @Override
