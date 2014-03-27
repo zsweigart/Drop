@@ -12,9 +12,5 @@ public class MapScreen extends Activity {
         setContentView(R.layout.activity_map_screen);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_map_screen, menu);
-        return true;
-    }
+    
 }

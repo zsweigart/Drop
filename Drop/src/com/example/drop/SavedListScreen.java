@@ -12,9 +12,5 @@ public class SavedListScreen extends Activity {
         setContentView(R.layout.activity_saved_list_screen);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_saved_list_screen, menu);
-        return true;
-    }
+   
 }

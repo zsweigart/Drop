@@ -12,9 +12,5 @@ public class DrawScreen extends Activity {
         setContentView(R.layout.activity_draw_screen);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_draw_screen, menu);
-        return true;
-    }
+    
 }
