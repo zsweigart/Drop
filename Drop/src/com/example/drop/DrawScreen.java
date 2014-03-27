@@ -68,6 +68,9 @@ public class DrawScreen extends Activity {
 		        BitmapFactory.Options options = new BitmapFactory.Options();
 		        options.inMutable = true;
 		        b = BitmapFactory.decodeByteArray(data, 0, data.length, options);
+		        //float scale = background.getWidth()/(b.getWidth()*1.0f);
+		        //int height = (int) (b.getHeight()*scale);
+		        //Log.i("DRAW", ""+height);
 		        
 		        //Rotate and scale image
 		        if(b.getHeight() < b.getWidth())
