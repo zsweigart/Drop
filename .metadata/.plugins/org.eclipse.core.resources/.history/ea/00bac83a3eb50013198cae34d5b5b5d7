@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<item>
+<rotate
+	android:fromDegrees="45"
+	android:toDegrees="45"
+	android:pivotX="50%"
+	android:pivotY="50%" >
+	
+	<shape xmlns:android="http://schemas.android.com/apk/res/android" 
+	    android:shape="rectangle" >
+	    
+	    <solid android:color="#FFFFFF"/>
+	    <stroke android:width="2sp" android:color="#333333" />
+		
+		<size 
+	       android:width="50dp"
+	       android:height="50dp"/>
+	
+	</shape>
+</rotate>
+</item>
