@@ -20,7 +20,7 @@
 		android:layout_marginBottom="20dp"
 		android:layout_centerHorizontal="true"
 		android:background="@drawable/colorbar2"
-		android:progressDrawable="@drawable/seekbarprogress"
+		android:progressDrawable="@drawable/colorbarprogress"
 		android:thumb="@drawable/sliderbar" />
     
     <Button
