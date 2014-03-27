@@ -1,8 +1,8 @@
 package com.example.drop;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
-import android.app.Activity;
 
 
 public class Settings extends Activity {
@@ -15,7 +15,7 @@ public class Settings extends Activity {
      // Display the fragment as the main content.
         getFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new SettingsFragment())
-                .commit();
+                .commit();       
     }  
 	
 	public static class SettingsFragment extends PreferenceFragment{

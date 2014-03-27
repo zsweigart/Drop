@@ -2,7 +2,12 @@
 
     <string name="app_name">Drop</string>
     <string name="hello_world">Hello world!</string>
-    <string name="menu_settings">Settings</string>
+    
+    <!-- Menu Titles -->
+    <string name="menu_settings">settings</string>
+    <string name="menu_gallery">gallery</string>
+    
+    <!-- Activity Titles -->
     <string name="title_activity_splash_screen">SplashScreen</string>
     <string name="title_activity_camera_screen">CameraScreen</string>
     <string name="title_activity_draw_screen">DrawScreen</string>
