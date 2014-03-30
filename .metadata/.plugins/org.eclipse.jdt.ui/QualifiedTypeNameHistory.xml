@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="com.example.drop.CameraPreview"/>
-<fullyQualifiedTypeName name="android.widget.SeekBar"/>
-<fullyQualifiedTypeName name="com.example.drop.R.drawable"/>
-<fullyQualifiedTypeName name="com.example.drop.R.id"/>
-<fullyQualifiedTypeName name="android.graphics.Color"/>
-<fullyQualifiedTypeName name="android.widget.SeekBar.OnSeekBarChangeListener"/>
-</qualifiedTypeNameHistroy>
