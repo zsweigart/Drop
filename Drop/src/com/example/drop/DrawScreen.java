@@ -135,11 +135,6 @@ public class DrawScreen extends Activity {
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_draw_screen, menu);
-        return true;
-    }
     
     @Override
     public void onStop() {
@@ -159,4 +154,5 @@ public class DrawScreen extends Activity {
         
         super.onBackPressed();
     }
+
 }

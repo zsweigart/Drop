@@ -12,9 +12,5 @@ public class DroppedListScreen extends Activity {
         setContentView(R.layout.activity_dropped_list_screen);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_dropped_list_screen, menu);
-        return true;
-    }
+   
 }

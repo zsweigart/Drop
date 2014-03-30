@@ -9,6 +9,11 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+<<<<<<< HEAD:.metadata/.plugins/org.eclipse.core.resources/.history/1/c04f90eebeb3001319f1820ceea8d546
         tools:context=".DrawScreen" />
+=======
+        android:text="@string/hello_world"
+        tools:context=".CameraScreen" />
+>>>>>>> ce2d54b51444655df28c4cd4df100b91603866eb:Drop/res/layout/activity_camera_sceen.xml
 
 </RelativeLayout>

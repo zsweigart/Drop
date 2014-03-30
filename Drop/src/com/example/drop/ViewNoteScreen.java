@@ -12,9 +12,5 @@ public class ViewNoteScreen extends Activity {
         setContentView(R.layout.activity_view_note_screen);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_view_note_screen, menu);
-        return true;
-    }
+    
 }

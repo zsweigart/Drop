@@ -12,9 +12,5 @@ public class Gallery extends Activity {
         setContentView(R.layout.activity_gallery);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_gallery, menu);
-        return true;
-    }
+    
 }

@@ -6,7 +6,11 @@ import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
+import android.view.MenuItem;
 
 public class SplashScreen extends Activity {
 	boolean loggedIn;
@@ -19,6 +23,8 @@ public class SplashScreen extends Activity {
         setContentView(R.layout.activity_splash_screen);
  
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		//Set default preferences (won't override user preferences)
+		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
     
         loggedIn = prefs.getBoolean("loggedIn", false);
      

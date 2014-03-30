@@ -39,9 +39,5 @@ public class LoginScreen extends Activity {
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_login_screen, menu);
-        return true;
-    }
+    
 }

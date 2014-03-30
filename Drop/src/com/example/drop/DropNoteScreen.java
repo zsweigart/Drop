@@ -12,9 +12,5 @@ public class DropNoteScreen extends Activity {
         setContentView(R.layout.activity_drop_note_screen);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_drop_note_screen, menu);
-        return true;
-    }
+   
 }
