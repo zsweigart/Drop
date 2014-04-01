@@ -126,10 +126,5 @@ public class CameraScreen extends Activity {
 		}
 		super.onPause();
 	}
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_camera_sceen, menu);
-        return true;
-    }
+ 
 }
