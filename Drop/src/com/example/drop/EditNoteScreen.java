@@ -3,7 +3,7 @@ package com.example.drop;
 import android.app.Activity;
 import android.os.Bundle;
 
-public class EditNoteScreen extends Activity {
+public class EditNoteScreen extends OptionsMenuScreen {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
