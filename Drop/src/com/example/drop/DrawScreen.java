@@ -35,6 +35,7 @@ public class DrawScreen extends Activity {
 	SeekBar colorBar;
 	DrawingWidget drawingWidget;
 	Button nextButton;
+	boolean isBack;
 	 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,7 @@ public class DrawScreen extends Activity {
         
         Intent i = getIntent();
         File pictureFile = (File)i.getSerializableExtra("image");
+        isBack = i.getBooleanExtra("isBack", false);
         data  = new byte[(int) pictureFile.length()];
         
         try 
@@ -78,7 +80,14 @@ public class DrawScreen extends Activity {
 			        Log.i("DRAW", background.getHeight() +" x "+ background.getWidth());
 			        b = Bitmap.createScaledBitmap(b, background.getHeight(), background.getWidth(), true);
 			        Matrix matrix = new Matrix();
-			        matrix.postRotate(90);
+			        if(isBack)
+			        {
+			        	matrix.postRotate(90);
+			        }
+			        else
+			        {
+			        	matrix.postRotate(270);
+			        }
 			        b = Bitmap.createBitmap(b , 0, 0, b.getWidth(), b.getHeight(), matrix, true);
 		        }
 		        else
@@ -125,7 +134,8 @@ public class DrawScreen extends Activity {
         nextButton.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View arg0) {
-				Intent i = new Intent(DrawScreen.this, EditNoteScreen.class);
+				//Intent i = new Intent(DrawScreen.this, EditNoteScreen.class);
+				Intent i = new Intent(DrawScreen.this, GalleryScreen.class);
                 startActivity(i);
  
                 // close this activity
