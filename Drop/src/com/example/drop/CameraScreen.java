@@ -35,22 +35,17 @@ public class CameraScreen extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera_screen);
         
-        isBack = true;
-
-        // Create an instance of Camera
-        mCamera = getCameraInstance();
-        mCamera.setDisplayOrientation(90);
-    	Camera.Parameters cameraParameters = mCamera.getParameters();
-        //cameraParameters.setRotation(90); 
-    	cameraParameters.setPictureFormat(ImageFormat.JPEG); 
-    	cameraParameters.set("orientation", "portrait");
-    	cameraParameters.setRotation(90);
-        mCamera.setParameters(cameraParameters);
-
-        // Create our Preview view and set it as the content of our activity.
-        mPreview = new CameraPreview(this, mCamera);
-        FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
-        preview.addView(mPreview);
+        Intent i = getIntent();
+        if(i.hasExtra("isBack"))
+        {
+        	isBack = i.getBooleanExtra("isBack",true);
+        }
+        else
+        {
+        	isBack = true;
+        }
+        
+        setCamera();
         
         // Add a listener to the Capture button
         Button captureButton = (Button) findViewById(R.id.button_capture);
@@ -77,73 +72,7 @@ public class CameraScreen extends Activity {
                 	} 
                 	isBack = !isBack;
                 	
-            		// Create an instance of Camera
-            		Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
-            		int cameraCount = Camera.getNumberOfCameras();
-            		Log.i("CAMERA", "count = " + cameraCount);
-            		Log.i("CAMERA", "isBack = " + isBack);
-            		
-                	if(isBack)
-                	{
-                		for (int camIdx = 0; camIdx < cameraCount; camIdx++) {
-                			Camera.getCameraInfo( camIdx, cameraInfo );
-                    		Log.i("CAMERA", "cameraInfoFacing = " + cameraInfo.facing);
-                			if ( cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK  ) 
-                			{
-                				try {
-                            		Log.i("CAMERA", "SETTING mCamera");
-                					mCamera = Camera.open( camIdx );
-                				} catch (RuntimeException e) {
-                					Log.e(TAG, "Camera failed to open: " + e.getLocalizedMessage());
-                				}
-                    			break;	
-                			}
-                		}
-                		
-                		
-                		if(mCamera != null)
-                		{
-                			mCamera.setDisplayOrientation(90);
- 	                    	Camera.Parameters cameraParameters = mCamera.getParameters();
- 	                    	cameraParameters.setPictureFormat(ImageFormat.JPEG); 
- 	                    	cameraParameters.set("orientation", "portrait");
- 	                    	cameraParameters.setRotation(90);
- 	                        mCamera.setParameters(cameraParameters);
- 	                        
-	                        mPreview.switchCamera(mCamera);
-	                        mCamera.startPreview();
-                		}
-                	}
-                	else
-                	{
-                		for (int camIdx = 0; camIdx < cameraCount; camIdx++) {
-                			Camera.getCameraInfo( camIdx, cameraInfo );
-                    		Log.i("CAMERA", "cameraInfoFacing = " + cameraInfo.facing);
-                			if ( cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT  ) 
-                			{
-                				try {
-                            		Log.i("CAMERA", "SETTING mCamera");
-                					mCamera = Camera.open( camIdx );
-                				} catch (RuntimeException e) {
-                					Log.e(TAG, "Camera failed to open: " + e.getLocalizedMessage());
-                				}	
-                    			break;
-                			}
-                		}
-                		
-                		if(mCamera != null)
-                		{
-	                        mCamera.setDisplayOrientation(90);
-	                    	Camera.Parameters cameraParameters = mCamera.getParameters();
-	                    	cameraParameters.setPictureFormat(ImageFormat.JPEG); 
-	                    	cameraParameters.set("orientation", "portrait");
-	                    	cameraParameters.setRotation(270);
-	                        mCamera.setParameters(cameraParameters);
-
-	                        mPreview.switchCamera(mCamera);
-	                        mCamera.startPreview();
-                		}
-                	}
+                	setCamera();
                 }
             }
         );
@@ -188,19 +117,7 @@ public class CameraScreen extends Activity {
 		if(mCamera == null) {
 			Log.i("CAMERA", "OPENING");
 			
-			// Create an instance of Camera
-	        mCamera = getCameraInstance();
-	        mCamera.setDisplayOrientation(90);
-	    	Camera.Parameters cameraParameters = mCamera.getParameters();
-	    	cameraParameters.setPictureFormat(ImageFormat.JPEG); 
-	    	cameraParameters.set("orientation", "portrait");
-	    	cameraParameters.setRotation(90);
-	        mCamera.setParameters(cameraParameters);
-
-	        // Create our Preview view and set it as the content of our activity.
-	        mPreview = new CameraPreview(this, mCamera);
-	        FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
-	        preview.addView(mPreview);
+			setCamera();
 		}
 	}
 
@@ -218,5 +135,94 @@ public class CameraScreen extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_camera_sceen, menu);
         return true;
+    }
+    
+    private void setCamera()
+    {
+    	// Create an instance of Camera
+		Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+		int cameraCount = Camera.getNumberOfCameras();
+		Log.i("CAMERA", "count = " + cameraCount);
+		Log.i("CAMERA", "isBack = " + isBack);
+		
+    	if(isBack)
+    	{
+    		for (int camIdx = 0; camIdx < cameraCount; camIdx++) {
+    			Camera.getCameraInfo( camIdx, cameraInfo );
+        		Log.i("CAMERA", "cameraInfoFacing = " + cameraInfo.facing);
+    			if ( cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK  ) 
+    			{
+    				try {
+                		Log.i("CAMERA", "SETTING mCamera");
+    					mCamera = Camera.open( camIdx );
+    				} catch (RuntimeException e) {
+    					Log.e(TAG, "Camera failed to open: " + e.getLocalizedMessage());
+    				}
+        			break;	
+    			}
+    		}
+    		
+    		
+    		if(mCamera != null)
+    		{
+    			mCamera.setDisplayOrientation(90);
+             	Camera.Parameters cameraParameters = mCamera.getParameters();
+             	cameraParameters.setPictureFormat(ImageFormat.JPEG); 
+             	cameraParameters.set("orientation", "portrait");
+             	cameraParameters.setRotation(90);
+                 mCamera.setParameters(cameraParameters);
+                 
+                if(mPreview != null)
+                {
+                	mPreview.switchCamera(mCamera);
+                }
+                else
+                {
+                	mPreview = new CameraPreview(this, mCamera);
+                	FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+        	        preview.addView(mPreview);
+                }
+                mCamera.startPreview();
+    		}
+    	}
+    	else
+    	{
+    		for (int camIdx = 0; camIdx < cameraCount; camIdx++) {
+    			Camera.getCameraInfo( camIdx, cameraInfo );
+        		Log.i("CAMERA", "cameraInfoFacing = " + cameraInfo.facing);
+    			if ( cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT  ) 
+    			{
+    				try {
+                		Log.i("CAMERA", "SETTING mCamera");
+    					mCamera = Camera.open( camIdx );
+    				} catch (RuntimeException e) {
+    					Log.e(TAG, "Camera failed to open: " + e.getLocalizedMessage());
+    				}	
+        			break;
+    			}
+    		}
+    		
+    		if(mCamera != null)
+    		{
+                mCamera.setDisplayOrientation(90);
+            	Camera.Parameters cameraParameters = mCamera.getParameters();
+            	cameraParameters.setPictureFormat(ImageFormat.JPEG); 
+            	cameraParameters.set("orientation", "portrait");
+            	cameraParameters.setRotation(270);
+                mCamera.setParameters(cameraParameters);
+
+                if(mPreview != null)
+                {
+                	mPreview.switchCamera(mCamera);
+                }
+                else
+                {
+                	mPreview = new CameraPreview(this, mCamera);
+                	FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+        	        preview.addView(mPreview);
+                }
+                mCamera.startPreview();
+    		}
+    	}
     }
 }
