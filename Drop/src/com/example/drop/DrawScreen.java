@@ -134,8 +134,7 @@ public class DrawScreen extends Activity {
         nextButton.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View arg0) {
-				//Intent i = new Intent(DrawScreen.this, EditNoteScreen.class);
-				Intent i = new Intent(DrawScreen.this, GalleryScreen.class);
+				Intent i = new Intent(DrawScreen.this, EditNoteScreen.class);
                 startActivity(i);
  
                 // close this activity
