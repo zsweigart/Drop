@@ -25,13 +25,12 @@ public class DrawingWidget extends View
 {
 
 	private float mX, mY;
-	private static final float TOUCH_TOLERANCE = 4;
+	private static final float TOUCH_TOLERANCE = 2;
 
 	private Bitmap mBitmap;
 	private Canvas mCanvas;
 	private Paint mBitmapPaint;
 	private Paint mPaint;
-	private ArrayList <Integer> strokes;
 
 	public DrawingWidget(Context c) 
 	{
@@ -43,7 +42,6 @@ public class DrawingWidget extends View
 		mPaint = new Paint();
 		mPaint.setStrokeWidth(6);
 		mBitmap.eraseColor(Color.WHITE);
-		strokes = new ArrayList <Integer> ();
 		invalidate();
 	}
 	
@@ -58,7 +56,6 @@ public class DrawingWidget extends View
 		mPaint.setStrokeWidth(6);
 		mPaint.setColor(Color.BLACK);
 		mBitmap.eraseColor(Color.WHITE);
-		strokes = new ArrayList <Integer> ();
 		invalidate();
 	}
 
@@ -74,7 +71,6 @@ public class DrawingWidget extends View
 		mPaint.setStrokeWidth(6);
 		mPaint.setColor(Color.BLACK);
 		mBitmap.eraseColor(Color.WHITE);
-		strokes = new ArrayList <Integer> ();
 		invalidate();
 	}
 
@@ -96,8 +92,6 @@ public class DrawingWidget extends View
 	{
 		mX = x;
 		mY = y;
-		strokes.add((int)(x/4));
-		strokes.add((int)(y/4));
 	}
 
 	private void touch_move(float x, float y) 
@@ -109,20 +103,11 @@ public class DrawingWidget extends View
 			mCanvas.drawLine(mX, mY, x, y, mPaint);
 			mX = x;
 			mY = y;
-			if(Math.sqrt(Math.pow((strokes.get(strokes.size()-2)-x/4), 2)+Math.pow((strokes.get(strokes.size()-1)-y/4), 2)) > 4)
-			{
-				strokes.add((int)(x/4));
-				strokes.add((int)(y/4));
-			}
 		}
 	}
 	
 	private void touch_end(float x, float y) 
 	{
-		strokes.add((int)(x/4));
-		strokes.add((int)(y/4));
-		strokes.add(255);
-		strokes.add(0);
 	}
 
 	@Override
@@ -149,6 +134,7 @@ public class DrawingWidget extends View
 	
 	public void clearContents()
 	{
+		mBitmap.recycle();
 		mBitmap = Bitmap.createBitmap(900, 1100, Bitmap.Config.ARGB_8888);
 		mCanvas = new Canvas(mBitmap);
 		mBitmap.eraseColor(Color.WHITE);
@@ -167,6 +153,10 @@ public class DrawingWidget extends View
 	
 	public void setBitmap(Bitmap b)
 	{
+		mBitmap.recycle();
+		mBitmap = null;
+		mCanvas = null;
+		System.gc();
 		mBitmap = b;
 		mCanvas = new Canvas(mBitmap);
 		invalidate();
@@ -187,17 +177,4 @@ public class DrawingWidget extends View
 		return mBitmap;
 	}
 	
-	public void resetStrokes()
-	{
-		strokes = new ArrayList <Integer> ();
-	}
-	public ArrayList <Integer> getStrokes()
-	{
-		return strokes;
-	}
-	
-	public void setStrokes(ArrayList <Integer> s)
-	{
-		strokes = s;
-	}
 }

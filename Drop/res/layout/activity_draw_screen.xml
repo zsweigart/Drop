@@ -31,5 +31,16 @@
 		android:layout_alignParentBottom="true" 
 		android:layout_marginBottom="20dp"
 		android:layout_toRightOf="@id/color_slider" />
+    
+    <Button
+		android:id="@+id/drawscreen_button_clear"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center"
+		android:layout_alignParentTop="true"
+		android:layout_alignParentRight="true" 
+		android:layout_marginTop="20dp" 
+		android:layout_marginRight="20dp"
+		android:text="Clear" />
 
 </RelativeLayout>
