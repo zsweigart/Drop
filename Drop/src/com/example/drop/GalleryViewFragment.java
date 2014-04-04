@@ -1,11 +1,5 @@
 package com.example.drop;
 
-import java.io.File;
-import java.io.FileInputStream;
-
-import android.annotation.SuppressLint;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -15,36 +9,48 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-//@SuppressLint("ValidFragment")
+
 public class GalleryViewFragment extends Fragment {
 
-	//private File pictureFile;
+	public static final String IMAGE_URI_KEY="IMAGE_URI";
+	public static final String MESSAGE_KEY="MESSAGE";
+	
 	private int imageURI;
 	private String message;
 	
 	public GalleryViewFragment(){}
 	
+	@Override
 	public void setArguments(Bundle b)
 	{
-		if (b.containsKey("IMAGE_URI")){
-			imageURI = b.getInt("IMAGE_URI");
+		if (b.containsKey(IMAGE_URI_KEY)){
+			imageURI = b.getInt(IMAGE_URI_KEY);
 		}
-		if (b.containsKey("MESSAGE")){
-			message = b.getString("MESSAGE");
+		if (b.containsKey(MESSAGE_KEY)){
+			message = b.getString(MESSAGE_KEY);
 		}
-			
+	
+	}
+	
+	public GalleryViewFragment withArguments(Bundle b){
+		if (b.containsKey(IMAGE_URI_KEY)){
+			imageURI = b.getInt(IMAGE_URI_KEY);
+		}
+		if (b.containsKey(MESSAGE_KEY)){
+			message = b.getString(MESSAGE_KEY);
+		}
+	
+		return this;
 	}
 
 	
-	@SuppressLint("ValidFragment")
 	public static final GalleryViewFragment newInstance(int imageURI, String text)
 	{
 		Bundle newFragBundle = new Bundle();		
-		newFragBundle.putInt("IMAGE_URI", imageURI);
-		newFragBundle.putString("MESSAGE", text);
+		newFragBundle.putInt(IMAGE_URI_KEY, imageURI);
+		newFragBundle.putString(MESSAGE_KEY, text);
 		
-		GalleryViewFragment frag = new GalleryViewFragment();
-		frag.setArguments(newFragBundle);
+		GalleryViewFragment frag = new GalleryViewFragment().withArguments(newFragBundle);		
 		
 	    return frag;
 	}
