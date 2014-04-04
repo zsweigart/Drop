@@ -58,7 +58,7 @@
 
         </activity>
         <activity
-            android:name=".Gallery"
+            android:name=".GalleryScreen"
             android:label="@string/title_activity_gallery" >
 
         </activity>
