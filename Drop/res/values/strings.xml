@@ -6,6 +6,7 @@
     <!-- Menu Titles -->
     <string name="menu_settings">settings</string>
     <string name="menu_gallery">gallery</string>
+    <string name="menu_saved">saved</string>
     
     <!-- Activity Titles -->
     <string name="title_activity_splash_screen">SplashScreen</string>

@@ -29,6 +29,9 @@ public class OptionsMenuScreen extends Activity {
 	         case R.id.gallery:
 	        	 startActivity(new Intent(getApplicationContext(), GalleryScreen.class));
 	        	 return true;
+	         case R.id.saved:
+	        	 startActivity(new Intent(getApplicationContext(), SavedListScreen.class));
+	        	 return true;
 	         default:
 	             return super.onOptionsItemSelected(item);
 	     }
