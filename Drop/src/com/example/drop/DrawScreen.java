@@ -2,29 +2,19 @@ package com.example.drop;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
-import android.util.DisplayMetrics;
+import android.os.Bundle;
 import android.util.Log;
-import android.view.DragEvent;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnDragListener;
-import android.view.View.OnFocusChangeListener;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 

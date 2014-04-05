@@ -1,6 +1,5 @@
 package com.example.drop;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 public class EditNoteScreen extends OptionsMenuScreen {
