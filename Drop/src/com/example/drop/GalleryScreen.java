@@ -2,11 +2,11 @@ package com.example.drop;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+
 
 public class GalleryScreen extends FragmentActivity  {
 	private static final String TAG = "GALLERY";
@@ -37,11 +37,10 @@ public class GalleryScreen extends FragmentActivity  {
 		//And make the ViewPager item in the same position the current item
 		pager.setCurrentItem(pos);
 	}
-	
 		
 	private List<Fragment> getFragments(){
-    	List<Fragment> fList = new ArrayList<Fragment>();    	
-    	
+    	List<Fragment> fList = new ArrayList<Fragment>();       	
+
     	fList.add(GalleryViewFragment.newInstance(R.drawable.sample_1, "This is a picture for the first page. It's page #1."));
     	fList.add(GalleryViewFragment.newInstance(R.drawable.sample_2, "This is a picture for the second page. It's page #2."));
     	fList.add(GalleryViewFragment.newInstance(R.drawable.sample_3, "This is a picture for the third page. It's page #3."));

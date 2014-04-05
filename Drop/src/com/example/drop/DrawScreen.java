@@ -26,6 +26,9 @@ public class DrawScreen extends Activity {
 	SeekBar colorBar;
 	DrawingWidget drawingWidget;
 	Button nextButton;
+	boolean isBack;
+	DrawingWidget background;
+	File pictureFile;
 	 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,7 +36,8 @@ public class DrawScreen extends Activity {
         setContentView(R.layout.activity_draw_screen);
         
         Intent i = getIntent();
-        File pictureFile = (File)i.getSerializableExtra("image");
+        pictureFile = (File)i.getSerializableExtra("image");
+        isBack = i.getBooleanExtra("isBack", false);
         data  = new byte[(int) pictureFile.length()];
         
         try 
@@ -47,7 +51,7 @@ public class DrawScreen extends Activity {
         {
         	e.printStackTrace();
         }
-        final DrawingWidget background = (DrawingWidget)findViewById(R.id.background_picture);
+        background = (DrawingWidget)findViewById(R.id.background_picture);
         
         background.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
@@ -59,9 +63,6 @@ public class DrawScreen extends Activity {
 		        BitmapFactory.Options options = new BitmapFactory.Options();
 		        options.inMutable = true;
 		        b = BitmapFactory.decodeByteArray(data, 0, data.length, options);
-		        //float scale = background.getWidth()/(b.getWidth()*1.0f);
-		        //int height = (int) (b.getHeight()*scale);
-		        //Log.i("DRAW", ""+height);
 		        
 		        //Rotate and scale image
 		        if(b.getHeight() < b.getWidth())
@@ -69,8 +70,18 @@ public class DrawScreen extends Activity {
 			        Log.i("DRAW", background.getHeight() +" x "+ background.getWidth());
 			        b = Bitmap.createScaledBitmap(b, background.getHeight(), background.getWidth(), true);
 			        Matrix matrix = new Matrix();
-			        matrix.postRotate(90);
-			        b = Bitmap.createBitmap(b , 0, 0, b.getWidth(), b.getHeight(), matrix, true);
+			        if(isBack)
+			        {
+			        	matrix.postRotate(90);
+				        b = Bitmap.createBitmap(b , 0, 0, b.getWidth(), b.getHeight(), matrix, true);
+			        }
+			        else
+			        {
+			        	matrix.postRotate(270);
+				        b = Bitmap.createBitmap(b , 0, 0, b.getWidth(), b.getHeight(), matrix, true);
+			        	matrix.setScale(-1,1);
+				        b = Bitmap.createBitmap(b , 0, 0, b.getWidth(), b.getHeight(), matrix, true);
+			        }
 		        }
 		        else
 		        {
@@ -81,9 +92,7 @@ public class DrawScreen extends Activity {
 		        background.setBitmap(b);
             }
         });
-        
-        drawingWidget = (DrawingWidget)findViewById(R.id.background_picture);
-        
+                
         colorBar = (SeekBar)findViewById(R.id.color_slider);
         colorBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener(){
 
@@ -96,7 +105,7 @@ public class DrawScreen extends Activity {
 				float [] hsv = {hue,(float) 1.0,(float) 1.0};
 				
 			    Color c = new Color();
-			    drawingWidget.setColor(c.HSVToColor(hsv));
+			    background.setColor(c.HSVToColor(hsv));
 			}
 
 			public void onStartTrackingTouch(SeekBar seekBar) {
@@ -124,13 +133,72 @@ public class DrawScreen extends Activity {
 			}
         	
         });
+        
+        Button clearButton = (Button)findViewById(R.id.drawscreen_button_clear);
+        clearButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View arg0) {
+	        	data = null;
+	        	background.clearContents();
+		        System.gc();
+	        	data  = new byte[(int) pictureFile.length()];
+				try 
+		        {
+		            //convert file into array of bytes
+		        	FileInputStream fileInputStream = new FileInputStream(pictureFile);
+			    	fileInputStream.read(data);
+			    	fileInputStream.close();
+		        }
+		        catch(Exception e)
+		        {
+		        	e.printStackTrace();
+		        }
+				
+				//Get image taken
+		        BitmapFactory.Options options = new BitmapFactory.Options();
+		        options.inMutable = true;
+		        b = null;
+		        System.gc();
+		        b = BitmapFactory.decodeByteArray(data, 0, data.length, options);
+			
+				//Rotate and scale image
+		        if(b.getHeight() < b.getWidth())
+		        {
+			        Log.i("DRAW", background.getHeight() +" x "+ background.getWidth());
+			        b = Bitmap.createScaledBitmap(b, background.getHeight(), background.getWidth(), true);
+			        Matrix matrix = new Matrix();
+			        if(isBack)
+			        {
+			        	matrix.postRotate(90);
+				        b = Bitmap.createBitmap(b , 0, 0, b.getWidth(), b.getHeight(), matrix, true);
+			        }
+			        else
+			        {
+			        	matrix.postRotate(270);
+				        b = Bitmap.createBitmap(b , 0, 0, b.getWidth(), b.getHeight(), matrix, true);
+			        	matrix.setScale(-1,1);
+				        b = Bitmap.createBitmap(b , 0, 0, b.getWidth(), b.getHeight(), matrix, true);
+			        }
+		        }
+		        else
+		        {
+		        	Log.i("DRAW", background.getHeight() +" x "+ background.getWidth());
+			        b = Bitmap.createScaledBitmap(b, background.getWidth(), background.getHeight(), true);
+		        }
+		        
+		        background.setBitmap(b);
+			}
+        	
+        });
     }
 
     
     @Override
     public void onStop() {
-    	b.recycle();
-    	b = null;
+    	if(b != null)
+    	{
+    		b.recycle();
+    		b = null;
+    	}
     	System.gc();
         
         super.onStop();
@@ -140,6 +208,7 @@ public class DrawScreen extends Activity {
     public void onBackPressed() {
         // Open up the CameraScreen
     	Intent i = new Intent(this, CameraScreen.class);
+    	i.putExtra("isBack", isBack);
         startActivity(i);
         this.finish();
         
