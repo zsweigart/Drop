@@ -9,7 +9,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.Toast;
 
-public class SavedListScreen extends Activity {
+public class SavedListScreen extends OptionsMenuScreen {
 
 	public static final String GRID_ITEM_POS = "GRID_ITEM_POS";
     @Override
@@ -22,8 +22,7 @@ public class SavedListScreen extends Activity {
       
 
         gridview.setOnItemClickListener(new OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                //Toast.makeText(SavedListScreen.this, "" + position, Toast.LENGTH_SHORT).show();
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {                
             	Intent launchGallery = new Intent(getApplicationContext(), GalleryScreen.class);
             	launchGallery.putExtra(GRID_ITEM_POS, position);
             	startActivity(launchGallery);
