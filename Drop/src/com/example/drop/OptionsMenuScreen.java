@@ -7,7 +7,7 @@ import android.view.MenuItem;
 
 /*
  * This allows every activity to have the same options menu in the action bar
- * 
+ * Define all menu settings here
  */
 
 
@@ -15,7 +15,7 @@ public class OptionsMenuScreen extends Activity {
 	
 	 @Override
 	    public boolean onCreateOptionsMenu(Menu menu) {
-	        getMenuInflater().inflate(R.menu.activity_splash_screen, menu);
+	        getMenuInflater().inflate(R.menu.options_menu_screen, menu);
 	        return true;
 	    }
 	
@@ -25,7 +25,13 @@ public class OptionsMenuScreen extends Activity {
 	     switch (item.getItemId()) {
 	         case R.id.menu_settings:
 	        	 startActivity(new Intent(getApplicationContext(), Settings.class));
-	             return true;       	         
+	             return true;
+	         case R.id.gallery:
+	        	 startActivity(new Intent(getApplicationContext(), GalleryScreen.class));
+	        	 return true;
+	         case R.id.saved:
+	        	 startActivity(new Intent(getApplicationContext(), SavedListScreen.class));
+	        	 return true;
 	         default:
 	             return super.onOptionsItemSelected(item);
 	     }

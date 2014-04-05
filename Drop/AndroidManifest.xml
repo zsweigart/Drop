@@ -14,6 +14,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".SplashScreen"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,22 +24,23 @@
         </activity>
         <activity
             android:name=".CameraScreen"
-            android:label="@string/title_activity_camera_screen" >           
+            android:label="@string/title_activity_camera_screen"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
         </activity>
         <activity
             android:name=".DrawScreen"
-            android:label="@string/title_activity_draw_screen" >
-          
+            android:label="@string/title_activity_draw_screen"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
         </activity>
         <activity
             android:name=".EditNoteScreen"
             android:label="@string/title_activity_edit_note_screen" >
-          
+
         </activity>
         <activity
             android:name=".SelectRecipients"
             android:label="@string/title_activity_select_recipients" >
-           
+
         </activity>
         <activity
             android:name=".DropNoteScreen"
@@ -48,38 +50,43 @@
         <activity
             android:name=".DroppedListScreen"
             android:label="@string/title_activity_dropped_list_screen" >
-            
+
         </activity>
         <activity
             android:name=".SavedListScreen"
             android:label="@string/title_activity_saved_list_screen" >
-          
+
         </activity>
         <activity
-            android:name=".Gallery"
+            android:name=".GalleryScreen"
             android:label="@string/title_activity_gallery" >
-            
+
         </activity>
         <activity
             android:name=".MapScreen"
             android:label="@string/title_activity_map_screen" >
-      
+
         </activity>
         <activity
             android:name=".Settings"
             android:label="@string/title_activity_settings" >
-           
+
         </activity>
         <activity
             android:name=".LoginScreen"
             android:label="@string/title_activity_login_screen" >
-         
+
         </activity>
         <activity
             android:name=".ViewNoteScreen"
             android:label="@string/title_activity_view_note_screen" >
-          
+
         </activity>
     </application>
+    
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    
+    <uses-feature android:name="android.hardware.camera" />
 
 </manifest>

@@ -1,8 +1,7 @@
 package com.example.drop;
 
-import android.os.Bundle;
 import android.app.Activity;
-import android.view.Menu;
+import android.os.Bundle;
 
 public class MapScreen extends Activity {
 

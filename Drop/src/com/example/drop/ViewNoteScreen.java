@@ -9,6 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+=======
+import android.app.Activity;
+import android.os.Bundle;
 
 //This activity requires that a note is placed in its intent
 public class ViewNoteScreen extends Activity {
