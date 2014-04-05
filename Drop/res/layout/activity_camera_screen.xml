@@ -20,5 +20,16 @@
 		android:layout_centerHorizontal="true"
 		android:background="@drawable/roundbutton" />
 	
+	<Button
+		android:id="@+id/button_switch_camera"
+		android:layout_width="50dp"
+		android:layout_height="50dp"
+		android:layout_gravity="center"
+		android:layout_alignParentTop="true" 
+		android:layout_alignParentRight="true" 
+		android:layout_marginTop="20dp"
+		android:layout_marginRight="20dp"
+		android:background="@drawable/swap_icon" />
+	
 </RelativeLayout>
 

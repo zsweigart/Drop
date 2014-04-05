@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 public class GalleryPageAdapter extends FragmentStatePagerAdapter {
+
 	  private List<Fragment> fragments;
 
 	  public GalleryPageAdapter(FragmentManager fm, List<Fragment> fragments) {

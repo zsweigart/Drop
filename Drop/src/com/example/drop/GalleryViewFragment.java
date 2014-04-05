@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+
 public class GalleryViewFragment extends Fragment {
 
 	public static final String IMAGE_URI_KEY="IMAGE_URI";
@@ -50,8 +51,7 @@ public class GalleryViewFragment extends Fragment {
 		newFragBundle.putInt(IMAGE_URI_KEY, imageURI);
 		newFragBundle.putString(MESSAGE_KEY, text);
 		
-		GalleryViewFragment frag = new GalleryViewFragment().withArguments(newFragBundle);		
-		
+		GalleryViewFragment frag = new GalleryViewFragment().withArguments(newFragBundle);	
 	    return frag;
 	}
 	
