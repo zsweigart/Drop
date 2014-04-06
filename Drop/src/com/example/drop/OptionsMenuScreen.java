@@ -32,6 +32,9 @@ public class OptionsMenuScreen extends Activity {
 	         case R.id.saved:
 	        	 startActivity(new Intent(getApplicationContext(), SavedListScreen.class));
 	        	 return true;
+	         case R.id.map:
+	        	 startActivity(new Intent(getApplicationContext(), MapScreen.class));
+	        	 return true;
 	         default:
 	             return super.onOptionsItemSelected(item);
 	     }
