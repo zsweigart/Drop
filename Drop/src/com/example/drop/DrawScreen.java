@@ -126,6 +126,7 @@ public class DrawScreen extends Activity {
 
 			public void onClick(View arg0) {
 				Intent i = new Intent(DrawScreen.this, EditNoteScreen.class);
+				i.putExtra("Note", new Note(b, DrawScreen.this.getCacheDir()));
                 startActivity(i);
  
                 // close this activity

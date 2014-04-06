@@ -1,5 +1,7 @@
 package com.example.drop;
 
+import java.util.Set;
+
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.app.Activity;
@@ -7,11 +9,13 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-=======
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+
 
 //This activity requires that a note is placed in its intent
 public class ViewNoteScreen extends Activity {
@@ -41,25 +45,39 @@ public class ViewNoteScreen extends Activity {
 
 	    }
 	    void load_note(Note note){
-	    	set_note_content(note.get_text());
-	    	set_to_from_textview(note.sent_by_me());
-	    	if (note.sent_by_me())
-	    		set_people_textview(note.recipients());
-	    	else set_people_textview(note.senders());
+	    	set_note_content(note.getMessage());
+	    	set_sender(note.getCreatorID());
+	    	set_reciever(note.getReceiverIDs());
+	    	set_picture(note.getPicture());
 	    }
 	    
-	    void set_to_from_textview(boolean sent){
-	        TextView sent_or_recieved = (TextView) thisView.findViewById(R.id.sent_or_recieved);
-	        if (sent) sent_or_recieved.setText("To:");
-	        else sent_or_recieved.setText("From:");
-	    }
+
 	    
-	    void set_people_textview(String people){
-	    	TextView people_textview = (TextView) thisView.findViewById(R.id.Recipient_Content);
-	    	people_textview.setText(people);
-	    }
-	    
-	    void set_note_content(String content){
+	    private void set_picture(Bitmap picture) {
+			ImageView img = (ImageView) thisView.findViewById(R.id.imageView);
+			img.setImageBitmap(picture);
+		}
+
+		private void set_reciever(Set<Integer> receiverIDs) {
+			String receiverString = "";
+			for (int id : receiverIDs){
+				if (receiverString != "") receiverString += ", ";
+				receiverString += User.getUser(id).display_name();
+			}
+			if (receiverString.length() >= 2) 
+				receiverString = receiverString.substring(0, receiverString.length()-1);
+			TextView receiver_text_view = (TextView) thisView.findViewById(R.id.recievers);
+			receiver_text_view.setText(receiverString);
+		}
+
+		private void set_sender(int creatorID) {
+			String sender_string = User.getUser(creatorID).display_name();
+			TextView to_text_view = (TextView) thisView.findViewById(R.id.to);
+			to_text_view.setText(sender_string);
+			
+		}
+
+		private void set_note_content(String content){
 	    	TextView content_text_view = (TextView) thisView.findViewById(R.id.Note_content);
 	    	content_text_view.setText(content);
 	    }

@@ -1,14 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <TextView
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxHeight="800dp"
+		android:maxWidth="600dp"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/hello_world"
-        tools:context=".EditNoteScreen" />
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        android:src="@drawable/ic_action_search" />
+
+    <TextView
+        android:id="@+id/Note_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/imageView"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:text="Note"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+     <EditText
+         android:id="@+id/Note_content"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/Note_label"
+         android:layout_centerVertical="true"
+         android:layout_marginLeft="8dp"
+         android:layout_marginTop="5dp"
+         android:inputType="textMultiLine" />
+
+    <TextView
+        android:id="@+id/from"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Note_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:text="To:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/recievers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/from"
+        android:layout_below="@+id/from"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="5dp"
+        android:text="Nobody" />
+
+
+
+
 
 </RelativeLayout>
+

@@ -7,6 +7,8 @@
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxHeight="800dp"
+        android:maxWidth="600dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
@@ -31,26 +33,46 @@
         android:layout_below="@+id/Note_label"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="8dp"
-        android:text="Note Content Loading" />
+        android:text="Loading..." />
 
     <TextView
-        android:id="@+id/sent_or_recieved"
+        android:id="@+id/from"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/Note_content"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
-        android:text="People"
+        android:text="From:"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
-        android:id="@+id/Recipient_Content"
+        android:id="@+id/senders"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/sent_or_recieved"
-        android:layout_below="@+id/sent_or_recieved"
+        android:layout_alignLeft="@+id/from"
+        android:layout_below="@+id/from"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="5dp"
-        android:text="People Loading" />
+        android:text="Loading..." />
+
+    <TextView
+        android:id="@+id/to"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/senders"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:text="To:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/recievers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/to"
+        android:layout_below="@+id/to"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="5dp"
+        android:text="Loading..." />
 
 </RelativeLayout>

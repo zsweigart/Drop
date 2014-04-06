@@ -1,33 +1,51 @@
 package com.example.drop;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
+
 import java.util.Date;
+import java.util.HashSet;
+
 
 public class Note implements Serializable{
+	/**
+	 * 
+	 */
+
+	private static final long serialVersionUID = 1L;
+	protected static final String TAG = null;
 	//TODO: get ids from database
 	private static long nextID = 0;
 	
 	long id;
 	//TODO: Change to parse user
 	int creatorID;
-	int receiverID;
+	HashSet<Integer> receiverIDs;
 	
 	String message;
-	Bitmap picture;
+	File picture;
+	File cache_dir;
 	//TODO: Change to parse GeoPoints or Fence
 	String coordinates;
 	
 	long timeStamp;
 	boolean pickedUp;
 	
-	Note(Bitmap p)
+	Note(Bitmap p, File cache_dir)
 	{
 		id = nextID;
 		nextID++;
 		creatorID = 0;
-		receiverID = 0;
-		picture = p;
+		receiverIDs = new HashSet<Integer>();
+		this.setPicture(p);
 		coordinates = "";
 		timeStamp = (new Date()).getTime();
 	}
@@ -55,16 +73,23 @@ public class Note implements Serializable{
 	}
 		
 	//Receiver ID get and set
-	public int getReceiverID()
+	public HashSet<Integer> getReceiverIDs()
 	{
-		return receiverID;
+		return receiverIDs;
 	}
 		
-	public void setID(int i)
+	public void addRecieverID(int i)
 	{
-		receiverID = i;
+		receiverIDs.add(i);
 	}
-	
+	public boolean removeRecieverIDs(int i){
+		boolean inSet = receiverIDs.contains(i);
+		if (inSet) receiverIDs.remove(i);
+		return inSet;
+	}
+	public void removeAllRecieverIDs(){
+		receiverIDs.clear();
+	}
 	//Note message get and set
 	public String getMessage()
 	{
@@ -79,12 +104,34 @@ public class Note implements Serializable{
 	//Bitmap Picture get and set
 	public Bitmap getPicture()
 	{
-		return picture;
+        byte[] data  = new byte[(int) picture.length()];
+        
+        try 
+        {
+            //convert file into array of bytes
+        	FileInputStream fileInputStream = new FileInputStream(picture);
+	    	fileInputStream.read(data);
+	    	fileInputStream.close();
+        }
+        catch(Exception e){
+        	Log.d(TAG, "Error reading picture: " + e.getMessage());
+        }
+        return BitmapFactory.decodeByteArray(data, 0, data.length);
 	}
 	
 	public void setPicture(Bitmap p)
 	{
-		picture = p;
+		picture = new File(cache_dir, "picture");
+		
+        try {
+            FileOutputStream fos = new FileOutputStream(picture);
+            p.compress(Bitmap.CompressFormat.PNG, 90, fos);
+            fos.close();
+        } catch (FileNotFoundException e) {
+            Log.d(TAG, "File not found: " + e.getMessage());
+        } catch (IOException e) {
+            Log.d(TAG, "Error accessing file: " + e.getMessage());
+        }
 	}
 	
 	//Coordinates get and set

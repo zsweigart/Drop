@@ -88,7 +88,7 @@ public class CameraScreen extends Activity {
 
         public void onPictureTaken(byte[] data, Camera camera) {
         	File pictureFile = new File(CameraScreen.this.getCacheDir(), "picture");
-
+        	
             try {
                 FileOutputStream fos = new FileOutputStream(pictureFile);
                 fos.write(data);
