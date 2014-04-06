@@ -9,7 +9,7 @@ import android.support.v4.view.ViewPager;
 
 
 public class GalleryScreen extends FragmentActivity  {
-	private static final String TAG = "GALLERY";
+	//private static final String TAG = "GALLERY";
 	GalleryPageAdapter pageAdapter;
 	ViewPager pager;
 	
@@ -32,8 +32,12 @@ public class GalleryScreen extends FragmentActivity  {
 	@Override
 	public void onResume(){
 		super.onResume();
+		int pos = 0;
 		//This is where we get the position passed from the SavedListScreen 
-		int pos = this.getIntent().getExtras().getInt(SavedListScreen.GRID_ITEM_POS);
+		if(this.getIntent().getExtras() != null)
+		{
+			pos = this.getIntent().getExtras().getInt(SavedListScreen.GRID_ITEM_POS);
+		}
 		//And make the ViewPager item in the same position the current item
 		pager.setCurrentItem(pos);
 	}
