@@ -8,6 +8,7 @@
     <string name="menu_gallery">*debug* gallery</string>
     <string name="menu_saved">saved</string>
     <string name="menu_map">map</string>
+    <string name="log_out">Log Out</string>
     
     
     <!-- Activity Titles -->

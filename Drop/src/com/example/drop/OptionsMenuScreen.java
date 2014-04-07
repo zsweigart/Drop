@@ -2,6 +2,8 @@ package com.example.drop;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -34,6 +36,15 @@ public class OptionsMenuScreen extends Activity {
 	        	 return true;
 	         case R.id.map:
 	        	 startActivity(new Intent(getApplicationContext(), MapScreen.class));
+	        	 return true;
+	         case R.id.logout:
+	        	 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+	        	 SharedPreferences.Editor editor = prefs.edit();
+	        	 editor.putBoolean("loggedIn", false); // value to store
+	        	 editor.commit();
+	        	 Intent intent = new Intent(getApplicationContext(), LoginScreen.class);
+	        	 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+	        	 startActivity(intent);
 	        	 return true;
 	         default:
 	             return super.onOptionsItemSelected(item);

@@ -21,6 +21,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 
 public class DrawScreen extends Activity {
     
+	private static final String TAG = "DRAW";
 	byte [] data;
 	Bitmap b;
 	SeekBar colorBar;
@@ -39,6 +40,7 @@ public class DrawScreen extends Activity {
         pictureFile = (File)i.getSerializableExtra("image");
         isBack = i.getBooleanExtra("isBack", false);
         data  = new byte[(int) pictureFile.length()];
+        Log.i(TAG, "BYTES = " + pictureFile.length());
         
         try 
         {
@@ -62,13 +64,15 @@ public class DrawScreen extends Activity {
             	//Get image taken
 		        BitmapFactory.Options options = new BitmapFactory.Options();
 		        options.inMutable = true;
-		        b = BitmapFactory.decodeByteArray(data, 0, data.length, options);
+		        options.inScaled = false;
+		        b = BitmapFactory.decodeByteArray(data, 0, data.length, options); 
 		        
 		        //Rotate and scale image
 		        if(b.getHeight() < b.getWidth())
 		        {
+		        	int height = (int)((((double)background.getWidth())/((double)b.getWidth()))*background.getHeight());
 			        Log.i("DRAW", background.getHeight() +" x "+ background.getWidth());
-			        b = Bitmap.createScaledBitmap(b, background.getHeight(), background.getWidth(), true);
+			        b = Bitmap.createScaledBitmap(b, height, background.getWidth(), true);
 			        Matrix matrix = new Matrix();
 			        if(isBack)
 			        {
@@ -85,7 +89,8 @@ public class DrawScreen extends Activity {
 		        }
 		        else
 		        {
-		        	Log.i("DRAW", background.getHeight() +" x "+ background.getWidth());
+		        	int width = (int)((((double)background.getWidth())/((double)b.getWidth()))*background.getHeight());
+		           	Log.i("DRAW", background.getHeight() +" x "+ background.getWidth());
 			        b = Bitmap.createScaledBitmap(b, background.getWidth(), background.getHeight(), true);
 		        }
 		        

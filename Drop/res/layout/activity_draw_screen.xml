@@ -11,26 +11,29 @@
         android:layout_centerVertical="true"
         tools:context=".DrawScreen" />
     
-    <SeekBar
-		android:id="@+id/color_slider"
-		android:layout_width="300dp"
-		android:layout_height="wrap_content"
-		android:layout_gravity="center"
-		android:layout_alignParentBottom="true" 
-		android:layout_marginBottom="20dp"
-		android:layout_centerHorizontal="true"
-		android:background="@drawable/colorbar2"
-		android:progressDrawable="@drawable/colorbarprogress"
-		android:thumb="@drawable/sliderbar" />
-    
     <Button
 		android:id="@+id/drawscreen_button_next"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_gravity="center"
 		android:layout_alignParentBottom="true" 
+		android:layout_alignParentRight="true"
 		android:layout_marginBottom="20dp"
-		android:layout_toRightOf="@id/color_slider" />
+		android:layout_marginRight = "5dp"
+		android:background="@drawable/next_icon" />
+    
+    <SeekBar
+		android:id="@+id/color_slider"
+		android:layout_width="230dp"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center"
+		android:layout_alignParentBottom="true" 
+		android:layout_marginBottom="20dp"
+		android:layout_marginRight="10dp"
+		android:background="@drawable/colorbar2"
+		android:progressDrawable="@drawable/colorbarprogress"
+		android:thumb="@drawable/sliderbar"
+		android:layout_toLeftOf="@id/drawscreen_button_next" />
     
     <Button
 		android:id="@+id/drawscreen_button_clear"
@@ -41,6 +44,6 @@
 		android:layout_alignParentRight="true" 
 		android:layout_marginTop="20dp" 
 		android:layout_marginRight="20dp"
-		android:text="Clear" />
+		android:background="@drawable/erase_icon" />
 
 </RelativeLayout>
