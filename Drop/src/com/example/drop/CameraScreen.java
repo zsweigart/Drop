@@ -224,7 +224,7 @@ public class CameraScreen extends Activity {
 	    // To be safe, you should check that the SDCard is mounted
 	    // using Environment.getExternalStorageState() before doing this. 
 	    File mediaStorageDir = new File(Environment.getExternalStorageDirectory()
-	            + "/Android/data/"
+	            + "/Android/data/Drop"
 	            + getApplicationContext().getPackageName()
 	            + "/Files"); 
 

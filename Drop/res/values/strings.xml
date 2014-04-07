@@ -1,5 +1,5 @@
 <resources>
-
+ 	<string name="app_id">237283639728754</string>
     <string name="app_name">Drop</string>
     <string name="hello_world">Hello world!</string>
     
