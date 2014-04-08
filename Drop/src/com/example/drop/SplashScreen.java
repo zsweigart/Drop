@@ -2,6 +2,8 @@ package com.example.drop;
 
 import com.parse.Parse;
 import com.parse.ParseAnalytics;
+import com.parse.ParseFacebookUtils;
+import com.parse.ParseUser;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,7 +16,7 @@ import android.preference.PreferenceManager;
 public class SplashScreen extends Activity {
 	boolean loggedIn;
     // Splash screen timer
-    private static int SPLASH_TIME_OUT = 1500;
+    private static int SPLASH_TIME_OUT = 1000;
  
 
     @Override
@@ -22,7 +24,6 @@ public class SplashScreen extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         
-        Parse.initialize(this, "zdWe11jTmmRmb5wCR9dtQdF3GohrPyHeuLAzihnP", "VB2WIVxrbuzlY555vJ8Dt4LUp5s2y1vG7NCB71vU");
         ParseAnalytics.trackAppOpened(getIntent());
  
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -36,8 +37,8 @@ public class SplashScreen extends Activity {
             public void run() {
                 // This method will be executed once the timer is over
                 // Start your app main activity
-            	
-            	if(loggedIn)
+            	ParseUser currentUser = ParseUser.getCurrentUser();
+            	if(loggedIn && (currentUser != null) && ParseFacebookUtils.isLinked(currentUser))
             	{
 	                Intent i = new Intent(SplashScreen.this, CameraScreen.class);
 	                startActivity(i);
@@ -47,6 +48,11 @@ public class SplashScreen extends Activity {
             	}
             	else
             	{
+            		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SplashScreen.this);
+   	        	 	SharedPreferences.Editor editor = prefs.edit();
+   	        	 	editor.putBoolean("loggedIn", false); // value to store
+   	        	 	editor.commit();
+   	        	 	
             		Intent i = new Intent(SplashScreen.this, LoginScreen.class);
 	                startActivity(i);
 	 

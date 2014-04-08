@@ -15,8 +15,10 @@ import android.graphics.Bitmap;
 import android.graphics.ImageFormat;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -28,36 +30,40 @@ public class CameraScreen extends Activity {
 	private Camera mCamera;
 	private CameraPreview mPreview;
 	private boolean isBack;
+	private File outputFile;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_camera_screen);
+		
+		outputFile = getOutputMediaFile();
 
 		/*
-		 * Intent i = getIntent(); if(i.hasExtra("isBack")) { isBack =
-		 * i.getBooleanExtra("isBack",true); } else { isBack = true; }
-		 * 
-		 * setCamera();
-		 * 
-		 * // Add a listener to the Capture button Button captureButton =
-		 * (Button) findViewById(R.id.button_capture);
-		 * captureButton.setOnClickListener( new View.OnClickListener() { public
-		 * void onClick(View v) { // get an image from the camera
-		 * mCamera.takePicture(null, null, mPicture); } } );
-		 * 
-		 * // Add a listener to the swap button Button swapButton = (Button)
-		 * findViewById(R.id.button_switch_camera);
-		 * swapButton.setOnClickListener( new View.OnClickListener() { public
-		 * void onClick(View v) { if (mCamera != null) { mCamera.stopPreview();
-		 * mCamera.setPreviewCallback(null); mCamera.release(); mCamera = null;
-		 * System.gc(); } isBack = !isBack;
-		 * 
-		 * setCamera(); } } );
-		 */
+		Intent i = getIntent(); if(i.hasExtra("isBack")) { isBack =
+		i.getBooleanExtra("isBack",true); } else { isBack = true; }
+		 
+		setCamera();
+		 
+		// Add a listener to the Capture button Button captureButton =
+		(Button) findViewById(R.id.button_capture);
+		captureButton.setOnClickListener( new View.OnClickListener() { public
+		void onClick(View v) { // get an image from the camera
+		mCamera.takePicture(null, null, mPicture); } } );
+		
+		// Add a listener to the swap button Button swapButton = (Button)
+		findViewById(R.id.button_switch_camera);
+		swapButton.setOnClickListener( new View.OnClickListener() { public
+		void onClick(View v) { if (mCamera != null) { mCamera.stopPreview();
+		mCamera.setPreviewCallback(null); mCamera.release(); mCamera = null;
+		System.gc(); } isBack = !isBack;
+		 
+		setCamera(); } } );
+		*/
 
 		Intent intent = new Intent(
 				android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(outputFile));
 		startActivityForResult(intent, 0);
 	}
 
@@ -65,7 +71,7 @@ public class CameraScreen extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent retData) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, retData);
-		Bitmap bmp = (Bitmap) retData.getExtras().get("data");
+		/*Bitmap bmp = (Bitmap) retData.getExtras().get("data");
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
 		byte[] data = stream.toByteArray();
@@ -80,14 +86,14 @@ public class CameraScreen extends Activity {
 			Log.d(TAG, "File not found: " + e.getMessage());
 		} catch (IOException e) {
 			Log.d(TAG, "Error accessing file: " + e.getMessage());
-		}
+		}*/
 		Intent i = new Intent(CameraScreen.this, DrawScreen.class);
-		i.putExtra("image", pictureFile);
+		i.putExtra("image", outputFile);
 		startActivity(i);
 		CameraScreen.this.finish();
 	}
 
-	public static Camera getCameraInstance() {
+	/*public static Camera getCameraInstance() {
 		Camera c = null;
 		try {
 			c = Camera.open(); // attempt to get a Camera instance
@@ -96,9 +102,9 @@ public class CameraScreen extends Activity {
 		}
 		return c; // returns null if camera is unavailable
 
-	}
+	}*/
 
-	private PictureCallback mPicture = new PictureCallback() {
+	/*private PictureCallback mPicture = new PictureCallback() {
 
 		public void onPictureTaken(byte[] data, Camera camera) {
 			File pictureFile = new File(CameraScreen.this.getCacheDir(),
@@ -114,12 +120,12 @@ public class CameraScreen extends Activity {
 				Log.d(TAG, "Error accessing file: " + e.getMessage());
 			}
 			Intent i = new Intent(CameraScreen.this, DrawScreen.class);
-			i.putExtra("image", pictureFile);
+			i.putExtra("image", outputFile);
 			i.putExtra("isBack", isBack);
 			startActivity(i);
 			CameraScreen.this.finish();
 		}
-	};
+	};*/
 
 	@Override
 	protected void onResume() {
@@ -133,15 +139,15 @@ public class CameraScreen extends Activity {
 
 	@Override
 	protected void onPause() {
-		if (mCamera != null) {
+		/*if (mCamera != null) {
 			mCamera.stopPreview();
 			mCamera.release();
 			mCamera = null;
-		}
+		}*/
 		super.onPause();
 	}
 
-	private void setCamera() {
+	/*private void setCamera() {
 		// Create an instance of Camera
 		Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
 		int cameraCount = Camera.getNumberOfCameras();
@@ -217,19 +223,12 @@ public class CameraScreen extends Activity {
 				mCamera.startPreview();
 			}
 		}
-	}
+	}*/
 	
-	/** Create a File for saving an image or video */
+	/** Create a File for saving an image */
 	private  File getOutputMediaFile(){
-	    // To be safe, you should check that the SDCard is mounted
-	    // using Environment.getExternalStorageState() before doing this. 
-	    File mediaStorageDir = new File(Environment.getExternalStorageDirectory()
-	            + "/Android/data/Drop"
-	            + getApplicationContext().getPackageName()
-	            + "/Files"); 
-
-	    // This location works best if you want the created images to be shared
-	    // between applications and persist after your app has been uninstalled.
+		
+		File mediaStorageDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/com.example.project/files");
 
 	    // Create the storage directory if it does not exist
 	    if (! mediaStorageDir.exists()){

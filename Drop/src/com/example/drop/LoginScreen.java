@@ -1,6 +1,8 @@
 package com.example.drop;
 
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -8,8 +10,13 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,6 +26,8 @@ import android.widget.TextView;
 import com.facebook.*;
 import com.facebook.model.*;
 import com.parse.LogInCallback;
+import com.parse.Parse;
+import com.parse.ParseACL;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
 import com.parse.ParseException;
@@ -35,58 +44,38 @@ public class LoginScreen extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
         
-        prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        
-        // start Facebook Login
-        /*Session.openActiveSession(this, true, new Session.StatusCallback() {
-
-            // callback when session changes state
-			public void call(Session session, SessionState state, Exception exception) {
-              if (session.isOpened()) {
-
-                // make request to the /me API
-                Request.newMeRequest(session, new Request.GraphUserCallback() {
-
-                  // callback after Graph API response with user object
-                  public void onCompleted(GraphUser user, Response response) {
-                	Log.i("LOGIN", "ONCOMPLETED");
-                    if (user != null) {
-                    	Log.i("LOGIN", "USER NOT NULL");
-                    	TextView welcome = (TextView) findViewById(R.id.loginscreen_welcome);
-                    	welcome.setText("Hello " + user.getName() + "!");
-                    }
-                  }
-                });
-              }
+        PackageInfo info;
+		try {
+			info = getPackageManager().getPackageInfo("com.example.drop",  PackageManager.GET_SIGNATURES);
+			for (Signature signature : info.signatures)
+            {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
             }
-          });*/
+		} catch (NameNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
         
         Button loginButton = (Button)findViewById(R.id.loginscreen_button_login);
         loginButton.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View arg0) {
 				onLoginButtonClicked();
-				Intent i = new Intent(LoginScreen.this, CameraScreen.class);
-                startActivity(i);
-                
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putBoolean("loggedIn", true); // value to store
-                editor.commit();
- 
-                // close this activity
-                finish();
 			}
-        	
         });
+        
     }
     
-    /*public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
-    }*/
-    
     private void onLoginButtonClicked() {
-        LoginScreen.this.progressDialog = ProgressDialog.show(
+        
+    	LoginScreen.this.progressDialog = ProgressDialog.show(
         		LoginScreen.this, "", "Logging in...", true);
         List<String> permissions = Arrays.asList("basic_info", "user_about_me",
                 "user_relationships", "user_birthday", "user_location");
@@ -100,12 +89,38 @@ public class LoginScreen extends Activity {
                 } else if (user.isNew()) {
                     Log.d(TAG,
                             "User signed up and logged in through Facebook!");
+
+    				Intent i = new Intent(LoginScreen.this, CameraScreen.class);
+                    startActivity(i);
+                    
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putBoolean("loggedIn", true); // value to store
+                    editor.commit();
+     
+                    // close this activity
+                    finish();
                 } else {
                     Log.d(TAG,
                             "User logged in through Facebook!");
+
+    				Intent i = new Intent(LoginScreen.this, CameraScreen.class);
+                    startActivity(i);
+                    
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putBoolean("loggedIn", true); // value to store
+                    editor.commit();
+     
+                    // close this activity
+                    finish();
                 }
             }
         });
+    }
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+      super.onActivityResult(requestCode, resultCode, data);
+      ParseFacebookUtils.finishAuthentication(requestCode, resultCode, data);
     }
     
 }

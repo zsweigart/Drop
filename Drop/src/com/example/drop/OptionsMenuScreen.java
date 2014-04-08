@@ -1,5 +1,7 @@
 package com.example.drop;
 
+import com.parse.ParseUser;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -42,6 +44,8 @@ public class OptionsMenuScreen extends Activity {
 	        	 SharedPreferences.Editor editor = prefs.edit();
 	        	 editor.putBoolean("loggedIn", false); // value to store
 	        	 editor.commit();
+	        	 // Log the user out
+	        	 ParseUser.logOut();
 	        	 Intent intent = new Intent(getApplicationContext(), LoginScreen.class);
 	        	 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 	        	 startActivity(intent);
