@@ -4,16 +4,22 @@ import com.example.drop.ViewNoteScreen.ViewNoteFragment;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-public class EditNoteScreen extends OptionsMenuScreen {
+public class EditNoteScreen extends DrawerActivity{//OptionsMenuScreen {
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        setContentView(R.layout.activity_edit_note_screen);
+        View layout =  getLayoutInflater().inflate(R.layout.activity_edit_note_screen, null);
+        FrameLayout frame = (FrameLayout) findViewById(R.id.content_frame);
+        frame.addView(layout);
+        //setContentView(R.layout.activity_edit_note_screen);
         Note current_note = (Note)(getIntent().getSerializableExtra("Note"));
         if (current_note == null) 
         	Toast.makeText(getApplicationContext(),"Note not passed to EditNote Activity", 

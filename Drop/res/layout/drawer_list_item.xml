@@ -8,6 +8,5 @@
     android:singleLine="true"
     android:gravity="left"
     android:layout_height="wrap_content"
-    android:textAlignment="Left"
     android:textSize="18sp"
     android:layout_gravity="left" />
