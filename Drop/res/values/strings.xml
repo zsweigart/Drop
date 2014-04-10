@@ -1,18 +1,30 @@
 <resources>
- 	<string name="app_id">237283639728754</string>
- 	<string name="parse_id">zdWe11jTmmRmb5wCR9dtQdF3GohrPyHeuLAzihnP</string>
+
+    <string name="app_id">237283639728754</string>
+    <string name="parse_id">zdWe11jTmmRmb5wCR9dtQdF3GohrPyHeuLAzihnP</string>
     <string name="parse_client_key">VB2WIVxrbuzlY555vJ8Dt4LUp5s2y1vG7NCB71vU</string>
     <string name="app_name">Drop</string>
     <string name="hello_world">Hello world!</string>
-    
+    <string name="drawer_open">Open!</string>
+    <string name="drawer_closed">Closed</string>
+
     <!-- Menu Titles -->
     <string name="menu_settings">settings</string>
     <string name="menu_gallery">*debug* gallery</string>
     <string name="menu_saved">saved</string>
     <string name="menu_map">map</string>
+    <string name="menu_drawer">drawer</string>
     <string name="log_out">Log Out</string>
-    
-    
+
+    <!-- Nav Drawer Menu Items -->
+    <string-array name="nav_drawer_items">
+        <item>leave a note</item>
+        <item>dropped</item>
+        <item>saved</item>
+        <item>map</item>
+        <item>settings</item>
+    </string-array>
+
     <!-- Activity Titles -->
     <string name="title_activity_splash_screen">SplashScreen</string>
     <string name="title_activity_camera_screen">CameraScreen</string>
@@ -28,16 +40,19 @@
     <string name="title_activity_login_screen">LoginScreen</string>
     <string name="title_activity_view_note_screen">ViewNoteScreen</string>
     <string name="Login">Log In</string>
-    
+
     <!-- Preferences -->
     <string name="pref_monkeys">Monkeys?</string>
     <string name="pref_monkeys_summ">If you want monkeys.</string>
-    
     <string name="pref_spying_level">Location Spying Intrusiveness</string>
+
     <string-array name="pref_spying_level_entries">
         <item>Low</item>
         <item>Moderate</item>
         <item>Extreme</item>
         <item>Echelon</item>
-    </string-array>     
+    </string-array>
+
+    <string name="title_activity_drawer">DrawerActivity</string>
+
 </resources>

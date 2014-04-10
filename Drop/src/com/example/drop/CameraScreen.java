@@ -87,10 +87,17 @@ public class CameraScreen extends Activity {
 		} catch (IOException e) {
 			Log.d(TAG, "Error accessing file: " + e.getMessage());
 		}*/
-		Intent i = new Intent(CameraScreen.this, DrawScreen.class);
-		i.putExtra("image", outputFile);
-		startActivity(i);
-		CameraScreen.this.finish();
+		if(resultCode == RESULT_OK)
+		{
+			Intent i = new Intent(CameraScreen.this, DrawScreen.class);
+			i.putExtra("image", outputFile);
+			startActivity(i);
+			CameraScreen.this.finish();
+		}
+		else if(resultCode == RESULT_CANCELED)
+		{
+			CameraScreen.this.finish();
+		}
 	}
 
 	/*public static Camera getCameraInstance() {

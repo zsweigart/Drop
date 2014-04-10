@@ -24,6 +24,12 @@
         android:showAsAction="never"
         />
     <item 
+        android:id="@+id/drawer"
+        android:title="@string/menu_drawer"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        />
+    <item 
         android:id="@+id/logout"
         android:title="@string/log_out"
         android:orderInCategory="100"

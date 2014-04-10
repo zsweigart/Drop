@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -38,6 +39,10 @@ public class OptionsMenuScreen extends Activity {
 	        	 return true;
 	         case R.id.map:
 	        	 startActivity(new Intent(getApplicationContext(), MapScreen.class));
+	        	 return true;
+	         case R.id.drawer:
+	        	 Log.i("OPTION", "DRAWER");
+	        	 startActivity(new Intent(getApplicationContext(), DrawerActivity.class));
 	        	 return true;
 	         case R.id.logout:
 	        	 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);

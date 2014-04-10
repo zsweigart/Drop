@@ -7,30 +7,34 @@
         android:minSdkVersion="14"
         android:targetSdkVersion="16" />
 
- 	<uses-permission android:name="android.permission.INTERNET"/>
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-	<uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
-	<!-- The following two permissions are not required to use
-     Google Maps Android API v2, but are recommended. -->
-	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-	<uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <!--
+     The following two permissions are not required to use
+     Google Maps Android API v2, but are recommended.
+    -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
-	<uses-feature
+    <uses-feature
         android:glEsVersion="0x00020000"
-        android:required="true"/>
+        android:required="true" />
     
+    <uses-feature android:name="android.hardware.camera" />
+
     <application
+        android:name=".Drop"
+        android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:allowBackup="true"
-        android:theme="@style/AppTheme"
-        android:name=".Drop" >
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".SplashScreen"
-            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -50,72 +54,61 @@
         <activity
             android:name=".EditNoteScreen"
             android:label="@string/title_activity_edit_note_screen" >
-
         </activity>
         <activity
             android:name=".SelectRecipients"
             android:label="@string/title_activity_select_recipients" >
-
         </activity>
         <activity
             android:name=".DropNoteScreen"
             android:label="@string/title_activity_drop_note_screen" >
-            
         </activity>
         <activity
             android:name=".DroppedListScreen"
             android:label="@string/title_activity_dropped_list_screen" >
-
         </activity>
         <activity
             android:name=".SavedListScreen"
             android:label="@string/title_activity_saved_list_screen" >
-
         </activity>
         <activity
             android:name=".GalleryScreen"
             android:label="@string/title_activity_gallery" >
-
         </activity>
         <activity
             android:name=".MapScreen"
             android:label="@string/title_activity_map_screen" >
-
         </activity>
         <activity
             android:name=".Settings"
             android:label="@string/title_activity_settings" >
-
         </activity>
         <activity
             android:name=".LoginScreen"
             android:label="@string/title_activity_login_screen" >
-
         </activity>
         <activity
             android:name=".ViewNoteScreen"
             android:label="@string/title_activity_view_note_screen" >
+        </activity>
+        <activity android:name="com.facebook.LoginActivity" >
+        </activity>
 
-        </activity>
-        
-        <activity 
-            android:name="com.facebook.LoginActivity">
-            
-        </activity>
-        
         <meta-data
-    		android:name="com.google.android.gms.version"
-    		android:value="@integer/google_play_services_version" />
-        
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
         <meta-data
-    		android:name="com.google.android.maps.v2.API_KEY"
-    		android:value="AIzaSyClsjYGkjkQgTqoJkLcH4lnMna_2sMPxbQ"/>
-        
-        <meta-data 
-            android:name="com.facebook.sdk.ApplicationId" 
-            android:value="@string/app_id"/>
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyClsjYGkjkQgTqoJkLcH4lnMna_2sMPxbQ" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/app_id" />
+
+        <activity
+            android:name=".DrawerActivity"
+            android:label="@string/title_activity_drawer" >
+        </activity>
     </application>
 
-    <uses-feature android:name="android.hardware.camera" />
 
 </manifest>
