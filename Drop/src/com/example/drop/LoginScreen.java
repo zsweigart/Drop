@@ -5,7 +5,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.List;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -21,13 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.TextView;
-
-import com.facebook.*;
-import com.facebook.model.*;
 import com.parse.LogInCallback;
-import com.parse.Parse;
-import com.parse.ParseACL;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
 import com.parse.ParseException;
@@ -35,7 +28,7 @@ import com.parse.ParseException;
 
 public class LoginScreen extends Activity {
 
-	protected static final String TAG = null;
+	protected static final String TAG = "LOGIN";
 	private SharedPreferences prefs;
 	ProgressDialog progressDialog;
 	
@@ -54,10 +47,8 @@ public class LoginScreen extends Activity {
                 Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
             }
 		} catch (NameNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         
@@ -89,6 +80,8 @@ public class LoginScreen extends Activity {
                 } else if (user.isNew()) {
                     Log.d(TAG,
                             "User signed up and logged in through Facebook!");
+                    
+                    Drop.loggedInUser = user;
 
     				Intent i = new Intent(LoginScreen.this, CameraScreen.class);
                     startActivity(i);
@@ -102,6 +95,8 @@ public class LoginScreen extends Activity {
                 } else {
                     Log.d(TAG,
                             "User logged in through Facebook!");
+                    
+                    Drop.loggedInUser = user;
 
     				Intent i = new Intent(LoginScreen.this, CameraScreen.class);
                     startActivity(i);

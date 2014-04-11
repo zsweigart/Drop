@@ -1,6 +1,5 @@
 package com.example.drop;
 
-import com.parse.Parse;
 import com.parse.ParseAnalytics;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
@@ -16,7 +15,7 @@ import android.preference.PreferenceManager;
 public class SplashScreen extends Activity {
 	boolean loggedIn;
     // Splash screen timer
-    private static int SPLASH_TIME_OUT = 1000;
+    private static int SPLASH_TIME_OUT = 500;
  
 
     @Override

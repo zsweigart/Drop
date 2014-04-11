@@ -1,34 +1,27 @@
 package com.example.drop;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.Serializable;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
-
 import java.util.Date;
 import java.util.HashSet;
 
+import com.parse.ParseUser;
+
 
 public class Note implements Serializable{
-	/**
-	 * 
-	 */
-
 	private static final long serialVersionUID = 1L;
-	protected static final String TAG = null;
+	protected static final String TAG = "NOTE";
 	//TODO: get ids from database
 	private static long nextID = 0;
 	
 	long id;
 	//TODO: Change to parse user
-	int creatorID;
-	HashSet<Integer> receiverIDs;
+	ParseUser creator;
+	HashSet<ParseUser> receivers;
 	
 	String message;
 	File picture;
@@ -42,8 +35,8 @@ public class Note implements Serializable{
 	{
 		id = nextID;
 		nextID++;
-		creatorID = 0;
-		receiverIDs = new HashSet<Integer>();
+		creator = Drop.loggedInUser;
+		receivers = new HashSet<ParseUser>();
 		picture = p;
 		coordinates = "";
 		timeStamp = (new Date()).getTime();
@@ -61,33 +54,33 @@ public class Note implements Serializable{
 	}
 	
 	//Creator ID get and set
-	public int getCreatorID()
+	public ParseUser getCreator()
 	{
-		return creatorID;
+		return creator;
 	}
 		
-	public void setCreatorID(int i)
+	public void setCreator(ParseUser user)
 	{
-		creatorID = i;
+		creator = user;
 	}
 		
 	//Receiver ID get and set
-	public HashSet<Integer> getReceiverIDs()
+	public HashSet<ParseUser> getReceivers()
 	{
-		return receiverIDs;
+		return receivers;
 	}
 		
-	public void addRecieverID(int i)
+	public void addReciever(ParseUser i)
 	{
-		receiverIDs.add(i);
+		receivers.add(i);
 	}
-	public boolean removeRecieverIDs(int i){
-		boolean inSet = receiverIDs.contains(i);
-		if (inSet) receiverIDs.remove(i);
+	public boolean removeReciever(ParseUser i){
+		boolean inSet = receivers.contains(i);
+		if (inSet) receivers.remove(i);
 		return inSet;
 	}
-	public void removeAllRecieverIDs(){
-		receiverIDs.clear();
+	public void removeAllRecievers(){
+		receivers.clear();
 	}
 	//Note message get and set
 	public String getMessage()

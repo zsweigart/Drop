@@ -3,7 +3,7 @@
 <RelativeLayout 
     android:id="@+id/editNoteRelativeLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="wrap_content" >
 
     <ImageView
         android:id="@+id/imageView"
@@ -15,7 +15,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:visibility="gone"
-        android:src="@drawable/ic_action_search" />
+        android:src="@drawable/ic_action_search"
+        android:contentDescription="@string/app_name" />
 
     <TextView
         android:id="@+id/Note_label"
@@ -25,7 +26,7 @@
         android:layout_below="@+id/imageView"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
-        android:text="Note"
+        android:text="@string/note"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
      <EditText
@@ -45,7 +46,7 @@
         android:layout_below="@+id/Note_content"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
-        android:text="To:"
+        android:text="@string/to"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -56,7 +57,7 @@
         android:layout_below="@+id/from"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="5dp"
-        android:text="Nobody" />
+        android:text="@string/nobody" />
 
 
 </RelativeLayout>

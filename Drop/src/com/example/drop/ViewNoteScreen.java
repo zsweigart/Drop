@@ -2,6 +2,7 @@ package com.example.drop;
 
 import java.util.Set;
 
+import com.parse.ParseUser;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.app.Activity;
@@ -12,9 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.app.Activity;
 import android.graphics.Bitmap;
-import android.os.Bundle;
 
 
 //This activity requires that a note is placed in its intent
@@ -46,8 +45,8 @@ public class ViewNoteScreen extends Activity {
 	    }
 	    void load_note(Note note){
 	    	set_note_content(note.getMessage());
-	    	set_sender(note.getCreatorID());
-	    	set_reciever(note.getReceiverIDs());
+	    	set_sender(note.getCreator());
+	    	set_reciever(note.getReceivers());
 	    	set_picture(note.getPicture());
 	    }
 	    
@@ -58,11 +57,11 @@ public class ViewNoteScreen extends Activity {
 			img.setImageBitmap(picture);
 		}
 
-		private void set_reciever(Set<Integer> receiverIDs) {
+		private void set_reciever(Set<ParseUser> receiverIDs) {
 			String receiverString = "";
-			for (int id : receiverIDs){
+			for (ParseUser user : receiverIDs){
 				if (receiverString != "") receiverString += ", ";
-				receiverString += User.getUser(id).display_name();
+				receiverString += user.getObjectId();
 			}
 			if (receiverString.length() >= 2) 
 				receiverString = receiverString.substring(0, receiverString.length()-1);
@@ -70,8 +69,8 @@ public class ViewNoteScreen extends Activity {
 			receiver_text_view.setText(receiverString);
 		}
 
-		private void set_sender(int creatorID) {
-			String sender_string = User.getUser(creatorID).display_name();
+		private void set_sender(ParseUser user) {
+			String sender_string = user.getUsername();
 			TextView to_text_view = (TextView) thisView.findViewById(R.id.to);
 			to_text_view.setText(sender_string);
 			

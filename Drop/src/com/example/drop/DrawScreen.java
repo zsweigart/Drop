@@ -1,11 +1,9 @@
 package com.example.drop;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -41,55 +39,17 @@ public class DrawScreen extends Activity {
         Intent i = getIntent();
         pictureFile = (File)i.getSerializableExtra("image");
         isBack = i.getBooleanExtra("isBack", false);
-        /*data  = new byte[(int) pictureFile.length()];
-        Log.i(TAG, "BYTES = " + pictureFile.length());
         
-        try 
-        {
-            //convert file into array of bytes
-        	FileInputStream fileInputStream = new FileInputStream(pictureFile);
-	    	fileInputStream.read(data);
-	    	fileInputStream.close();
-        }
-        catch(Exception e)
-        {
-        	e.printStackTrace();
-        }*/
         background = (DrawingWidget)findViewById(R.id.background_picture);
         
         background.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
-            public void onGlobalLayout() {
+            @SuppressWarnings("deprecation")
+			public void onGlobalLayout() {
                 // Ensure you call it only once :
             	background.getViewTreeObserver().removeGlobalOnLayoutListener(this);
 
-            	//Get image taken
-		        BitmapFactory.Options options = new BitmapFactory.Options();
-		        options.inMutable = true;
-		        options.inScaled = false;
-		        options.inSampleSize = 2;
-		        b = BitmapFactory.decodeFile(pictureFile.toString()); 
-		        Log.i(TAG, b.getWidth() + " x " + b.getHeight());
-		        		        
-		        //Rotate and scale image
-		        if(b.getHeight() < b.getWidth())
-		        {
-		        	//int height = (int)((((double)background.getWidth())/((double)b.getWidth()))*background.getHeight());
-			        Log.i("DRAW", background.getHeight() +" x "+ background.getWidth());
-			        b = Bitmap.createScaledBitmap(b, background.getHeight(), background.getWidth(), true);
-			        Matrix matrix = new Matrix();
-		        	matrix.postRotate(90);
-			        b = Bitmap.createBitmap(b , 0, 0, b.getWidth(), b.getHeight(), matrix, true);
-		        }
-		        else
-		        {
-		        	//int width = (int)((((double)background.getWidth())/((double)b.getWidth()))*background.getHeight());
-		           	Log.i("DRAW", background.getHeight() +" x "+ background.getWidth());
-			        b = Bitmap.createScaledBitmap(b, background.getWidth(), background.getHeight(), true);
-		        }
-		        
-		        Log.i(TAG, b.getWidth()+" x " + b.getHeight());
-		        background.setBitmap(b);
+            	setPicture();
             }
         });
                 
@@ -98,23 +58,19 @@ public class DrawScreen extends Activity {
 
 			public void onProgressChanged(SeekBar seekBar, int progress,
 					boolean fromUser) {
-				// TODO Auto-generated method stub
 				float hue = progress/100.0f*360;
 
 				Log.i("DRAW", "hue ="+hue);
 				float [] hsv = {hue,(float) 1.0,(float) 1.0};
 				
-			    Color c = new Color();
-			    background.setColor(c.HSVToColor(hsv));
+			    background.setColor(Color.HSVToColor(hsv));
 			}
 
 			public void onStartTrackingTouch(SeekBar seekBar) {
-				// TODO Auto-generated method stub
 				
 			}
 
 			public void onStopTrackingTouch(SeekBar seekBar) {
-				// TODO Auto-generated method stub
 				
 			}
         	
@@ -148,33 +104,7 @@ public class DrawScreen extends Activity {
         Button clearButton = (Button)findViewById(R.id.drawscreen_button_clear);
         clearButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View arg0) {
-				//Get image taken
-		        BitmapFactory.Options options = new BitmapFactory.Options();
-		        options.inMutable = true;
-		        options.inScaled = false;
-		        options.inSampleSize = 2;
-		        b = BitmapFactory.decodeFile(pictureFile.toString()); 
-		        Log.i(TAG, b.getWidth() + " x " + b.getHeight());
-		        		        
-		        //Rotate and scale image
-		        if(b.getHeight() < b.getWidth())
-		        {
-		        	//int height = (int)((((double)background.getWidth())/((double)b.getWidth()))*background.getHeight());
-			        Log.i("DRAW", background.getHeight() +" x "+ background.getWidth());
-			        b = Bitmap.createScaledBitmap(b, background.getHeight(), background.getWidth(), true);
-			        Matrix matrix = new Matrix();
-		        	matrix.postRotate(90);
-			        b = Bitmap.createBitmap(b , 0, 0, b.getWidth(), b.getHeight(), matrix, true);
-		        }
-		        else
-		        {
-		        	//int width = (int)((((double)background.getWidth())/((double)b.getWidth()))*background.getHeight());
-		           	Log.i("DRAW", background.getHeight() +" x "+ background.getWidth());
-			        b = Bitmap.createScaledBitmap(b, background.getWidth(), background.getHeight(), true);
-		        }
-		        
-		        Log.i(TAG, b.getWidth()+" x " + b.getHeight());
-		        background.setBitmap(b);
+				setPicture();
 			}
         	
         });
@@ -202,6 +132,35 @@ public class DrawScreen extends Activity {
         this.finish();
         
         super.onBackPressed();
+    }
+    
+    private void setPicture()
+    {
+    	//Get image taken
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inMutable = true;
+        options.inScaled = false;
+        options.inSampleSize = 2;
+        b = BitmapFactory.decodeFile(pictureFile.toString()); 
+        Log.i(TAG, b.getWidth() + " x " + b.getHeight());
+        		        
+        //Rotate and scale image
+        if(b.getHeight() < b.getWidth())
+        {
+        	Log.i("DRAW", background.getHeight() +" x "+ background.getWidth());
+	        b = Bitmap.createScaledBitmap(b, background.getHeight(), background.getWidth(), true);
+	        Matrix matrix = new Matrix();
+        	matrix.postRotate(90);
+	        b = Bitmap.createBitmap(b , 0, 0, b.getWidth(), b.getHeight(), matrix, true);
+        }
+        else
+        {
+        	Log.i("DRAW", background.getHeight() +" x "+ background.getWidth());
+	        b = Bitmap.createScaledBitmap(b, background.getWidth(), background.getHeight(), true);
+        }
+        
+        Log.i(TAG, b.getWidth()+" x " + b.getHeight());
+        background.setBitmap(b);
     }
 
 }

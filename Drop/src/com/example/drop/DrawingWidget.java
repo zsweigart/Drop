@@ -1,17 +1,15 @@
 package com.example.drop;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+//Custom View that allows the user to draw on the screen with any color
 public class DrawingWidget extends View 
 {
 
@@ -96,10 +94,6 @@ public class DrawingWidget extends View
 			mY = y;
 		}
 	}
-	
-	private void touch_end(float x, float y) 
-	{
-	}
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) 
@@ -117,7 +111,6 @@ public class DrawingWidget extends View
 			invalidate();
 			break;
 		case MotionEvent.ACTION_UP:
-				touch_end(x, y);
 				break;
 		}
 		return true;

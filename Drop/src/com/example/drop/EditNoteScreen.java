@@ -1,13 +1,10 @@
 package com.example.drop;
 
-import com.example.drop.ViewNoteScreen.ViewNoteFragment;
-
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 public class EditNoteScreen extends DrawerActivity{//OptionsMenuScreen {

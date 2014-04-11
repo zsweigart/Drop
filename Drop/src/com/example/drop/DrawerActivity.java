@@ -9,9 +9,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,7 +23,6 @@ public class DrawerActivity extends Activity {
 	    private ListView mDrawerList;
 	    private ActionBarDrawerToggle mDrawerToggle;
 
-	    private CharSequence mDrawerTitle;
 	    private CharSequence mTitle;
 	    private String[] mPlanetTitles;
 
@@ -32,13 +31,13 @@ public class DrawerActivity extends Activity {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.activity_drawer);
 
-	        mTitle = mDrawerTitle = getTitle();
+	        mTitle = getTitle();
 	        mPlanetTitles = getResources().getStringArray(R.array.nav_drawer_items);
 	        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 	        mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
 	        // set a custom shadow that overlays the main content when the drawer opens
-	        //mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+	        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 	        // set up the drawer's list view with items and click listener
 	        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
 	                R.layout.drawer_list_item, R.id.tv, mPlanetTitles));
@@ -58,12 +57,10 @@ public class DrawerActivity extends Activity {
 	                R.string.drawer_closed  /* "close drawer" description for accessibility */
 	                ) {
 	            public void onDrawerClosed(View view) {
-	                getActionBar().setTitle(mTitle);
 	                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
 	            }
 
 	            public void onDrawerOpened(View drawerView) {
-	                getActionBar().setTitle(mDrawerTitle);
 	                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
 	            }
 	        };
@@ -74,9 +71,6 @@ public class DrawerActivity extends Activity {
 	    /* Called whenever we call invalidateOptionsMenu() */
 	    @Override
 	    public boolean onPrepareOptionsMenu(Menu menu) {
-	        // If the nav drawer is open, hide action items related to the content view
-	        //boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-	        //menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
 	        return super.onPrepareOptionsMenu(menu);
 	    }
 
@@ -104,7 +98,6 @@ public class DrawerActivity extends Activity {
 
 	    private void selectItem(int position) {
 	        mDrawerList.setItemChecked(position, true);
-	        //setTitle(mPlanetTitles[position]);
 	        Intent i;
 	        switch (position)
 	        {

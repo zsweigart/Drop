@@ -5,10 +5,12 @@ import android.app.Application;
 import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseFacebookUtils;
+import com.parse.ParseUser;
 
 public class Drop extends Application {
 
 	static final String TAG = "DROP";
+	static ParseUser loggedInUser;
 
 	@Override
 	public void onCreate() {
