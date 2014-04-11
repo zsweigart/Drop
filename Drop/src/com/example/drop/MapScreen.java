@@ -13,9 +13,11 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
-public class MapScreen extends Activity {
+public class MapScreen extends DrawerActivity {
 	
 	// Google Map
     private GoogleMap googleMap;
@@ -23,7 +25,10 @@ public class MapScreen extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_map_screen);
+
+            View layout =  getLayoutInflater().inflate(R.layout.activity_map_screen, null);
+            FrameLayout frame = (FrameLayout) findViewById(R.id.content_frame);
+            frame.addView(layout);
             
             
             try {

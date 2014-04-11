@@ -2,6 +2,9 @@ package com.example.drop;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -25,7 +28,6 @@ public class DrawScreen extends Activity {
 	byte [] data;
 	Bitmap b;
 	SeekBar colorBar;
-	DrawingWidget drawingWidget;
 	Button nextButton;
 	boolean isBack;
 	DrawingWidget background;
@@ -123,8 +125,18 @@ public class DrawScreen extends Activity {
         nextButton.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View arg0) {
+				try {
+		            FileOutputStream fos = new FileOutputStream(pictureFile);
+		            background.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, fos);
+		            fos.close();
+		        } catch (FileNotFoundException e) {
+		            Log.d(TAG, "File not found: " + e.getMessage());
+		        } catch (IOException e) {
+		            Log.d(TAG, "Error accessing file: " + e.getMessage());
+		        }
+				
 				Intent i = new Intent(DrawScreen.this, EditNoteScreen.class);
-				i.putExtra("Note", new Note(b, DrawScreen.this.getCacheDir()));
+				i.putExtra("Note", new Note(pictureFile));
                 startActivity(i);
  
                 // close this activity

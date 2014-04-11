@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/tv"
-    android:textColor="#FFFFFF"
-    android:padding="5sp"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:background="#000000"
-    android:singleLine="true"
-    android:gravity="left"
     android:layout_height="wrap_content"
-    android:textSize="18sp"
-    android:layout_gravity="left" />
+    android:orientation ="vertical" >
+    
+	<TextView 
+	    android:id="@+id/tv"
+	    android:textColor="#DDDDDD"
+	    android:padding="5sp"
+	    android:layout_width="fill_parent"
+	    android:background="#000000"
+	    android:singleLine="true"
+	    android:gravity="left"
+	    android:layout_height="wrap_content"
+	    android:textSize="26sp"
+	    android:layout_gravity="left" />
+	
+	<View
+	    android:layout_width="fill_parent"
+	    android:layout_height="2dp"
+	    android:background="#AAAAAA"/>
+
+</LinearLayout>

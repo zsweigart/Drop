@@ -1,7 +1,12 @@
 package com.example.drop;
 
+import com.parse.ParseUser;
+
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
@@ -36,7 +41,7 @@ public class DrawerActivity extends Activity {
 	        //mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 	        // set up the drawer's list view with items and click listener
 	        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-	                R.layout.drawer_list_item, mPlanetTitles));
+	                R.layout.drawer_list_item, R.id.tv, mPlanetTitles));
 	        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
 	        // enable ActionBar app icon to behave as action to toggle nav drawer
@@ -63,19 +68,9 @@ public class DrawerActivity extends Activity {
 	            }
 	        };
 	        mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-	        if (savedInstanceState == null) {
-	            selectItem(0);
-	        }
 	    }
 
-	    /*@Override
-	    public boolean onCreateOptionsMenu(Menu menu) {
-	        MenuInflater inflater = getMenuInflater();
-	        inflater.inflate(R.menu.main, menu);
-	        return super.onCreateOptionsMenu(menu);
-	    }*/
-
+	   
 	    /* Called whenever we call invalidateOptionsMenu() */
 	    @Override
 	    public boolean onPrepareOptionsMenu(Menu menu) {
@@ -94,17 +89,7 @@ public class DrawerActivity extends Activity {
 	        }
 	        // Handle action buttons
 	        switch(item.getItemId()) {
-	        /*case R.id.action_websearch:
-	            // create intent to perform web search for this planet
-	            Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
-	            intent.putExtra(SearchManager.QUERY, getActionBar().getTitle());
-	            // catch event that there's no activity to handle intent
-	            if (intent.resolveActivity(getPackageManager()) != null) {
-	                startActivity(intent);
-	            } else {
-	                Toast.makeText(this, R.string.app_not_available, Toast.LENGTH_LONG).show();
-	            }
-	            return true;*/
+	        	
 	        default:
 	            return super.onOptionsItemSelected(item);
 	        }
@@ -118,18 +103,48 @@ public class DrawerActivity extends Activity {
 	    }
 
 	    private void selectItem(int position) {
-	        // update the main content by replacing fragments
-	        /*Fragment fragment = new PlanetFragment();
-	        Bundle args = new Bundle();
-	        args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
-	        fragment.setArguments(args);
-
-	        FragmentManager fragmentManager = getFragmentManager();
-	        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();*/
-
-	        // update selected item and title, then close the drawer
 	        mDrawerList.setItemChecked(position, true);
-	        setTitle(mPlanetTitles[position]);
+	        //setTitle(mPlanetTitles[position]);
+	        Intent i;
+	        switch (position)
+	        {
+	        case 0: 	//leave note
+	        	i = new Intent(getApplicationContext(), CameraScreen.class);
+	        	i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	        	startActivity(i);
+	        	break;
+	        case 1:		//dropped
+	        	i = new Intent(getApplicationContext(), DroppedListScreen.class);
+	        	i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	        	startActivity(i);
+	        	break;
+	        case 2:		//saved
+	        	i = new Intent(getApplicationContext(), SavedListScreen.class);
+	        	i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	        	startActivity(i);
+	        	break;
+	        case 3:		//map
+	        	i = new Intent(getApplicationContext(), MapScreen.class);
+	        	i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	        	startActivity(i);
+	        	break;
+	        case 4:		//settings
+	        	i = new Intent(getApplicationContext(), Settings.class);
+	        	i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	        	startActivity(i);
+	        	break;
+        	case 5:		//log out
+    			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+	        	SharedPreferences.Editor editor = prefs.edit();
+	        	editor.putBoolean("loggedIn", false); // value to store
+	        	editor.commit();
+	        	// Log the user out
+	        	ParseUser.logOut();
+	        	Intent intent = new Intent(getApplicationContext(), LoginScreen.class);
+	        	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+	        	startActivity(intent);
+	        	break;
+	        }
 	        mDrawerLayout.closeDrawer(mDrawerList);
 	    }
 

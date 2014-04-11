@@ -32,20 +32,19 @@ public class Note implements Serializable{
 	
 	String message;
 	File picture;
-	File cache_dir;
 	//TODO: Change to parse GeoPoints or Fence
 	String coordinates;
 	
 	long timeStamp;
 	boolean pickedUp;
 	
-	Note(Bitmap p, File cache_dir)
+	Note(File p)
 	{
 		id = nextID;
 		nextID++;
 		creatorID = 0;
 		receiverIDs = new HashSet<Integer>();
-		this.setPicture(p);
+		picture = p;
 		coordinates = "";
 		timeStamp = (new Date()).getTime();
 	}
@@ -119,19 +118,9 @@ public class Note implements Serializable{
         return BitmapFactory.decodeByteArray(data, 0, data.length);
 	}
 	
-	public void setPicture(Bitmap p)
+	public void setPicture(File p)
 	{
-		picture = new File(cache_dir, "picture");
-		
-        try {
-            FileOutputStream fos = new FileOutputStream(picture);
-            p.compress(Bitmap.CompressFormat.PNG, 90, fos);
-            fos.close();
-        } catch (FileNotFoundException e) {
-            Log.d(TAG, "File not found: " + e.getMessage());
-        } catch (IOException e) {
-            Log.d(TAG, "Error accessing file: " + e.getMessage());
-        }
+		picture = p;        
 	}
 	
 	//Coordinates get and set

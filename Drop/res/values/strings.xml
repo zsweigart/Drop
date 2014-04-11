@@ -23,6 +23,7 @@
         <item>saved</item>
         <item>map</item>
         <item>settings</item>
+        <item>log out</item>
     </string-array>
 
     <!-- Activity Titles -->

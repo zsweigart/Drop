@@ -4,16 +4,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 
-public class SavedListScreen extends OptionsMenuScreen {
+public class SavedListScreen extends DrawerActivity {
 
 	public static final String GRID_ITEM_POS = "GRID_ITEM_POS";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_saved_list_screen);
+        
+        View layout =  getLayoutInflater().inflate(R.layout.activity_saved_list_screen, null);
+        FrameLayout frame = (FrameLayout) findViewById(R.id.content_frame);
+        frame.addView(layout);
         
         final GridView gridview = (GridView) findViewById(R.id.saved_list_gridview);
         gridview.setAdapter(new SavedListAdapter(this));    

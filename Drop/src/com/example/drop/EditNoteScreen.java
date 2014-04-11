@@ -33,6 +33,7 @@ public class EditNoteScreen extends DrawerActivity{//OptionsMenuScreen {
 	}
 	public void setImage(Bitmap b){
 		ImageView img = (ImageView) findViewById(R.id.imageView);
+		img.setVisibility(0);
 		img.setImageBitmap(b);
 	}
    
