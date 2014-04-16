@@ -1,7 +1,6 @@
 package com.example.drop;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.Serializable;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -96,19 +95,31 @@ public class Note implements Serializable{
 	//Bitmap Picture get and set
 	public Bitmap getPicture()
 	{
-        byte[] data  = new byte[(int) picture.length()];
+		BitmapFactory.Options options = new BitmapFactory.Options();
         
-        try 
-        {
-            //convert file into array of bytes
-        	FileInputStream fileInputStream = new FileInputStream(picture);
-	    	fileInputStream.read(data);
-	    	fileInputStream.close();
-        }
-        catch(Exception e){
-        	Log.d(TAG, "Error reading picture: " + e.getMessage());
-        }
-        return BitmapFactory.decodeByteArray(data, 0, data.length);
+    	//Get image taken
+        options.inMutable = true;
+        options.inScaled = false;
+        
+        return BitmapFactory.decodeFile(picture.toString()); 
+	}
+	
+	public Bitmap getPicture(int height, int width)
+	{
+		BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(picture.toString(), options); 
+    	int sampleSize = DrawScreen.calculateInSampleSize(options, height, width);
+        
+    	Log.i(TAG, "SAMPLE SIZE = " + sampleSize);
+    	
+    	//Get image taken
+        options = new BitmapFactory.Options();
+        options.inMutable = true;
+        options.inScaled = false;
+        options.inSampleSize = sampleSize;
+    	
+        return BitmapFactory.decodeFile(picture.toString());
 	}
 	
 	public void setPicture(File p)
