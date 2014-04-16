@@ -38,6 +38,7 @@ public class DrawScreen extends Activity {
         
         Intent i = getIntent();
         pictureFile = (File)i.getSerializableExtra("image");
+        Log.i(TAG, pictureFile.toString());
         isBack = i.getBooleanExtra("isBack", false);
         
         background = (DrawingWidget)findViewById(R.id.background_picture);
@@ -83,7 +84,7 @@ public class DrawScreen extends Activity {
 			public void onClick(View arg0) {
 				try {
 		            FileOutputStream fos = new FileOutputStream(pictureFile);
-		            background.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, fos);
+		            background.getBitmap().compress(Bitmap.CompressFormat.PNG, 75, fos);
 		            fos.close();
 		        } catch (FileNotFoundException e) {
 		            Log.d(TAG, "File not found: " + e.getMessage());
@@ -136,11 +137,24 @@ public class DrawScreen extends Activity {
     
     private void setPicture()
     {
-    	//Get image taken
         BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(pictureFile.toString(), options); 
+    	int sampleSize = calculateInSampleSize(options, background.getHeight(), background.getWidth());
+        
+    	Log.i(TAG, "SAMPLE SIZE = " + sampleSize);
+    	
+    	//Get image taken
+        options = new BitmapFactory.Options();
         options.inMutable = true;
         options.inScaled = false;
-        options.inSampleSize = 2;
+        options.inSampleSize = sampleSize;
+    	
+    	if(b != null)
+        {
+        	b = null;
+        	System.gc();
+        }
         b = BitmapFactory.decodeFile(pictureFile.toString()); 
         Log.i(TAG, b.getWidth() + " x " + b.getHeight());
         		        
@@ -162,5 +176,28 @@ public class DrawScreen extends Activity {
         Log.i(TAG, b.getWidth()+" x " + b.getHeight());
         background.setBitmap(b);
     }
+    
+    public static int calculateInSampleSize(
+            BitmapFactory.Options options, int reqWidth, int reqHeight) {
+    // Raw height and width of image
+    final int height = options.outHeight;
+    final int width = options.outWidth;
+    int inSampleSize = 1;
+
+    if (height > reqHeight || width > reqWidth) {
+
+        final int halfHeight = height / 2;
+        final int halfWidth = width / 2;
+
+        // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+        // height and width larger than the requested height and width.
+        while ((halfHeight / inSampleSize) > reqHeight
+                && (halfWidth / inSampleSize) > reqWidth) {
+            inSampleSize *= 2;
+        }
+    }
+
+    return inSampleSize;
+}
 
 }
