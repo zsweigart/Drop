@@ -27,7 +27,7 @@ public class EditNoteScreen extends DrawerActivity {// OptionsMenuScreen {
 	private final int REQUEST_CODE = 1;
 	private ImageView thumbnail;
 	private Button dropButton;
-	private ArrayList<JSONObject> recipients;
+	private ArrayList<String> recipients;
 	private Note note;
 
 	@Override
@@ -39,7 +39,7 @@ public class EditNoteScreen extends DrawerActivity {// OptionsMenuScreen {
 		FrameLayout frame = (FrameLayout) findViewById(R.id.content_frame);
 		frame.addView(layout);
 
-		recipients = new ArrayList<JSONObject>();
+		recipients = new ArrayList<String>();
 
 		messageEdt = (EditText) findViewById(R.id.edit_note_content);
 
@@ -52,9 +52,9 @@ public class EditNoteScreen extends DrawerActivity {// OptionsMenuScreen {
 
 			public void onClick(View arg0) {
 				if (recipients.size() > 0) {
-					if (!(messageEdt.getText().toString().equals("Nobody"))
-							&& !(messageEdt.getText().toString().equals(""))
-							&& !(messageEdt.getText().toString() == null)) {
+					if ((messageEdt.getText().toString().equals("Nobody"))
+							|| (messageEdt.getText().toString().equals(""))
+							|| (messageEdt.getText().toString() == null)) {
 						AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 								EditNoteScreen.this);
 
@@ -151,7 +151,7 @@ public class EditNoteScreen extends DrawerActivity {// OptionsMenuScreen {
 										+ b.getString("recipient" + i));
 						JSONObject jsonObj = new JSONObject(
 								b.getString("recipient" + i));
-						recipients.add(jsonObj);
+						recipients.add(jsonObj.toString());
 						recipientList += jsonObj.get("name") + ", ";
 					}
 					recipientList.substring(0, recipientList.length() - 3);
@@ -167,8 +167,10 @@ public class EditNoteScreen extends DrawerActivity {// OptionsMenuScreen {
 	}
 
 	private void createAndDropNote() {
-		note.setCreator(Drop.loggedInJSON);
+		note.setCreator(Drop.loggedInJSON.toString());
 		note.setRecievers(recipients);
+		note.setMessage(messageEdt.getText().toString());
+		note.setPickedUp(false);
 		Intent i = new Intent(EditNoteScreen.this, DropNoteScreen.class);
 		Drop.current_note = note;
         startActivity(i);

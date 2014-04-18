@@ -1,9 +1,14 @@
 package com.example.drop;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Application;
+import android.os.Environment;
 import android.util.Log;
 
 import com.facebook.Request;
@@ -84,5 +89,25 @@ public class Drop extends Application {
 		request.executeAsync();
 
 	}
+	
+	// Create a File for saving an image 
+		public static File getOutputMediaFile(String path){
+			
+			File mediaStorageDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + path);
+
+		    // Create the storage directory if it does not exist
+		    if (! mediaStorageDir.exists()){
+		        if (! mediaStorageDir.mkdirs()){
+		            return null;
+		        }
+		    } 
+		    
+		    // Create a media file name
+		    String timeStamp = new SimpleDateFormat("ddMMyyyy_HHmm").format(new Date());
+		    File mediaFile;
+		        String mImageName="MI_"+ timeStamp +".jpg";
+		        mediaFile = new File(mediaStorageDir.getPath() + File.separator + mImageName);  
+		    return mediaFile;
+		} 
 
 }

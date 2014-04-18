@@ -16,12 +16,9 @@ import com.parse.ParseUser;
 public class Note implements Serializable{
 	private static final long serialVersionUID = 1L;
 	protected static final String TAG = "NOTE";
-	//TODO: get ids from database
-	private static long nextID = 0;
 	
-	long id;
-	JSONObject creator;
-	ArrayList<JSONObject> receivers;
+	String creator;
+	ArrayList<String> receivers;
 	
 	String message;
 	File picture;
@@ -36,48 +33,35 @@ public class Note implements Serializable{
 	
 	Note(File p)
 	{
-		id = nextID;
-		nextID++;
-		creator = Drop.loggedInJSON;
-		receivers = new ArrayList<JSONObject>();
+		creator = Drop.loggedInJSON.toString();
+		receivers = new ArrayList<String>();
 		picture = p;
 		coordinates = "";
 	}
 	
-	//Note ID get and set
-	public long getID()
-	{
-		return id;
-	}
-		
-	public void setID(long i)
-	{
-		id = i;
-	}
-	
 	//Creator ID get and set
-	public JSONObject getCreator()
+	public String getCreator()
 	{
 		return creator;
 	}
 		
-	public void setCreator(JSONObject user)
+	public void setCreator(String user)
 	{
 		creator = user;
 	}
 		
 	//Receiver ID get and set
-	public ArrayList<JSONObject> getReceivers()
+	public ArrayList<String> getReceivers()
 	{
 		return receivers;
 	}
 	
-	public void setRecievers(ArrayList<JSONObject> r)
+	public void setRecievers(ArrayList<String> r)
 	{
 		receivers = r;
 	}
 		
-	public void addReciever(JSONObject i)
+	public void addReciever(String i)
 	{
 		receivers.add(i);
 	}
@@ -157,4 +141,50 @@ public class Note implements Serializable{
 	{
 		pickedUp = up;
 	}
+	
+	/*public byte [] getByteArray()
+	{
+		byte [] b;
+		ArrayList <Byte> bytes = new ArrayList<Byte>();
+		
+		byte [] temp = creator.toString().getBytes();
+		for(int i = 0; i < temp.length; i++)
+		{
+			bytes.add(temp[i]);
+		}
+		
+		for(int j = 0; j < receivers.size(); j++)
+		{
+			String r = receivers.get(j);
+			temp = r.toString().getBytes();
+			for(int i = 0; i < temp.length; i++)
+			{
+				bytes.add(temp[i]);
+			}
+		}
+		
+		if(message != null)
+		{
+			temp = message.getBytes();
+			for(int i = 0; i < temp.length; i++)
+			{
+				bytes.add(temp[i]);
+			}
+		}
+		
+		temp = picture.toString().getBytes();
+		for(int i = 0; i < temp.length; i++)
+		{
+			bytes.add(temp[i]);
+		}
+		
+		b = new byte[bytes.size()];
+		for(int i = 0; i < bytes.size(); i++)
+		{
+			b[i] = bytes.get(i);
+		}
+		bytes = null;
+		System.gc();
+		return b;
+	}*/
 }

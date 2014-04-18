@@ -47,7 +47,7 @@ public class ViewNoteScreen extends Activity {
 	    }
 	    void load_note(Note note){
 	    	set_note_content(note.getMessage());
-	    	set_sender(note.getCreator());
+	    	set_sender(note.getCreator().toString());
 	    	set_reciever(note.getReceivers());
 	    	set_picture(note.getPicture());
 	    }
@@ -59,12 +59,13 @@ public class ViewNoteScreen extends Activity {
 			img.setImageBitmap(picture);
 		}
 
-		private void set_reciever(ArrayList<JSONObject> arrayList) {
+		private void set_reciever(ArrayList<String> arrayList) {
 			String receiverString = "";
-			for (JSONObject user : arrayList){
+			for (String user : arrayList){
 				if (receiverString != "") receiverString += ", ";
 				try {
-					receiverString += user.getString("id");
+					JSONObject obj = new JSONObject(user);
+					receiverString += obj.getString("id");
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
@@ -75,10 +76,11 @@ public class ViewNoteScreen extends Activity {
 			receiver_text_view.setText(receiverString);
 		}
 
-		private void set_sender(JSONObject user) {
+		private void set_sender(String string) {
 			String sender_string = "";
 			try {
-				sender_string = (String) user.get("name");
+				JSONObject obj = new JSONObject(string);
+				sender_string = (String) obj.get("name");
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
