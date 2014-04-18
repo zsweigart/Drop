@@ -5,8 +5,10 @@ import java.io.Serializable;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
-import java.util.Date;
-import java.util.HashSet;
+
+import java.util.ArrayList;
+
+import org.json.JSONObject;
 
 import com.parse.ParseUser;
 
@@ -18,27 +20,28 @@ public class Note implements Serializable{
 	private static long nextID = 0;
 	
 	long id;
-	//TODO: Change to parse user
-	ParseUser creator;
-	HashSet<ParseUser> receivers;
+	JSONObject creator;
+	ArrayList<JSONObject> receivers;
 	
 	String message;
 	File picture;
 	//TODO: Change to parse GeoPoints or Fence
 	String coordinates;
 	
-	long timeStamp;
 	boolean pickedUp;
+	
+	Note()
+	{
+	}
 	
 	Note(File p)
 	{
 		id = nextID;
 		nextID++;
-		creator = Drop.loggedInUser;
-		receivers = new HashSet<ParseUser>();
+		creator = Drop.loggedInJSON;
+		receivers = new ArrayList<JSONObject>();
 		picture = p;
 		coordinates = "";
-		timeStamp = (new Date()).getTime();
 	}
 	
 	//Note ID get and set
@@ -53,26 +56,32 @@ public class Note implements Serializable{
 	}
 	
 	//Creator ID get and set
-	public ParseUser getCreator()
+	public JSONObject getCreator()
 	{
 		return creator;
 	}
 		
-	public void setCreator(ParseUser user)
+	public void setCreator(JSONObject user)
 	{
 		creator = user;
 	}
 		
 	//Receiver ID get and set
-	public HashSet<ParseUser> getReceivers()
+	public ArrayList<JSONObject> getReceivers()
 	{
 		return receivers;
 	}
+	
+	public void setRecievers(ArrayList<JSONObject> r)
+	{
+		receivers = r;
+	}
 		
-	public void addReciever(ParseUser i)
+	public void addReciever(JSONObject i)
 	{
 		receivers.add(i);
 	}
+	
 	public boolean removeReciever(ParseUser i){
 		boolean inSet = receivers.contains(i);
 		if (inSet) receivers.remove(i);
@@ -136,17 +145,6 @@ public class Note implements Serializable{
 	public void setCoordinates(String c)
 	{
 		coordinates = c;
-	}
-	
-	//Time get and set
-	public long getTime()
-	{
-		return timeStamp;
-	}
-	
-	public void setTime(long time)
-	{
-		timeStamp = time;
 	}
 	
 	//Picked up get and set

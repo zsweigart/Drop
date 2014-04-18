@@ -93,7 +93,7 @@ public class DrawScreen extends Activity {
 		        }
 				
 				Intent i = new Intent(DrawScreen.this, EditNoteScreen.class);
-				i.putExtra("Note", new Note(pictureFile));
+				Drop.current_note = new Note(pictureFile);
                 startActivity(i);
  
                 // close this activity

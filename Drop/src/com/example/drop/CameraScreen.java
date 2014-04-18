@@ -21,7 +21,7 @@ public class CameraScreen extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_camera_screen);
 		
-		outputFile = getOutputMediaFile();
+		outputFile = getOutputMediaFile("/Android/data/com.example.drop/pictures");
 
 		//Open the camera and store the picture to the file
 		Intent intent = new Intent(
@@ -58,9 +58,9 @@ public class CameraScreen extends Activity {
 	}
 	
 	// Create a File for saving an image 
-	private  File getOutputMediaFile(){
+	private  File getOutputMediaFile(String path){
 		
-		File mediaStorageDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/com.example.project/files");
+		File mediaStorageDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + path);
 
 	    // Create the storage directory if it does not exist
 	    if (! mediaStorageDir.exists()){
