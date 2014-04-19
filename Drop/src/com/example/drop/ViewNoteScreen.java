@@ -1,8 +1,10 @@
 package com.example.drop;
 
-import java.util.Set;
+import java.util.ArrayList;
 
-import com.parse.ParseUser;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.app.Activity;
@@ -45,7 +47,7 @@ public class ViewNoteScreen extends Activity {
 	    }
 	    void load_note(Note note){
 	    	set_note_content(note.getMessage());
-	    	set_sender(note.getCreator());
+	    	set_sender(note.getCreator().toString());
 	    	set_reciever(note.getReceivers());
 	    	set_picture(note.getPicture());
 	    }
@@ -57,11 +59,16 @@ public class ViewNoteScreen extends Activity {
 			img.setImageBitmap(picture);
 		}
 
-		private void set_reciever(Set<ParseUser> receiverIDs) {
+		private void set_reciever(ArrayList<String> arrayList) {
 			String receiverString = "";
-			for (ParseUser user : receiverIDs){
+			for (String user : arrayList){
 				if (receiverString != "") receiverString += ", ";
-				receiverString += user.getObjectId();
+				try {
+					JSONObject obj = new JSONObject(user);
+					receiverString += obj.getString("id");
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
 			}
 			if (receiverString.length() >= 2) 
 				receiverString = receiverString.substring(0, receiverString.length()-1);
@@ -69,8 +76,14 @@ public class ViewNoteScreen extends Activity {
 			receiver_text_view.setText(receiverString);
 		}
 
-		private void set_sender(ParseUser user) {
-			String sender_string = user.getUsername();
+		private void set_sender(String string) {
+			String sender_string = "";
+			try {
+				JSONObject obj = new JSONObject(string);
+				sender_string = (String) obj.get("name");
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 			TextView to_text_view = (TextView) thisView.findViewById(R.id.to);
 			to_text_view.setText(sender_string);
 			

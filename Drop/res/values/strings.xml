@@ -7,6 +7,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="drawer_open">Open!</string>
     <string name="drawer_closed">Closed</string>
+    <string name="drop">Drop!</string>
+    <string name="thumbnail">Thumbnail</string>
 
     <!-- Menu Titles -->
     <string name="menu_settings">settings</string>
