@@ -1,7 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
     
+    <ImageView
+        android:id="@+id/dropped_row_imageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/ic_action_search"
+        android:contentDescription="@string/thumbnail" />
 
-</ListView>
+    <TextView
+        android:id="@+id/dropped_row_note_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/dropped_row_imageView"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/note" />
+
+    <TextView
+        android:id="@+id/dropped_row_note_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/dropped_row_imageView"
+        android:layout_below="@id/dropped_row_note_label"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp" />
+
+    <TextView
+        android:id="@+id/dropped_row_to"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/dropped_row_imageView"
+        android:layout_below="@id/dropped_row_note_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/to" />
+
+    <TextView
+        android:id="@+id/dropped_row_recievers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/dropped_row_imageView"
+        android:layout_below="@id/dropped_row_to"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp" />
+    
+
+</RelativeLayout>

@@ -8,8 +8,6 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-import org.json.JSONObject;
-
 import com.parse.ParseUser;
 
 
@@ -141,50 +139,4 @@ public class Note implements Serializable{
 	{
 		pickedUp = up;
 	}
-	
-	/*public byte [] getByteArray()
-	{
-		byte [] b;
-		ArrayList <Byte> bytes = new ArrayList<Byte>();
-		
-		byte [] temp = creator.toString().getBytes();
-		for(int i = 0; i < temp.length; i++)
-		{
-			bytes.add(temp[i]);
-		}
-		
-		for(int j = 0; j < receivers.size(); j++)
-		{
-			String r = receivers.get(j);
-			temp = r.toString().getBytes();
-			for(int i = 0; i < temp.length; i++)
-			{
-				bytes.add(temp[i]);
-			}
-		}
-		
-		if(message != null)
-		{
-			temp = message.getBytes();
-			for(int i = 0; i < temp.length; i++)
-			{
-				bytes.add(temp[i]);
-			}
-		}
-		
-		temp = picture.toString().getBytes();
-		for(int i = 0; i < temp.length; i++)
-		{
-			bytes.add(temp[i]);
-		}
-		
-		b = new byte[bytes.size()];
-		for(int i = 0; i < bytes.size(); i++)
-		{
-			b[i] = bytes.get(i);
-		}
-		bytes = null;
-		System.gc();
-		return b;
-	}*/
 }
