@@ -27,21 +27,61 @@ import com.example.drop.R;
 public final class LocationUtils {
 
     // Debugging tag for the application
-    public static final String APPTAG = "LocationSample";
+    public static final String APPTAG = "LocationService";
 
     // Name of shared preferences repository that stores persistent state
     public static final String SHARED_PREFERENCES =
-            "com.example.android.location.SHARED_PREFERENCES";
+            "com.example.drop.SHARED_PREFERENCES";
+    // TODO: Change package name if this breaks (example.android.location) 
 
     // Key for storing the "updates requested" flag in shared preferences
     public static final String KEY_UPDATES_REQUESTED =
-            "com.example.android.location.KEY_UPDATES_REQUESTED";
-
+            "com.example.drop.KEY_UPDATES_REQUESTED";
+ // TODO: Change package name if this breaks 
     /*
      * Define a request code to send to Google Play services
      * This code is returned in Activity.onActivityResult
      */
     public final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
+    
+    // Intent actions
+    public static final String ACTION_CONNECTION_ERROR =
+            "com.example.drop.ACTION_CONNECTION_ERROR";
+
+    public static final String ACTION_CONNECTION_SUCCESS =
+            "com.example.drop.ACTION_CONNECTION_SUCCESS";
+
+    public static final String ACTION_GEOFENCES_ADDED =
+            "com.example.drop.ACTION_GEOFENCES_ADDED";
+
+    public static final String ACTION_GEOFENCES_REMOVED =
+            "com.example.drop.ACTION_GEOFENCES_DELETED";
+
+    public static final String ACTION_GEOFENCE_ERROR =
+            "com.example.drop.ACTION_GEOFENCES_ERROR";
+
+    public static final String ACTION_GEOFENCE_TRANSITION =
+            "com.example.drop.ACTION_GEOFENCE_TRANSITION";
+
+    public static final String ACTION_GEOFENCE_TRANSITION_ERROR =
+                    "com.example.drop.ACTION_GEOFENCE_TRANSITION_ERROR";
+    
+    // The Intent category used by all Location Services sample apps
+    public static final String CATEGORY_LOCATION_SERVICES =
+                    "com.example.drop.CATEGORY_LOCATION_SERVICES";
+
+    // Keys for extended data in Intents
+    public static final String EXTRA_CONNECTION_CODE =
+                    "com.example.android.EXTRA_CONNECTION_CODE";
+
+    public static final String EXTRA_CONNECTION_ERROR_CODE =
+            "com.example.drop.EXTRA_CONNECTION_ERROR_CODE";
+
+    public static final String EXTRA_CONNECTION_ERROR_MESSAGE =
+            "com.example.drop.EXTRA_CONNECTION_ERROR_MESSAGE";
+
+    public static final String EXTRA_GEOFENCE_STATUS =
+            "com.example.drop.EXTRA_GEOFENCE_STATUS";
 
     /*
      * Constants for location update parameters
