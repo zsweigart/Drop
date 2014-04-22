@@ -28,12 +28,11 @@ public class SelectRecipients extends  Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_recipients);
         list = (ListView)findViewById(R.id.recipients_list);
+        list.setFastScrollEnabled(true);
         listItems=new ArrayList<String>();
         userlist=new ArrayList<JSONObject>();
         makeMyFriendsRequest();
     }
-
-    
    
     private void makeMyFriendsRequest() {
         Request request = Request.newMyFriendsRequest(ParseFacebookUtils.getSession(),
@@ -90,14 +89,27 @@ public class SelectRecipients extends  Activity {
                     }               
                 });
         request.executeAsync();
-     
     }
     
     private void addUserToList(JSONObject user)
     {
     	try {
-			listItems.add((String) user.get("name"));
-			userlist.add(user);
+    		boolean added = false;
+    		for(int i = 0; i < userlist.size(); i++)
+    		{
+    			if(((String) user.get("name")).compareTo((String)listItems.get(i)) < 0)
+    			{
+    				listItems.add(i, (String) user.get("name"));
+    				userlist.add(i, user);
+    				added = true;
+    				break;
+    			}
+    		}
+    		if(!added)
+    		{
+    			listItems.add((String) user.get("name"));
+				userlist.add(user);
+    		}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -109,8 +121,8 @@ public class SelectRecipients extends  Activity {
     	adapter = new RecipientsArrayAdapter(getApplicationContext(), userlist);
     	list.setAdapter(adapter);
     }
-    
-    @Override
+
+	@Override
     public void finish() {
     	ArrayList <JSONObject> recipients = new ArrayList <JSONObject> ();
     	for(int i = 0; i < adapter.getCount(); i++)

@@ -144,18 +144,21 @@ public class EditNoteScreen extends DrawerActivity {// OptionsMenuScreen {
 				Bundle b = data.getExtras();
 				try {
 					int numResults = b.getInt("numResults");
-					String recipientList = "";
-					for (int i = 0; i < numResults; i++) {
-						Log.i("EDITNOTE",
-								"recipient" + i + "  :  "
-										+ b.getString("recipient" + i));
-						JSONObject jsonObj = new JSONObject(
-								b.getString("recipient" + i));
-						recipients.add(jsonObj.toString());
-						recipientList += jsonObj.get("name") + ", ";
+					if(numResults > 0)
+					{
+						String recipientList = "";
+						for (int i = 0; i < numResults; i++) {
+							Log.i("EDITNOTE",
+									"recipient" + i + "  :  "
+											+ b.getString("recipient" + i));
+							JSONObject jsonObj = new JSONObject(
+									b.getString("recipient" + i));
+							recipients.add(jsonObj.toString());
+							recipientList += jsonObj.get("name") + ", ";
+						}
+						recipientList.substring(0, recipientList.length() - 3);
+						recipientsEdt.setText(recipientList);
 					}
-					recipientList.substring(0, recipientList.length() - 3);
-					recipientsEdt.setText(recipientList);
 				} catch (ClassCastException e) {
 					Log.i("EDIT NOTE", "Error, value returned of wrong type");
 				} catch (JSONException e) {

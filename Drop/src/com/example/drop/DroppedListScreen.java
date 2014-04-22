@@ -13,9 +13,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.FrameLayout;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
 
 public class DroppedListScreen extends DrawerActivity {
@@ -24,8 +22,6 @@ public class DroppedListScreen extends DrawerActivity {
 	private ListView list;
 	private final int LAZY_NUM = 8;
 	private ArrayList<File> files;
-	private int top;
-	private int bottom;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -39,53 +35,6 @@ public class DroppedListScreen extends DrawerActivity {
 		new LoadDroppedNotesAsyncTask().execute();
         
         list = (ListView) findViewById(R.id.droppped_list_view_list);
-        /*list.setOnScrollListener(new OnScrollListener(){
-
-			public void onScroll(AbsListView view, int firstVisibleItem,
-					int visibleItemCount, int totalItemCount) {
-				// TODO Auto-generated method stub
-				final int lastItem = firstVisibleItem + visibleItemCount;
-		        
-				if(files != null && totalItemCount > 0)
-				{
-					Log.i("DROPPED", "ON SCROLL " + firstVisibleItem + "  " + top + "   "+ lastItem + "   "+ bottom);
-					if(firstVisibleItem == 0) //Scrolled to top
-					{
-						if(top > 0)
-						{
-							top--;
-							bottom--;
-							Log.i("DROPPED_LIST", "SCROLLED UP " + top +"   " + bottom);
-							((DroppedListViewAdapter)list.getAdapter()).remove(LAZY_NUM-1);
-							Note n = loadNote(top);
-							((DroppedListViewAdapter)list.getAdapter()).addAtFront(n);
-							((DroppedListViewAdapter)list.getAdapter()).notifyDataSetChanged();
-						}
-					}
-					if(lastItem == totalItemCount-1) //Scrolled to bottom
-					{
-						if(bottom < files.size()-1)
-						{
-							top++;
-							bottom++;
-							Log.i("DROPPED_LIST", "SCROLLED DOWN " + top +"   " + bottom);
-							((DroppedListViewAdapter)list.getAdapter()).remove(0);
-							Note n = loadNote(bottom);
-							((DroppedListViewAdapter)list.getAdapter()).addAtFront(n);
-							((DroppedListViewAdapter)list.getAdapter()).notifyDataSetChanged();
-						}
-					}
-				}
-				
-			}
-
-			public void onScrollStateChanged(AbsListView view, int scrollState) {
-				// TODO Auto-generated method stub
-				
-			}
-        	
-        });*/
-
 	}
 
 	private class LoadDroppedNotesAsyncTask extends
@@ -119,9 +68,6 @@ public class DroppedListScreen extends DrawerActivity {
 			}
 			
 			Log.i("DROPPED_LIST", "FILES SIZE = " +files.size());
-			
-			top = 0;
-			bottom = LAZY_NUM - 1;
 			
 			for (int i = 0; i < LAZY_NUM; i++) {
 				if(i < 0)
@@ -160,27 +106,5 @@ public class DroppedListScreen extends DrawerActivity {
 	        list.setAdapter(adapter);
 	    }
 
-	}
-	
-	private Note loadNote(int loc)
-	{
-		Note n = null;
-		try {
-			FileInputStream fin = new FileInputStream(files.get(loc)
-					.getAbsolutePath());
-			ObjectInputStream ois = new ObjectInputStream(fin);
-			n = (Note)ois.readObject();
-			ois.close();
-		} catch (OptionalDataException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return n;
 	}
 }
