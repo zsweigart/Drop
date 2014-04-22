@@ -5,37 +5,52 @@ import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class DroppedListViewAdapter extends ArrayAdapter<Note>{
-	private final Context context;
-	  private final ArrayList<Note> values;
-	  CheckBox checkBoxView;
+public class DroppedListViewAdapter extends BaseAdapter {
+	 private Activity activity;
+	    private ArrayList <Note> data;
+	    private static LayoutInflater inflater=null;
+	    public ImageLoader imageLoader; 
+	    
+	    public DroppedListViewAdapter(Activity a, ArrayList <Note> d) {
+	        activity = a;
+	        data=d;
+	        inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	        imageLoader=new ImageLoader(activity.getApplicationContext());
+	    }
 
-	  public DroppedListViewAdapter(Context context, ArrayList<Note> listItems) {
-	    super(context, R.layout.recipients_listview_item, listItems);
-	    this.context = context;
-	    this.values = listItems;
-	  }
+	    public int getCount() {
+	        return data.size();
+	    }
 
-	  @Override
-	  public View getView(int position, View convertView, ViewGroup parent) {
-	    LayoutInflater inflater = (LayoutInflater) context
-	        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	    View rowView = inflater.inflate(R.layout.dropped_listview_item, parent, false);
+	    public Note getItem(int position) {
+	        return data.get(position);
+	    }
+
+	    public long getItemId(int position) {
+	        return position;
+	    }
+	    
+	    public View getView(int position, View convertView, ViewGroup parent) {
+	    	View rowView = convertView;
+	        if(convertView==null)
+	        {
+	        	rowView = inflater.inflate(R.layout.dropped_listview_item, null);
+	        }
 	    ImageView picture = (ImageView) rowView.findViewById(R.id.dropped_row_imageView);
 	    TextView noteText = (TextView) rowView.findViewById(R.id.dropped_row_note_content);
 	    TextView recipients = (TextView) rowView.findViewById(R.id.dropped_row_recievers);
 	    
-	    Note note = values.get(position);
+	    Note note = data.get(position);
 	    
 	    Log.i("DROP_ADAPTER", note.picture.getAbsolutePath());
 	    picture.setImageBitmap(note.getPicture(picture.getHeight(), picture.getWidth()));
@@ -57,9 +72,4 @@ public class DroppedListViewAdapter extends ArrayAdapter<Note>{
 	    	    
 	    return rowView;
 	  }
-	  
-	  public void remove(int position){
-		    values.remove(values.get(position));
-		  	System.gc();
-		}
 }

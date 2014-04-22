@@ -22,16 +22,10 @@ public class DroppedListScreen extends DrawerActivity {
 
 	private ProgressDialog progress;
 	private ListView list;
-	private ArrayList<Note> notes;
-	private final int LAZY_NUM = 10;
-	private int preLast;
-	private int loc;
-    private boolean loading;
-    private int previousTotal;
-    private int totalFiles;
-    private int currentItems; 
-    private int topItem;
-    private int bottomItem;
+	private final int LAZY_NUM = 8;
+	private ArrayList<File> files;
+	private int top;
+	private int bottom;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -42,48 +36,46 @@ public class DroppedListScreen extends DrawerActivity {
 		FrameLayout frame = (FrameLayout) findViewById(R.id.content_frame);
 		frame.addView(layout);
 		
-		previousTotal = 0;
-		currentItems = 0;
-		totalFiles = -1;
-		topItem = -1;
-		bottomItem = -1;
-
-		notes = new ArrayList<Note>();
-		
-        loc = -1;
 		new LoadDroppedNotesAsyncTask().execute();
         
         list = (ListView) findViewById(R.id.droppped_list_view_list);
-        list.setOnScrollListener(new OnScrollListener(){
+        /*list.setOnScrollListener(new OnScrollListener(){
 
 			public void onScroll(AbsListView view, int firstVisibleItem,
 					int visibleItemCount, int totalItemCount) {
 				// TODO Auto-generated method stub
 				final int lastItem = firstVisibleItem + visibleItemCount;
-				if(topItem < totalFiles - firstVisibleItem)
+		        
+				if(files != null && totalItemCount > 0)
 				{
-					((DroppedListViewAdapter)list.getAdapter()).remove(topItem);
+					Log.i("DROPPED", "ON SCROLL " + firstVisibleItem + "  " + top + "   "+ lastItem + "   "+ bottom);
+					if(firstVisibleItem == 0) //Scrolled to top
+					{
+						if(top > 0)
+						{
+							top--;
+							bottom--;
+							Log.i("DROPPED_LIST", "SCROLLED UP " + top +"   " + bottom);
+							((DroppedListViewAdapter)list.getAdapter()).remove(LAZY_NUM-1);
+							Note n = loadNote(top);
+							((DroppedListViewAdapter)list.getAdapter()).addAtFront(n);
+							((DroppedListViewAdapter)list.getAdapter()).notifyDataSetChanged();
+						}
+					}
+					if(lastItem == totalItemCount-1) //Scrolled to bottom
+					{
+						if(bottom < files.size()-1)
+						{
+							top++;
+							bottom++;
+							Log.i("DROPPED_LIST", "SCROLLED DOWN " + top +"   " + bottom);
+							((DroppedListViewAdapter)list.getAdapter()).remove(0);
+							Note n = loadNote(bottom);
+							((DroppedListViewAdapter)list.getAdapter()).addAtFront(n);
+							((DroppedListViewAdapter)list.getAdapter()).notifyDataSetChanged();
+						}
+					}
 				}
-				if(bottomItem > totalFiles - lastItem)
-				{
-					((DroppedListViewAdapter)list.getAdapter()).remove(bottomItem);
-				}
-				topItem = totalFiles - firstVisibleItem;
-				bottomItem = totalFiles - lastItem;
-				if (loading) {
-		            if (totalItemCount > previousTotal) {
-		                loading = false;
-		                previousTotal = totalItemCount;
-		                currentItems = totalItemCount;
-		            }
-		        }
-		        if ((!loading && hasMoreData()) && (lastItem == totalItemCount)) {
-		              if(preLast!=lastItem){ //to avoid multiple calls for last item
-		                Log.d("Last", "Last");
-		                preLast = lastItem;
-		        		new LoadDroppedNotesAsyncTask().execute();
-		              }
-		           }
 				
 			}
 
@@ -92,7 +84,7 @@ public class DroppedListScreen extends DrawerActivity {
 				
 			}
         	
-        });
+        });*/
 
 	}
 
@@ -101,7 +93,6 @@ public class DroppedListScreen extends DrawerActivity {
 
 		@Override
 		protected void onPreExecute() {
-			loading = true;
 			progress = new ProgressDialog(DroppedListScreen.this);
 			progress.setTitle("Loading");
 			progress.setMessage("Wait while loading...");
@@ -112,34 +103,29 @@ public class DroppedListScreen extends DrawerActivity {
 		protected ArrayList<Note> doInBackground(Void... params) {
 			Log.i("DROPPED_LIST_ASYNC", "DO IN BACKGROUND");
 			File directory = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Android/data/com.example.drop/notes");
-			ArrayList<File> files = new ArrayList<File>();
+			files = new ArrayList<File>();
+			ArrayList<Note> notes = new ArrayList<Note> ();
 
 			Log.i("DROPPED_LIST_ASYNC", directory.getAbsolutePath());
-			File[] fList = directory.listFiles();
+			File [] fList = directory.listFiles();
 
 			if(fList != null)
 			{
-				for (File file : fList) {
-					if (file.isFile()) {
-						files.add(file);
+				for (int i = fList.length-1; i >= 0; i--) {
+					if (fList[i].isFile()) {
+						files.add(fList[i]);
 					}
 				}
 			}
 			
-			if(totalFiles == -1)
-			{
-				totalFiles = files.size()-1;
-			}
+			Log.i("DROPPED_LIST", "FILES SIZE = " +files.size());
 			
-			if(loc == -1)
-			{
-				loc = files.size()-1;
-			}
+			top = 0;
+			bottom = LAZY_NUM - 1;
 			
-			for (int i = loc; i > loc-LAZY_NUM; i--) {
-				if(i <= 0)
+			for (int i = 0; i < LAZY_NUM; i++) {
+				if(i < 0)
 				{
-					loc = 0;
 					break;
 				}
 				
@@ -160,7 +146,6 @@ public class DroppedListScreen extends DrawerActivity {
 					e.printStackTrace();
 				}
 			}
-			loc -= LAZY_NUM;
 
 			return notes;
 		}
@@ -169,20 +154,33 @@ public class DroppedListScreen extends DrawerActivity {
 	    protected void onPostExecute(ArrayList<Note> result)
 	    {
 	        super.onPostExecute(result);
-	        loading = false;
+	        Log.i("DROPPED_LIST", "ON POST EXECUTE "+result.size());
 	        progress.dismiss();
 	        DroppedListViewAdapter adapter = new DroppedListViewAdapter(DroppedListScreen.this, result);
 	        list.setAdapter(adapter);
 	    }
 
 	}
-
-	private boolean hasMoreData()
+	
+	private Note loadNote(int loc)
 	{
-		if(totalFiles > currentItems)
-		{
-			return true;
+		Note n = null;
+		try {
+			FileInputStream fin = new FileInputStream(files.get(loc)
+					.getAbsolutePath());
+			ObjectInputStream ois = new ObjectInputStream(fin);
+			n = (Note)ois.readObject();
+			ois.close();
+		} catch (OptionalDataException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return false;
+		return n;
 	}
 }

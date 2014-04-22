@@ -111,6 +111,8 @@ public class Note implements Serializable{
         options.inSampleSize = sampleSize;
         options.inPurgeable=true;
     	
+        System.gc();
+        
         return BitmapFactory.decodeFile(picture.toString());
 	}
 	
