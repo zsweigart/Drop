@@ -57,4 +57,9 @@ public class DroppedListViewAdapter extends ArrayAdapter<Note>{
 	    	    
 	    return rowView;
 	  }
+	  
+	  public void remove(int position){
+		    values.remove(values.get(position));
+		  	System.gc();
+		}
 }

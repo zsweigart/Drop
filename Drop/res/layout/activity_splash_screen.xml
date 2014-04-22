@@ -12,5 +12,12 @@
 		android:background="@drawable/drop_logo"
         tools:context=".SplashScreen"
         android:contentDescription="@string/app_name" />
+    
+    <com.example.drop.BounceView
+        android:id="@+id/anim_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
 
 </RelativeLayout>
