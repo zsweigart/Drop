@@ -70,7 +70,7 @@ public class DroppedListScreen extends DrawerActivity {
 			Log.i("DROPPED_LIST", "FILES SIZE = " +files.size());
 			
 			for (int i = 0; i < LAZY_NUM; i++) {
-				if(i < 0)
+				if(i > files.size()-1)
 				{
 					break;
 				}
