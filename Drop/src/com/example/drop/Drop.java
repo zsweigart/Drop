@@ -12,12 +12,12 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.facebook.Request;
+import com.facebook.Response;
 import com.facebook.model.GraphUser;
 import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
-import com.facebook.Response;
 
 public class Drop extends Application {
 

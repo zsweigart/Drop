@@ -1,19 +1,19 @@
 package com.example.drop;
 
+import android.content.Context;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.Toast;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Bundle;
-import android.content.Context;
-import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.Toast;
 
 public class MapScreen extends DrawerActivity {
 	

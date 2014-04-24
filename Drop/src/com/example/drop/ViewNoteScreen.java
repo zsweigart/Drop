@@ -5,17 +5,17 @@ import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.os.Bundle;
-import android.os.Parcelable;
 import android.app.Activity;
 import android.app.Fragment;
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.graphics.Bitmap;
 
 
 //This activity requires that a note is placed in its intent

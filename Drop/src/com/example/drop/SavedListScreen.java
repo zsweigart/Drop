@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.FrameLayout;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 
 public class SavedListScreen extends DrawerActivity {

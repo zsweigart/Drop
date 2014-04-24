@@ -8,11 +8,6 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.Iterator;
 
-import com.parse.ParseException;
-import com.parse.ParseFile;
-import com.parse.ParseObject;
-import com.parse.SaveCallback;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -20,6 +15,11 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
+
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.parse.SaveCallback;
 
 public class DropNoteScreen extends DrawerActivity {
 	private Note note;
