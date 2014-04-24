@@ -28,6 +28,7 @@ public final class LocationUtils {
 
     // Debugging tag for the application
     public static final String APPTAG = "LocationService";
+    public static final String GEOFENCE_ID_DELIMITER = ",";
 
     // Name of shared preferences repository that stores persistent state
     public static final String SHARED_PREFERENCES =

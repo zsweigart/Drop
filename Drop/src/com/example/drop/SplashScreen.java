@@ -30,6 +30,9 @@ public class SplashScreen extends Activity {
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
     
         loggedIn = prefs.getBoolean("loggedIn", false);
+        
+        
+        startService(new Intent(getApplicationContext(), LocationService.class));
      
         new Handler().postDelayed(new Runnable() {
  

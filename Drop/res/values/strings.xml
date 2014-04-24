@@ -136,28 +136,6 @@
     </string>
     <string name="unregister_geofence">Remove geofences</string>
     <string name="unregister_geofence1">Remove geofence 1</string>
-    <string name="unregister_geofence2">Remove geofence 2</string>
-    <string name="no_resolution">Google Play services: unable to resolve connection error.</string>
-    <string name="play_services_available">Location Services is available</string>
-    <string name="radius_error_message">Radius must be greater than or equal to 0</string>
-    <string name="register_geofence">Register geofence</string>
-    <string name="remove_geofences_id_failure">
-        Removing geofences by request id failed: error code %1$d GeofenceRequestIds=%2$s
-    </string>
-    <string name="remove_geofences_already_requested_error">
-        Can\'t remove geofences, previous request hasn\'t finished.
-    </string>
-    <string name="remove_geofences_id_success">
-        Removing geofences by request ids succeeded: request ids: %1$s
-    </string>
-    <string name="remove_geofences_intent_failure">
-        Removing all geofences failed: error code %1$d
-    </string>
-    <string name="remove_geofences_intent_success">
-        Removing all geofences succeeded.
-    </string>
-    <string name="geofence_transition_error_detail">
-        Geofence transition error, code %1$d message %2$s.
-    </string>
+    <string name="unregister_geofence2">Remove geofence 2</string>   
 
 </resources>
