@@ -6,9 +6,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -174,6 +177,10 @@ public class EditNoteScreen extends DrawerActivity {// OptionsMenuScreen {
 		note.setRecievers(recipients);
 		note.setMessage(messageEdt.getText().toString());
 		note.setPickedUp(false);
+		LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE); 
+		Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		note.setLon(location.getLongitude());
+		note.setLat(location.getLatitude());
 		Intent i = new Intent(EditNoteScreen.this, DropNoteScreen.class);
 		Drop.current_note = note;
         startActivity(i);
