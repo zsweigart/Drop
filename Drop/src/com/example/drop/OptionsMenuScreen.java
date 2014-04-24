@@ -1,7 +1,5 @@
 package com.example.drop;
 
-import com.parse.ParseUser;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +7,8 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.parse.ParseUser;
 
 /*
  * This allows every activity to have the same options menu in the action bar

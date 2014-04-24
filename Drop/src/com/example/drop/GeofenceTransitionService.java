@@ -1,32 +1,21 @@
 package com.example.drop;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import android.app.Activity;
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentSender;
-import android.content.IntentSender.SendIntentException;
-import android.location.Location;
-import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.LocalBroadcastManager;
-import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.example.drop.LocationUtils;
-import com.google.android.gms.common.*;
-import com.google.android.gms.location.*;
-import com.google.android.gms.location.LocationClient.OnAddGeofencesResultListener;
+import com.google.android.gms.location.Geofence;
+import com.google.android.gms.location.LocationClient;
 
-public class LocationService extends IntentService{
+public class GeofenceTransitionService extends IntentService{
 	/*
 	 * 1) Listen for Note Geofence entry transitions, and post a notification (that opens the Note in question) when those transitions occur
 	 * 2) Add a Geofence for new Notes (so that the user can see their dropped Notes on the Map) 
@@ -36,7 +25,7 @@ public class LocationService extends IntentService{
 	/**
      * Sets an identifier for this class' background thread
      */
-    public LocationService() {
+    public GeofenceTransitionService() {
         super("LocationService");
     }
 
@@ -90,23 +79,23 @@ public class LocationService extends IntentService{
 
                 // Post a notification
                 List<Geofence> geofences = LocationClient.getTriggeringGeofences(intent);
-                String[] geofenceIds = new String[geofences.size()];
-                for (int index = 0; index < geofences.size() ; index++) {
-                    geofenceIds[index] = geofences.get(index).getRequestId();
-                }
-                String ids = TextUtils.join(LocationUtils.GEOFENCE_ID_DELIMITER,geofenceIds);
-                String transitionType = getTransitionString(transition);
-
-                sendNotification(transitionType, ids);
-
-                // Log the transition type and a message
-                Log.d(LocationUtils.APPTAG,
-                        getString(
-                                R.string.geofence_transition_notification_title,
-                                transitionType,
-                                ids));
-                Log.d(LocationUtils.APPTAG,
-                        getString(R.string.geofence_transition_notification_text));
+                
+                //Each triggering geofence creates a new notification
+                for (int index = 0; index < geofences.size() ; index++) { 
+                	String id = geofences.get(index).getRequestId();
+                    String transitionType = getTransitionString(transition);
+                	
+                    sendNotification(transitionType, id);
+                    
+                    // Log the transition type and a message
+                    Log.d(LocationUtils.APPTAG,
+                            getString(
+                                    R.string.geofence_transition_notification_title,
+                                    transitionType,
+                                    id));
+                    Log.d(LocationUtils.APPTAG,
+                            getString(R.string.geofence_transition_notification_text));
+                }                
 
             // An invalid transition was reported
             } else {
@@ -123,11 +112,13 @@ public class LocationService extends IntentService{
      * @param transitionType The type of transition that occurred.
      *
      */
-    private void sendNotification(String transitionType, String ids) {
+    private void sendNotification(String transitionType, String id) {
 
         // Create an explicit content Intent that starts the main Activity
         Intent notificationIntent =
-                new Intent(getApplicationContext(),ViewNoteScreen.class);
+                new Intent(getApplicationContext(), ViewNoteScreen.class); 
+        //Put the 'request id' in the intent
+        notificationIntent.putExtra(getString(R.string.note_id), id);
 
         // Construct a task stack
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
@@ -149,7 +140,7 @@ public class LocationService extends IntentService{
         builder.setSmallIcon(R.drawable.drop_icon)
                .setContentTitle(
                        getString(R.string.geofence_transition_notification_title,
-                               transitionType, ids))
+                               transitionType, id))
                .setContentText(getString(R.string.geofence_transition_notification_text))
                .setContentIntent(notificationPendingIntent);
 

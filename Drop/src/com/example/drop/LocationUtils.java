@@ -16,15 +16,18 @@
 
 package com.example.drop;
 
-import android.content.Context;
-import android.location.Location;
-
-import com.example.drop.R;
 
 /**
  * Defines app-wide constants and utilities
  */
 public final class LocationUtils {
+	
+	// Used to track what type of geofence removal request was made.
+    public enum REMOVE_TYPE {INTENT, LIST}
+
+    // Used to track what type of request is in process
+    public enum REQUEST_TYPE {ADD, REMOVE}
+
 
     // Debugging tag for the application
     public static final String APPTAG = "LocationService";

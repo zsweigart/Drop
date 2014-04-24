@@ -6,16 +6,16 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.facebook.Request;
-import com.facebook.model.GraphUser;
-import com.parse.ParseFacebookUtils;
-import com.facebook.Response;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
+
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.model.GraphUser;
+import com.parse.ParseFacebookUtils;
 
 public class SelectRecipients extends  Activity {
     private ArrayList<String> listItems;

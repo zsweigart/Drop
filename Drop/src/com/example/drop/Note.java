@@ -2,11 +2,11 @@ package com.example.drop;
 
 import java.io.File;
 import java.io.Serializable;
+import java.util.ArrayList;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
-
-import java.util.ArrayList;
 
 import com.parse.ParseUser;
 

@@ -1,15 +1,15 @@
 package com.example.drop;
 
-import com.parse.ParseAnalytics;
-import com.parse.ParseFacebookUtils;
-import com.parse.ParseUser;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+
+import com.parse.ParseAnalytics;
+import com.parse.ParseFacebookUtils;
+import com.parse.ParseUser;
 
 
 public class SplashScreen extends Activity {
@@ -32,7 +32,7 @@ public class SplashScreen extends Activity {
         loggedIn = prefs.getBoolean("loggedIn", false);
         
         
-        startService(new Intent(getApplicationContext(), LocationService.class));
+        startService(new Intent(getApplicationContext(), GeofenceTransitionService.class));
      
         new Handler().postDelayed(new Runnable() {
  

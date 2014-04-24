@@ -9,6 +9,7 @@
     <string name="drawer_closed">Closed</string>
     <string name="drop">Drop!</string>
     <string name="thumbnail">Thumbnail</string>
+    <string name="note_id">Note ID</string>
 
     <!-- Menu Titles -->
     <string name="menu_settings">settings</string>
@@ -50,14 +51,6 @@
     <!-- Preferences -->
     <string name="pref_monkeys">Monkeys?</string>
     <string name="pref_monkeys_summ">If you want monkeys.</string>
-    <string name="pref_spying_level">Location Spying Intrusiveness</string>
-
-    <string-array name="pref_spying_level_entries">
-        <item>Low</item>
-        <item>Moderate</item>
-        <item>Extreme</item>
-        <item>Echelon</item>
-    </string-array>
 
     <string name="title_activity_drawer">DrawerActivity</string>
     
