@@ -5,14 +5,22 @@ import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
+import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.location.LocationClient;
+import com.google.android.gms.location.LocationListener;
+
 import android.app.AlertDialog;
-import android.content.Context;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.graphics.Bitmap;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,7 +31,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-public class EditNoteScreen extends DrawerActivity {// OptionsMenuScreen {
+public class EditNoteScreen extends DrawerActivity implements
+		ConnectionCallbacks, OnConnectionFailedListener, LocationListener {// OptionsMenuScreen {
 
 	private EditText recipientsEdt;
 	private EditText messageEdt;
@@ -32,6 +41,7 @@ public class EditNoteScreen extends DrawerActivity {// OptionsMenuScreen {
 	private Button dropButton;
 	private ArrayList<String> recipients;
 	private Note note;
+	private LocationClient client;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -42,6 +52,7 @@ public class EditNoteScreen extends DrawerActivity {// OptionsMenuScreen {
 		FrameLayout frame = (FrameLayout) findViewById(R.id.content_frame);
 		frame.addView(layout);
 
+		client = new LocationClient(this, this, this);
 		recipients = new ArrayList<String>();
 
 		messageEdt = (EditText) findViewById(R.id.edit_note_content);
@@ -130,6 +141,20 @@ public class EditNoteScreen extends DrawerActivity {// OptionsMenuScreen {
 		});
 
 	}
+	
+	@Override
+	public void onStart()
+	{
+		super.onStart();
+		client.connect();
+	}
+	
+	@Override
+	public void onStop()
+	{
+		super.onStop();
+		client.disconnect();
+	}
 
 	public void load_note(Note note) {
 		setImage(note.getPicture(thumbnail.getHeight(), thumbnail.getWidth()));
@@ -147,8 +172,7 @@ public class EditNoteScreen extends DrawerActivity {// OptionsMenuScreen {
 				Bundle b = data.getExtras();
 				try {
 					int numResults = b.getInt("numResults");
-					if(numResults > 0)
-					{
+					if (numResults > 0) {
 						String recipientList = "";
 						for (int i = 0; i < numResults; i++) {
 							Log.i("EDITNOTE",
@@ -177,16 +201,108 @@ public class EditNoteScreen extends DrawerActivity {// OptionsMenuScreen {
 		note.setRecievers(recipients);
 		note.setMessage(messageEdt.getText().toString());
 		note.setPickedUp(false);
-		LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE); 
-		Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-		note.setLon(location.getLongitude());
-		note.setLat(location.getLatitude());
+		Location loc = client.getLastLocation();
+		note.setLon(loc.getLongitude());
+		note.setLat(loc.getLatitude());
 		Intent i = new Intent(EditNoteScreen.this, DropNoteScreen.class);
 		Drop.current_note = note;
-        startActivity(i);
+		startActivity(i);
 
-        // close this activity
-        finish();
+		// close this activity
+		finish();
+	}
+
+	public void onConnectionFailed(ConnectionResult connectionResult) {
+		/*
+		 * Google Play services can resolve some errors it detects. If the error
+		 * has a resolution, try sending an Intent to start a Google Play
+		 * services activity that can resolve error.
+		 */
+		if (connectionResult.hasResolution()) {
+			try {
+				// Start an Activity that tries to resolve the error
+				connectionResult.startResolutionForResult(this,
+						LocationUtils.CONNECTION_FAILURE_RESOLUTION_REQUEST);
+				/*
+				 * Thrown if Google Play services canceled the original
+				 * PendingIntent
+				 */
+			} catch (IntentSender.SendIntentException e) {
+				// Log the error
+				e.printStackTrace();
+			}
+		} else {
+			// If no resolution is available, display a dialog to the user with
+			// the error.
+			showErrorDialog(connectionResult.getErrorCode());
+		}
+	}
+
+	public void onConnected(Bundle arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void onDisconnected() {
+		// TODO Auto-generated method stub
+
+	}
+
+	/**
+	 * Show a dialog returned by Google Play services for the connection error
+	 * code
+	 * 
+	 * @param errorCode
+	 *            An error code returned from onConnectionFailed
+	 */
+	private void showErrorDialog(int errorCode) {
+
+		// Get the error dialog from Google Play services
+		Dialog errorDialog = GooglePlayServicesUtil.getErrorDialog(errorCode,
+				this, LocationUtils.CONNECTION_FAILURE_RESOLUTION_REQUEST);
+
+		errorDialog.show();
+	}
+
+	/**
+	 * Define a DialogFragment to display the error dialog generated in
+	 * showErrorDialog.
+	 */
+	public static class ErrorDialogFragment extends DialogFragment {
+
+		// Global field to contain the error dialog
+		private Dialog mDialog;
+
+		/**
+		 * Default constructor. Sets the dialog field to null
+		 */
+		public ErrorDialogFragment() {
+			super();
+			mDialog = null;
+		}
+
+		/**
+		 * Set the dialog to display
+		 * 
+		 * @param dialog
+		 *            An error dialog
+		 */
+		public void setDialog(Dialog dialog) {
+			mDialog = dialog;
+		}
+
+		/*
+		 * This method must return a Dialog to the DialogFragment.
+		 */
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+			return mDialog;
+		}
+	}
+
+	public void onLocationChanged(Location arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

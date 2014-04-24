@@ -81,6 +81,10 @@ public class DropNoteScreen extends DrawerActivity {
 		            	obj.put("recipient", recipient);
 		            	obj.put("message", note.getMessage());
 			            obj.put("picture",file);
+			            obj.put("isPickedUp", note.isPickedUp());
+			            obj.put("radius", note.getRadius());
+			            obj.put("lat", note.getLat());
+			            obj.put("lon", note.getLon());
 			            obj.saveInBackground(new SaveCallback(){
 
 			    			@Override
