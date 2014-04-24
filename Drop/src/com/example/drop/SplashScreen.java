@@ -31,9 +31,7 @@ public class SplashScreen extends Activity {
     
         loggedIn = prefs.getBoolean("loggedIn", false);
         
-        
-        //startService(new Intent(getApplicationContext(), GeofenceTransitionService.class));
-     
+          
         new Handler().postDelayed(new Runnable() {
  
             public void run() {
@@ -42,6 +40,9 @@ public class SplashScreen extends Activity {
             	ParseUser currentUser = ParseUser.getCurrentUser();
             	if(loggedIn && (currentUser != null) && ParseFacebookUtils.isLinked(currentUser))
             	{
+            		//Hopefully, this will grab your new notes and register geofences for them
+            		startService(new Intent(getApplicationContext(), GeofenceTransitionService.class));
+            	     
 	                Intent i = new Intent(SplashScreen.this, CameraScreen.class);
 	                startActivity(i);
 	 
