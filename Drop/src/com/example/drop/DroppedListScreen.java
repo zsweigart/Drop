@@ -12,23 +12,29 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 
 public class DroppedListScreen extends DrawerActivity {
 
 	private ProgressDialog progress;
 	private ListView list;
+	private final int LAZY_NUM = 8;
+	private ArrayList<File> files;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dropped_list_screen);
+		
+		View layout = getLayoutInflater().inflate(
+				R.layout.activity_dropped_list_screen, null);
+		FrameLayout frame = (FrameLayout) findViewById(R.id.content_frame);
+		frame.addView(layout);
+		
+		new LoadDroppedNotesAsyncTask().execute();
         
         list = (ListView) findViewById(R.id.droppped_list_view_list);
-
-		LoadDroppedNotesAsyncTask loadDropped = new LoadDroppedNotesAsyncTask();
-		loadDropped.execute();
-
 	}
 
 	private class LoadDroppedNotesAsyncTask extends
@@ -46,22 +52,29 @@ public class DroppedListScreen extends DrawerActivity {
 		protected ArrayList<Note> doInBackground(Void... params) {
 			Log.i("DROPPED_LIST_ASYNC", "DO IN BACKGROUND");
 			File directory = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Android/data/com.example.drop/notes");
-			ArrayList<File> files = new ArrayList<File>();
-			ArrayList<Note> notes = new ArrayList<Note>();
+			files = new ArrayList<File>();
+			ArrayList<Note> notes = new ArrayList<Note> ();
 
 			Log.i("DROPPED_LIST_ASYNC", directory.getAbsolutePath());
-			File[] fList = directory.listFiles();
+			File [] fList = directory.listFiles();
 
 			if(fList != null)
 			{
-				for (File file : fList) {
-					if (file.isFile()) {
-						files.add(file);
+				for (int i = fList.length-1; i >= 0; i--) {
+					if (fList[i].isFile()) {
+						files.add(fList[i]);
 					}
 				}
 			}
-
-			for (int i = 0; i < files.size(); i++) {
+			
+			Log.i("DROPPED_LIST", "FILES SIZE = " +files.size());
+			
+			for (int i = 0; i < LAZY_NUM; i++) {
+				if(i > files.size()-1)
+				{
+					break;
+				}
+				
 				try {
 					FileInputStream fin = new FileInputStream(files.get(i)
 							.getAbsolutePath());
@@ -87,11 +100,11 @@ public class DroppedListScreen extends DrawerActivity {
 	    protected void onPostExecute(ArrayList<Note> result)
 	    {
 	        super.onPostExecute(result);
+	        Log.i("DROPPED_LIST", "ON POST EXECUTE "+result.size());
 	        progress.dismiss();
 	        DroppedListViewAdapter adapter = new DroppedListViewAdapter(DroppedListScreen.this, result);
 	        list.setAdapter(adapter);
 	    }
 
 	}
-
 }

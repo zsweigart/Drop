@@ -109,7 +109,10 @@ public class Note implements Serializable{
         options.inMutable = true;
         options.inScaled = false;
         options.inSampleSize = sampleSize;
+        options.inPurgeable=true;
     	
+        System.gc();
+        
         return BitmapFactory.decodeFile(picture.toString());
 	}
 	

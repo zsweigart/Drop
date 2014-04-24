@@ -45,7 +45,7 @@ public class BounceView extends ImageView {
 				yVelocity = (int)(yVelocity * -1);
 				bounces++;
 			}
-			if (y >= (this.getHeight()-2*ball.getBounds().height())){
+			if (y >= (this.getHeight()*.75-2*ball.getBounds().height())){
 				y = this.getHeight()-2*ball.getBounds().height();
 				yVelocity = (int)(yVelocity * -.8);
 				bounces++;

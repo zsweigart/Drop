@@ -36,6 +36,10 @@ public class DropNoteScreen extends DrawerActivity {
 		FrameLayout frame = (FrameLayout) findViewById(R.id.content_frame);
 		frame.addView(layout);
 		
+		BounceView icon = (BounceView) findViewById(R.id.anim_view);
+		icon.setVisibility(View.VISIBLE);
+		icon.bringToFront();
+		
         
         note = Drop.current_note;
         File saveNote = Drop.getOutputMediaFile("/Android/data/com.example.drop/notes");
