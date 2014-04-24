@@ -15,17 +15,18 @@ public class Note implements Serializable{
 	private static final long serialVersionUID = 1L;
 	protected static final String TAG = "NOTE";
 	
-	String creator;
-	ArrayList<String> receivers;
+	private String id;
+	private String creator;
+	private ArrayList<String> receivers;
 	
-	String message;
-	File picture;
+	private String message;
+	private File picture;
 	
-	float radius;
-	double lat;
-	double lon;
+	private float radius;
+	private double lat;
+	private double lon;
 	
-	boolean pickedUp;
+	private boolean pickedUp;
 	
 	Note()
 	{
@@ -38,6 +39,17 @@ public class Note implements Serializable{
 		receivers = new ArrayList<String>();
 		picture = p;
 		radius = 50;
+	}
+	
+	//ID get and set
+	public String getId()
+	{
+		return id;
+	}
+		
+	public void setId(String i)
+	{
+		id = i;
 	}
 	
 	//Creator ID get and set
@@ -84,6 +96,12 @@ public class Note implements Serializable{
 	public void setMessage(String msg)
 	{
 		message = msg;
+	}
+	
+	//Get picture file
+	public File getPictureFile()
+	{
+		return picture;
 	}
 	
 	//Bitmap Picture get and set

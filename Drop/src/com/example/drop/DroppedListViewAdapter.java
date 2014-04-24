@@ -52,7 +52,7 @@ public class DroppedListViewAdapter extends BaseAdapter {
 	    
 	    Note note = data.get(position);
 	    
-	    Log.i("DROP_ADAPTER", note.picture.getAbsolutePath());
+	    Log.i("DROP_ADAPTER", note.getPictureFile().getAbsolutePath());
 	    picture.setImageBitmap(note.getPicture(picture.getHeight(), picture.getWidth()));
         
 	    noteText.setText(note.getMessage());
