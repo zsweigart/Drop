@@ -20,13 +20,16 @@ public class Note implements Serializable{
 	
 	String message;
 	File picture;
-	//TODO: Change to parse GeoPoints or Fence
-	String coordinates;
+	
+	float radius;
+	double lat;
+	double lon;
 	
 	boolean pickedUp;
 	
 	Note()
 	{
+		radius = 50;
 	}
 	
 	Note(File p)
@@ -34,7 +37,7 @@ public class Note implements Serializable{
 		creator = Drop.loggedInJSON.toString();
 		receivers = new ArrayList<String>();
 		picture = p;
-		coordinates = "";
+		radius = 50;
 	}
 	
 	//Creator ID get and set
@@ -122,14 +125,34 @@ public class Note implements Serializable{
 	}
 	
 	//Coordinates get and set
-	public String getCoordinates()
+	public float getRadius()
 	{
-		return coordinates;
+		return radius;
 	}
 	
-	public void setCoordinates(String c)
+	public void setRadius(float r)
 	{
-		coordinates = c;
+		radius = r;
+	}
+	
+	public double getLat()
+	{
+		return lat;
+	}
+	
+	public void setLat(double l)
+	{
+		lat = l;
+	}
+	
+	public double getLon()
+	{
+		return lon;
+	}
+	
+	public void setLon(double l)
+	{
+		lon = l;
 	}
 	
 	//Picked up get and set
