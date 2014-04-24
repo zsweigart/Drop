@@ -41,7 +41,7 @@ public class EditNoteScreen extends DrawerActivity implements
 	private Button dropButton;
 	private ArrayList<String> recipients;
 	private Note note;
-	private LocationClient client;
+	private LocationService client;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -52,7 +52,9 @@ public class EditNoteScreen extends DrawerActivity implements
 		FrameLayout frame = (FrameLayout) findViewById(R.id.content_frame);
 		frame.addView(layout);
 
-		client = new LocationClient(this, this, this);
+		//client = new LocationClient(this, this, this);
+		client = new LocationService(this); //** Using the new LocationService
+		
 		recipients = new ArrayList<String>();
 
 		messageEdt = (EditText) findViewById(R.id.edit_note_content);
@@ -142,19 +144,19 @@ public class EditNoteScreen extends DrawerActivity implements
 
 	}
 	
-	@Override
-	public void onStart()
-	{
-		super.onStart();
-		client.connect();
-	}
-	
-	@Override
-	public void onStop()
-	{
-		super.onStop();
-		client.disconnect();
-	}
+//	@Override
+//	public void onStart()
+//	{
+//		super.onStart();
+//		client.connect();
+//	}
+//	
+//	@Override
+//	public void onStop()
+//	{
+//		super.onStop();
+//		client.disconnect();
+//	}
 
 	public void load_note(Note note) {
 		setImage(note.getPicture(thumbnail.getHeight(), thumbnail.getWidth()));
@@ -201,7 +203,9 @@ public class EditNoteScreen extends DrawerActivity implements
 		note.setRecievers(recipients);
 		note.setMessage(messageEdt.getText().toString());
 		note.setPickedUp(false);
-		Location loc = client.getLastLocation();
+		//Location loc = client.getLastLocation();
+		Location loc = client.getLastLocation(); //** Using the new LocationService
+		
 		note.setLon(loc.getLongitude());
 		note.setLat(loc.getLatitude());
 		Intent i = new Intent(EditNoteScreen.this, DropNoteScreen.class);

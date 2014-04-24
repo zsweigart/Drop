@@ -32,7 +32,7 @@ public class SplashScreen extends Activity {
         loggedIn = prefs.getBoolean("loggedIn", false);
         
         
-        startService(new Intent(getApplicationContext(), GeofenceTransitionService.class));
+        //startService(new Intent(getApplicationContext(), GeofenceTransitionService.class));
      
         new Handler().postDelayed(new Runnable() {
  
