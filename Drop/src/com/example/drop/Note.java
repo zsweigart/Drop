@@ -98,6 +98,12 @@ public class Note implements Serializable{
 		message = msg;
 	}
 	
+	//Get picture file
+	public File getPictureFile()
+	{
+		return picture;
+	}
+	
 	//Bitmap Picture get and set
 	public Bitmap getPicture()
 	{
