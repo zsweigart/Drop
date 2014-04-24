@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.Iterator;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -77,7 +80,14 @@ public class DropNoteScreen extends DrawerActivity {
 		            {
 						ParseObject obj = new ParseObject("Note");
 		            	obj.put("creator", note.getCreator().toString());
-		            	String recipient = i.next().toString();
+		            	String recipient = "";
+						try {
+							JSONObject jsonObj = new JSONObject(i.next());
+							Log.i("DROP", jsonObj.toString());
+							recipient = jsonObj.get("facebookId").toString();
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
 		            	obj.put("recipient", recipient);
 		            	obj.put("message", note.getMessage());
 			            obj.put("picture",file);
