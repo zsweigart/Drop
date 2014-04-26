@@ -15,7 +15,7 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapScreen extends DrawerActivity {
+public class MapScreen extends DrawerFragmentActivity {
 	
 	// Google Map
     private GoogleMap googleMap;

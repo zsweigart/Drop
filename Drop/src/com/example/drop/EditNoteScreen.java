@@ -31,7 +31,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-public class EditNoteScreen extends DrawerActivity implements
+public class EditNoteScreen extends DrawerFragmentActivity implements
 		ConnectionCallbacks, OnConnectionFailedListener, LocationListener {// OptionsMenuScreen {
 
 	private EditText recipientsEdt;

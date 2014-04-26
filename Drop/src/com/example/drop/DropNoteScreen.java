@@ -16,7 +16,6 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.SaveCallback;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,7 +23,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 
-public class DropNoteScreen extends DrawerActivity {
+public class DropNoteScreen extends DrawerFragmentActivity {
 	private Note note;
 	private ParseFile file;
 	private Iterator<String> i;
@@ -125,9 +124,7 @@ public class DropNoteScreen extends DrawerActivity {
     	 new Handler().postDelayed(new Runnable() {
     		 
              public void run() {
-            	 Intent i = new Intent(DropNoteScreen.this, DroppedListScreen.class);
-                 startActivity(i);
-
+            	 Drop.currentPage = 2;
                  // close this activity
                  finish();
              }

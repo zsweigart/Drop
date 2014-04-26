@@ -37,7 +37,7 @@ public class GalleryScreen extends FragmentActivity  {
 		//This is where we get the position passed from the SavedListScreen 
 		if(this.getIntent().getExtras() != null)
 		{
-			pos = this.getIntent().getExtras().getInt(SavedListScreen.GRID_ITEM_POS);
+			pos = this.getIntent().getExtras().getInt(SavedListFragment.GRID_ITEM_POS);
 		}
 		//And make the ViewPager item in the same position the current item
 		pager.setCurrentItem(pos);

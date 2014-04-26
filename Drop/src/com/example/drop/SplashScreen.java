@@ -13,11 +13,9 @@ import com.parse.ParseUser;
 
 
 public class SplashScreen extends Activity {
-	boolean loggedIn;
-    // Splash screen timer
-    private static int SPLASH_TIME_OUT = 500;
+	boolean loggedIn;	//Used to determine if user is logged in
+    private static int SPLASH_TIME_OUT = 500;	// Splash screen timer
  
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,10 +27,9 @@ public class SplashScreen extends Activity {
 		//Set default preferences (won't override user preferences)
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
     
-        loggedIn = prefs.getBoolean("loggedIn", false);
+        loggedIn = prefs.getBoolean("loggedIn", false);  
         
-        
-        startService(new Intent(getApplicationContext(), GeofenceTransitionService.class));
+        //startService(new Intent(getApplicationContext(), GeofenceTransitionService.class));
      
         new Handler().postDelayed(new Runnable() {
  
@@ -42,7 +39,7 @@ public class SplashScreen extends Activity {
             	ParseUser currentUser = ParseUser.getCurrentUser();
             	if(loggedIn && (currentUser != null) && ParseFacebookUtils.isLinked(currentUser))
             	{
-	                Intent i = new Intent(SplashScreen.this, CameraScreen.class);
+	                Intent i = new Intent(SplashScreen.this, MainActivity.class);
 	                startActivity(i);
 	 
 	                // close this activity

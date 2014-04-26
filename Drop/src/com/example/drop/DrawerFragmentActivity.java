@@ -1,12 +1,12 @@
 package com.example.drop;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
@@ -18,7 +18,7 @@ import android.widget.ListView;
 
 import com.parse.ParseUser;
 
-public class DrawerActivity extends Activity {
+public class DrawerFragmentActivity extends FragmentActivity {
 	 private DrawerLayout mDrawerLayout;
 	    private ListView mDrawerList;
 	    private ActionBarDrawerToggle mDrawerToggle;
@@ -102,24 +102,28 @@ public class DrawerActivity extends Activity {
 	        switch (position)
 	        {
 	        case 0: 	//leave note
-	        	i = new Intent(getApplicationContext(), CameraScreen.class);
+	        	Drop.currentPage = 1;
+	        	i = new Intent(getApplicationContext(), MainActivity.class);
 	        	i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 	        	startActivity(i);
 	        	break;
 	        case 1:		//dropped
-	        	i = new Intent(getApplicationContext(), DroppedListScreen.class);
+	        	Drop.currentPage = 2;
+	        	i = new Intent(getApplicationContext(), MainActivity.class);
 	        	i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	        	DroppedListFragment.updateDropped = true;
 	        	startActivity(i);
 	        	break;
 	        case 2:		//saved
-	        	i = new Intent(getApplicationContext(), SavedListScreen.class);
+	        	i = new Intent(getApplicationContext(), SavedListFragment.class);
 	        	i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 	        	startActivity(i);
 	        	break;
 	        case 3:		//map
-	        	i = new Intent(getApplicationContext(), MapScreen.class);
+	        	Drop.currentPage = 0;
+	        	i = new Intent(getApplicationContext(), MainActivity.class);
 	        	i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-	        	startActivity(i);
+	        	startActivity(i);;
 	        	break;
 	        case 4:		//settings
 	        	i = new Intent(getApplicationContext(), Settings.class);
