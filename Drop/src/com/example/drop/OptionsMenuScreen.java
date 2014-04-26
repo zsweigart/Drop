@@ -35,14 +35,14 @@ public class OptionsMenuScreen extends Activity {
 	        	 startActivity(new Intent(getApplicationContext(), GalleryScreen.class));
 	        	 return true;
 	         case R.id.saved:
-	        	 startActivity(new Intent(getApplicationContext(), SavedListScreen.class));
+	        	 startActivity(new Intent(getApplicationContext(), SavedListFragment.class));
 	        	 return true;
 	         case R.id.map:
 	        	 startActivity(new Intent(getApplicationContext(), MapScreen.class));
 	        	 return true;
 	         case R.id.drawer:
 	        	 Log.i("OPTION", "DRAWER");
-	        	 startActivity(new Intent(getApplicationContext(), DrawerActivity.class));
+	        	 startActivity(new Intent(getApplicationContext(), DrawerFragmentActivity.class));
 	        	 return true;
 	         case R.id.logout:
 	        	 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);

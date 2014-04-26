@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 
-public class Settings extends DrawerActivity {
+public class Settings extends DrawerFragmentActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
