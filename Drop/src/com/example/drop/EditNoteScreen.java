@@ -32,7 +32,6 @@ public class EditNoteScreen extends DrawerFragmentActivity  {
 	private ImageView thumbnail;
 	private Button dropButton;
 	private ArrayList<String> recipients;
-	private Note note;
 	private LocationService client;
 
 	@Override
@@ -45,14 +44,10 @@ public class EditNoteScreen extends DrawerFragmentActivity  {
 		frame.addView(layout);
 		
 		client = new LocationService(this); //** Using the new LocationService
-		
 		recipients = new ArrayList<String>();
 
 		messageEdt = (EditText) findViewById(R.id.edit_note_content);
-
 		thumbnail = (ImageView) findViewById(R.id.edit_note_thumbnail);
-		if (thumbnail == null)
-			Log.i("EDIT", "NO THUMBNAIL");
 
 		dropButton = (Button) findViewById(R.id.editScreen_drop_button);
 		dropButton.setOnClickListener(new OnClickListener() {
@@ -113,8 +108,7 @@ public class EditNoteScreen extends DrawerFragmentActivity  {
 
 		});
 
-		note = Drop.current_note;
-		load_note(note);
+		load_note(Drop.current_note);
 
 		recipientsEdt = (EditText) findViewById(R.id.recievers);
 		recipientsEdt.setOnFocusChangeListener(new OnFocusChangeListener() {
@@ -176,17 +170,16 @@ public class EditNoteScreen extends DrawerFragmentActivity  {
 	}
 
 	private void createAndDropNote() {
-		note.setCreator(Drop.loggedInJSON.toString());
-		note.setRecievers(recipients);
-		note.setMessage(messageEdt.getText().toString());
-		note.setPickedUp(false);
+		Drop.current_note.setCreator(Drop.loggedInJSON.toString());
+		Drop.current_note.setRecievers(recipients);
+		Drop.current_note.setMessage(messageEdt.getText().toString());
+		Drop.current_note.setPickedUp(false);
 		
 		Location loc = client.getLastLocation(); //** Using the new LocationService
 		
-		note.setLon(loc.getLongitude());
-		note.setLat(loc.getLatitude());
+		Drop.current_note.setLon(loc.getLongitude());
+		Drop.current_note.setLat(loc.getLatitude());
 		Intent i = new Intent(EditNoteScreen.this, DropNoteScreen.class);
-		Drop.current_note = note;
 		startActivity(i);
 
 		// close this activity

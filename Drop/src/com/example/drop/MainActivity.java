@@ -1,5 +1,7 @@
 package com.example.drop;
 
+import java.io.File;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -60,6 +62,14 @@ public class MainActivity extends DrawerFragmentActivity {
     {
     	super.onResume();
     	mPager.setCurrentItem(Drop.currentPage);
+    	if(Drop.current_note != null)
+    	{
+    		if(!Drop.current_note.isDropped())
+    		{
+    			File file = Drop.current_note.getPictureFile();
+    			file.delete();
+    		}
+    	}
     }
 
     public static class MyAdapter extends FragmentPagerAdapter  {
@@ -80,7 +90,8 @@ public class MainActivity extends DrawerFragmentActivity {
         	case 0:
         		return SavedListFragment.init();
         	case 1:
-        		return CameraFragment.init();
+        		//return CameraFragment.init();
+        		return CameraSurfaceFragment.init();
         	default:
         		return DroppedListFragment.init();
         	}

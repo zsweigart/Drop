@@ -27,14 +27,17 @@ public class Note implements Serializable{
 	private double lon;
 	
 	private boolean pickedUp;
+	private boolean isDropped;
 	
 	Note()
 	{
+		isDropped = false;
 		radius = 50;
 	}
 	
 	Note(File p)
 	{
+		isDropped = false;
 		creator = Drop.loggedInJSON.toString();
 		receivers = new ArrayList<String>();
 		picture = p;
@@ -182,5 +185,16 @@ public class Note implements Serializable{
 	public void setPickedUp(boolean up)
 	{
 		pickedUp = up;
+	}
+	
+	//Get and set if it was dropped
+	public boolean isDropped()
+	{
+		return isDropped;
+	}
+	
+	public void setIsDropped(boolean dropped)
+	{
+		isDropped = dropped;
 	}
 }

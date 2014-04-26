@@ -18,7 +18,6 @@ import com.parse.SaveCallback;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -102,6 +101,7 @@ public class DropNoteScreen extends DrawerFragmentActivity {
 			    				numNotes++;
 			    				if(numNotes >= note.getReceivers().size()-1)
 			    				{
+			    					Drop.current_note.setIsDropped(true);
 				    				endActivity();
 			    				}
 			    			}
@@ -121,14 +121,9 @@ public class DropNoteScreen extends DrawerFragmentActivity {
     
     private void endActivity()
     {
-    	 new Handler().postDelayed(new Runnable() {
-    		 
-             public void run() {
-            	 Drop.currentPage = 2;
-                 // close this activity
-                 finish();
-             }
-         }, 500);
+		 Drop.currentPage = 2;
+		 // close this activity
+		 finish();
     }
 
    
