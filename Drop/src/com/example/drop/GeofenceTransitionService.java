@@ -18,7 +18,7 @@ import com.google.android.gms.location.LocationClient;
 public class GeofenceTransitionService extends IntentService{
 	/*
 	 * 1) Listen for Note Geofence entry transitions, and post a notification (that opens the Note in question) when those transitions occur
-	 * 2) Add a Geofence for new Notes (so that the user can see their dropped Notes on the Map) 
+	 * 
 	 */
 
 	
@@ -118,8 +118,10 @@ public class GeofenceTransitionService extends IntentService{
         Intent notificationIntent =
                 new Intent(getApplicationContext(), ViewNoteScreen.class); 
         
-        //Put the 'request id' in the intent
-        notificationIntent.putExtra(getString(R.string.note_id), id);//note_id => requestId of the triggering geofence
+        //Grab the note that we just found from the database and put it in the notification intent
+        //notificationIntent.putExtra(getString(R.string.note_id), id);        //note_id => requestId of the triggering geofence
+        Note justFound = DatabaseConnector.getNoteById(id);
+        notificationIntent.putExtra("com.example.drop.Note", justFound);
 
         // Construct a task stack
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);

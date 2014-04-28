@@ -10,7 +10,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.facebook.Request;
 import com.facebook.Response;
@@ -22,15 +25,20 @@ public class SelectRecipients extends  Activity {
     private ListView list;
     private ArrayList <JSONObject> userlist;
     private RecipientsArrayAdapter adapter;
+    private RelativeLayout listLayout;
+    private TextView listText;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_recipients);
         list = (ListView)findViewById(R.id.recipients_list);
+        listLayout = (RelativeLayout)findViewById(R.id.recipient_display);
+        listText = (TextView)findViewById(R.id.recipients_selected_text);
         list.setFastScrollEnabled(true);
         listItems=new ArrayList<String>();
         userlist=new ArrayList<JSONObject>();
+        listLayout.setVisibility(View.GONE);
         makeMyFriendsRequest();
     }
    
@@ -118,7 +126,7 @@ public class SelectRecipients extends  Activity {
     
     private void setAdapter()
     {
-    	adapter = new RecipientsArrayAdapter(getApplicationContext(), userlist);
+    	adapter = new RecipientsArrayAdapter(getApplicationContext(), userlist, this);
     	list.setAdapter(adapter);
     }
 
@@ -151,4 +159,33 @@ public class SelectRecipients extends  Activity {
 		setResult(RESULT_OK, data);
 		super.finish();
     } 
+	
+	public void updateSelection()
+	{
+		ArrayList <JSONObject> recipients = new ArrayList <JSONObject> ();
+		String selectedUsers = "";
+    	for(int i = 0; i < adapter.getCount(); i++)
+    	{
+    	    try {
+				if (userlist.get(i).getBoolean("checked")){                                          
+				    // Put the value of the id in our list
+				    recipients.add(userlist.get(i)); 
+				    selectedUsers += userlist.get(i).getString("name") + ", ";
+				}
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+    	if(recipients.size() <= 0)
+    	{
+    		listLayout.setVisibility(View.GONE);
+    	}
+    	else
+    	{
+    		selectedUsers = selectedUsers.substring(0, selectedUsers.length()-2);
+    		listLayout.setVisibility(View.VISIBLE);
+    		listText.setText(selectedUsers);
+    	}
+	}
 }

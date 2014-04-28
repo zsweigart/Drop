@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/recipient_list_row"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@drawable/recipient_selector"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp" >
     
     <TextView android:id="@+id/recipients_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp" />
-    
-    <CheckBox android:id="@+id/recipients_checked"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp" />
+        android:layout_marginLeft="10dp"
+        android:textColor="#000000"
+        android:textSize="24sp" />
 
 </RelativeLayout>

@@ -21,10 +21,13 @@ import com.parse.ParseUser;
 
 public class Drop extends Application {
 
-	static final String TAG = "DROP";
-	static ParseUser loggedInUser;
-	static JSONObject loggedInJSON;
-	static Note current_note;
+	static final String TAG = "DROP";	//Used for Logging
+	static final String PICTURE_DIR = "/Android/data/com.example.drop/pictures";
+	static ParseUser loggedInUser;		//Hold the parse information for the logged in user
+	static JSONObject loggedInJSON;		//Holds the facebook information for the logged in user
+	static Note current_note;			//Holds the note about to be dropped
+	static final int CAMERA_INTENT_REQUEST = 1;
+	static int currentPage = 1;
 
 	@Override
 	public void onCreate() {
@@ -36,6 +39,7 @@ public class Drop extends Application {
 		defaultACL.setPublicReadAccess(true);
 		defaultACL.setPublicWriteAccess(true);
 
+		//Connect the app to the Parse backend
 		ParseACL.setDefaultACL(defaultACL, true);
 		Parse.initialize(this, Drop.this.getString(R.string.parse_id),
 				Drop.this.getString(R.string.parse_client_key));
@@ -44,6 +48,7 @@ public class Drop extends Application {
 
 	}
 
+	//Get the Facebook information for the logged in parse user
 	private void makeMeRequest() {
 		Request request = Request.newMeRequest(ParseFacebookUtils.getSession(),
 				new Request.GraphUserCallback() {
@@ -74,11 +79,8 @@ public class Drop extends Application {
 															.getProperty("relationship_status"));
 								}
 								userProfile.put("checked", false);
-								// Now add the data to the UI elements
-								// ...
-
 							} catch (JSONException e) {
-								Log.d("RECIPIENTS",
+								Log.d(TAG,
 										"Error parsing returned user data.");
 							}
 							
@@ -103,11 +105,10 @@ public class Drop extends Application {
 		    } 
 		    
 		    // Create a media file name
-		    String timeStamp = new SimpleDateFormat("ddMMyyyy_HHmm").format(new Date());
+		    String timeStamp = new SimpleDateFormat("ddMMyyyy_HHmm_ssSSS").format(new Date());
 		    File mediaFile;
 		        String mImageName="MI_"+ timeStamp +".jpg";
 		        mediaFile = new File(mediaStorageDir.getPath() + File.separator + mImageName);  
 		    return mediaFile;
 		} 
-
 }

@@ -11,30 +11,61 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.view.ViewGroup;
 import android.widget.ListView;
 
-public class DroppedListScreen extends DrawerActivity {
+public class DroppedListFragment extends Fragment {
 
 	private ProgressDialog progress;
 	private ListView list;
 	private final int LAZY_NUM = 8;
 	private ArrayList<File> files;
+    static boolean updateDropped = false;
+	
+	static Fragment init() {
+		DroppedListFragment droppedFrag = new DroppedListFragment();
+        Bundle args = new Bundle();
+        droppedFrag.setArguments(args);
+        return droppedFrag;
+    }
 	
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+	      Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		View layout = getLayoutInflater().inflate(
-				R.layout.activity_dropped_list_screen, null);
-		FrameLayout frame = (FrameLayout) findViewById(R.id.content_frame);
-		frame.addView(layout);
-		
-		new LoadDroppedNotesAsyncTask().execute();
+		View layout = inflater.inflate(
+				R.layout.activity_dropped_list_screen, container, false);
         
-        list = (ListView) findViewById(R.id.droppped_list_view_list);
+        list = (ListView) layout.findViewById(R.id.droppped_list_view_list);
+        return layout;
+	}
+	
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		if(updateDropped)
+		{
+			updateList();
+			updateDropped = false;
+		}
+	}
+	
+	@Override
+	public void onPause()
+	{
+		super.onPause();
+		System.gc();
+	}
+	
+	public void updateList()
+	{
+		new LoadDroppedNotesAsyncTask().execute();
 	}
 
 	private class LoadDroppedNotesAsyncTask extends
@@ -42,7 +73,7 @@ public class DroppedListScreen extends DrawerActivity {
 
 		@Override
 		protected void onPreExecute() {
-			progress = new ProgressDialog(DroppedListScreen.this);
+			progress = new ProgressDialog(getActivity());
 			progress.setTitle("Loading");
 			progress.setMessage("Wait while loading...");
 			progress.show();
@@ -102,7 +133,7 @@ public class DroppedListScreen extends DrawerActivity {
 	        super.onPostExecute(result);
 	        Log.i("DROPPED_LIST", "ON POST EXECUTE "+result.size());
 	        progress.dismiss();
-	        DroppedListViewAdapter adapter = new DroppedListViewAdapter(DroppedListScreen.this, result);
+	        DroppedListViewAdapter adapter = new DroppedListViewAdapter(getActivity(), result);
 	        list.setAdapter(adapter);
 	    }
 
