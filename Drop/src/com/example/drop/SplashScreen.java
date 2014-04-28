@@ -27,11 +27,7 @@ public class SplashScreen extends Activity {
 		//Set default preferences (won't override user preferences)
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
     
-        loggedIn = prefs.getBoolean("loggedIn", false);         
-
-        
-        //startService(new Intent(getApplicationContext(), GeofenceTransitionService.class));
-     
+        loggedIn = prefs.getBoolean("loggedIn", false);          
 
         new Handler().postDelayed(new Runnable() {
  
@@ -43,8 +39,7 @@ public class SplashScreen extends Activity {
             	{
 
             		//Hopefully, this will grab your new notes and register geofences for them
-            		startService(new Intent(getApplicationContext(), GeofenceRegistrationService.class));
-            		startService(new Intent(getApplicationContext(), GeofenceTransitionService.class));
+            		startService(new Intent(getApplicationContext(), GeofenceRegistrationService.class));            		
             	     
 	                Intent i = new Intent(SplashScreen.this, MainActivity.class);
 
