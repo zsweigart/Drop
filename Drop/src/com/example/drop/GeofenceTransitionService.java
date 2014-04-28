@@ -26,7 +26,7 @@ public class GeofenceTransitionService extends IntentService{
      * Sets an identifier for this class' background thread
      */
     public GeofenceTransitionService() {
-        super("LocationService");
+        super("GeofenceTransitionService");
     }
 
     /**
@@ -114,7 +114,7 @@ public class GeofenceTransitionService extends IntentService{
      */
     private void sendNotification(String transitionType, String id) {
 
-        // Create an explicit content Intent that starts the main Activity
+        // Create an explicit content Intent that starts the ViewNoteScreen Activity
         Intent notificationIntent =
                 new Intent(getApplicationContext(), ViewNoteScreen.class); 
         //Put the 'request id' in the intent

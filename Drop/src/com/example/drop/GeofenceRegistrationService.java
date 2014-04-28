@@ -10,6 +10,7 @@ import com.google.android.gms.location.Geofence;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.util.Log;
 
 public class GeofenceRegistrationService extends IntentService {
 
@@ -35,9 +36,10 @@ public class GeofenceRegistrationService extends IntentService {
 		if (GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext()) == 1)
 		{
 			List<Geofence> newGeofences = new ArrayList<Geofence>();
-			//For each note we want to register with 
+			//For each note we want to register with Google Play Services 
 			for (Note newNote : newNotes)
 			{
+				Log.d("GeofenceRegistrationService", "New Note Registerd! "+newNote.getId());
 				//Create a Geofence object with the values from the new Note
 				newGeofences.add(new SimpleGeofence(newNote.getId(),
 													newNote.getLat(),
