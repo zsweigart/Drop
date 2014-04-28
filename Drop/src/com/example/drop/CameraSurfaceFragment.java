@@ -39,7 +39,7 @@ public class CameraSurfaceFragment extends Fragment {
 		view = inflater.inflate(R.layout.fragment_camera_surface, container,
 				false);
 		
-		isBack = false;
+		isBack = true;
 
 		setCamera();
 
