@@ -24,14 +24,16 @@ public class GeofenceRegistrationService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		// TODO Auto-generated method stub		
+		// TODO Auto-generated method stub	
+		String fbId = intent.getStringExtra("facebookId");
 		
-		try {
-			newNotes = DatabaseConnector.getNewNotes(Drop.loggedInJSON.getString("facebookId"));
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//try {
+			Log.d("GEOFENCE_REGISTRATION", fbId);
+			newNotes = DatabaseConnector.getNewNotes(fbId);
+//		} catch (JSONException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 		if (GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext()) == 1)
 		{

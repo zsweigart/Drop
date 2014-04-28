@@ -1,5 +1,7 @@
 package com.example.drop;
 
+import org.json.JSONException;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -37,10 +39,6 @@ public class SplashScreen extends Activity {
             	ParseUser currentUser = ParseUser.getCurrentUser();
             	if(loggedIn && (currentUser != null) && ParseFacebookUtils.isLinked(currentUser))
             	{
-
-            		//Hopefully, this will grab your new notes and register geofences for them
-            		startService(new Intent(getApplicationContext(), GeofenceRegistrationService.class));            		
-            	     
 	                Intent i = new Intent(SplashScreen.this, MainActivity.class);
 
 	                startActivity(i);
