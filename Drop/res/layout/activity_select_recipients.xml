@@ -3,11 +3,47 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <ListView android:id="@+id/recipients_list"
+    <ListView
+        android:id="@+id/recipients_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         tools:context=".SelectRecipients" />
+
+    <RelativeLayout
+        android:id="@+id/recipient_display"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/dropBlue" >
+
+        <Button
+            android:id="@+id/recipients_select_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/next_icon" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/recipients_select_btn" >
+
+            <TextView
+                android:id="@+id/recipients_selected_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:ellipsize="none"
+                android:maxLines="100"
+                android:scrollHorizontally="false"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+        </ScrollView>
+    </RelativeLayout>
 
 </RelativeLayout>

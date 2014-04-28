@@ -9,14 +9,14 @@ import java.util.Set;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.RelativeLayout;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
@@ -25,12 +25,14 @@ public class RecipientsArrayAdapter extends ArrayAdapter<JSONObject> implements 
 	  private final ArrayList<JSONObject> values;
 	  HashMap<String, Integer> alphaIndexer;
       String[] sections;
-	  CheckBox checkBoxView;
+	  RelativeLayout recipientRow;
+	  private Activity parentActivity;
 
-	  public RecipientsArrayAdapter(Context context, ArrayList<JSONObject> listItems) {
+	  public RecipientsArrayAdapter(Context context, ArrayList<JSONObject> listItems, Activity parent) {
 	    super(context, R.layout.recipients_listview_item, listItems);
 	    this.context = context;
 	    this.values = listItems;
+	    parentActivity = parent;
 	    
 	    alphaIndexer = new HashMap<String, Integer>();
         // in this hashmap we will store here the positions for the sections
@@ -81,12 +83,18 @@ public class RecipientsArrayAdapter extends ArrayAdapter<JSONObject> implements 
 	        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	    View rowView = inflater.inflate(R.layout.recipients_listview_item, parent, false);
 	    TextView textView = (TextView) rowView.findViewById(R.id.recipients_name);
-	    checkBoxView = (CheckBox) rowView.findViewById(R.id.recipients_checked);
+	    recipientRow = (RelativeLayout) rowView.findViewById(R.id.recipient_list_row);
 	    final int loc = position;
-	    checkBoxView.setOnCheckedChangeListener(new OnCheckedChangeListener(){
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
-				if(isChecked)
+	    recipientRow.setOnClickListener(new OnClickListener(){
+			public void onClick(View arg0) {
+				boolean isSelected = false;
+				try {
+					isSelected = values.get(loc).getBoolean("checked");
+				} catch (JSONException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				if(!isSelected)
 				{
 					try {
 						values.get(loc).put("checked",true);
@@ -104,6 +112,8 @@ public class RecipientsArrayAdapter extends ArrayAdapter<JSONObject> implements 
 						e.printStackTrace();
 					}
 				}
+				
+				((SelectRecipients)parentActivity).updateSelection();
 			}
 	    	
 	    });
