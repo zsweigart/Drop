@@ -117,8 +117,9 @@ public class GeofenceTransitionService extends IntentService{
         // Create an explicit content Intent that starts the ViewNoteScreen Activity
         Intent notificationIntent =
                 new Intent(getApplicationContext(), ViewNoteScreen.class); 
+        
         //Put the 'request id' in the intent
-        notificationIntent.putExtra(getString(R.string.note_id), id);
+        notificationIntent.putExtra(getString(R.string.note_id), id);//note_id => requestId of the triggering geofence
 
         // Construct a task stack
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
