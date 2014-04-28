@@ -29,6 +29,7 @@ public class DrawScreen extends Activity {
 	DrawingWidget background; //Allows the picture to be drawn on
 	File pictureFile; // Points to the file created with the picture by the
 						// camera
+	boolean isBack;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,7 @@ public class DrawScreen extends Activity {
 		// Get the location of the picture
 		Intent i = getIntent();
 		pictureFile = (File) i.getSerializableExtra("image");
+		isBack = i.getBooleanExtra("isBack", false);
 		Log.i(TAG, pictureFile.toString());
 
 		background = (DrawingWidget) findViewById(R.id.background_picture);
@@ -145,6 +147,7 @@ public class DrawScreen extends Activity {
 			b = null;
 			System.gc();
 		}
+
 
 		b = BitmapFactory.decodeFile(pictureFile.toString());
 		Log.i(TAG, b.getWidth() + " x " + b.getHeight());
