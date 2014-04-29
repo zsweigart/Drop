@@ -4,13 +4,16 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 import android.content.Intent;
+import android.graphics.Point;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +41,7 @@ public class CameraSurfaceFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 		view = inflater.inflate(R.layout.fragment_camera_surface, container,
 				false);
-		
+
 		isBack = true;
 
 		setCamera();
@@ -48,7 +51,8 @@ public class CameraSurfaceFragment extends Fragment {
 		captureButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) { // get an image from the camera
 				Drop.current_note = new Note();
-				Drop.current_note.setPicture(Drop.getOutputMediaFile("/Android/data/com.example.drop/pictures"));
+				Drop.current_note.setPicture(Drop
+						.getOutputMediaFile("/Android/data/com.example.drop/pictures"));
 				mCamera.takePicture(null, null, mPicture);
 			}
 		});
@@ -66,11 +70,9 @@ public class CameraSurfaceFragment extends Fragment {
 					System.gc();
 				}
 				isBack = !isBack;
-
 				setCamera();
 			}
 		});
-		swapButton.setVisibility(View.GONE);
 
 		return view;
 	}
@@ -90,19 +92,17 @@ public class CameraSurfaceFragment extends Fragment {
 
 		public void onPictureTaken(byte[] data, Camera camera) {
 			File pictureFile = Drop.current_note.getPictureFile();
-			if(!isBack)
-			{
-				/*Matrix matrix = new Matrix();
-				matrix.preScale(1.0f, 1.0f);
-				Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
-				Bitmap bm = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
-				bmp = null;
-				System.gc();
-				ByteArrayOutputStream stream = new ByteArrayOutputStream();
-				bm.compress(Bitmap.CompressFormat.PNG, 100, stream);
-				data = stream.toByteArray();
-				bm = null;
-				System.gc();*/
+			if (!isBack) {
+				/*
+				 * Matrix matrix = new Matrix(); matrix.preScale(1.0f, 1.0f);
+				 * Bitmap bmp = BitmapFactory.decodeByteArray(data, 0,
+				 * data.length); Bitmap bm = Bitmap.createBitmap(bmp, 0, 0,
+				 * bmp.getWidth(), bmp.getHeight(), matrix, true); bmp = null;
+				 * System.gc(); ByteArrayOutputStream stream = new
+				 * ByteArrayOutputStream();
+				 * bm.compress(Bitmap.CompressFormat.PNG, 100, stream); data =
+				 * stream.toByteArray(); bm = null; System.gc();
+				 */
 			}
 
 			try {
@@ -115,7 +115,7 @@ public class CameraSurfaceFragment extends Fragment {
 				Log.d(TAG, "Error accessing file: " + e.getMessage());
 			}
 			Intent i = new Intent(getActivity(), DrawScreen.class);
-			i.putExtra("image", Drop.current_note.getPictureFile());
+			i.putExtra("image", pictureFile);
 			i.putExtra("isBack", isBack);
 			startActivity(i);
 		}
@@ -126,7 +126,7 @@ public class CameraSurfaceFragment extends Fragment {
 		super.onResume();
 
 		if (mCamera == null) {
-			Log.i("CAMERA", "OPENING");
+			Log.i(TAG, "OPENING");
 			setCamera();
 		}
 
@@ -146,69 +146,66 @@ public class CameraSurfaceFragment extends Fragment {
 		// Create an instance of Camera
 		Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
 		int cameraCount = Camera.getNumberOfCameras();
-		Log.i("CAMERA", "count = " + cameraCount);
-		Log.i("CAMERA", "isBack = " + isBack);
+		Log.i(TAG, "count = " + cameraCount);
+		Log.i(TAG, "isBack = " + isBack);
 		int id = 0;
 
-		if (isBack) {
-			for (int camIdx = 0; camIdx < cameraCount; camIdx++) {
-				Camera.getCameraInfo(camIdx, cameraInfo);
-				Log.i("CAMERA", "cameraInfoFacing = " + cameraInfo.facing);
-				if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
-					try {
-						Log.i("CAMERA", "SETTING mCamera");
-						mCamera = Camera.open(camIdx);
-						id = camIdx;
-					} catch (RuntimeException e) {
-						Log.e(TAG,
-								"Camera failed to open: "
-										+ e.getLocalizedMessage());
-					}
-					break;
+		for (int camIdx = 0; camIdx < cameraCount; camIdx++) {
+			Camera.getCameraInfo(camIdx, cameraInfo);
+			Log.i(TAG, "cameraInfoFacing = " + cameraInfo.facing);
+			if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK
+					&& isBack) {
+				try {
+					Log.i(TAG, "SETTING mCamera");
+					mCamera = Camera.open(camIdx);
+					id = camIdx;
+				} catch (RuntimeException e) {
+					Log.e(TAG,
+							"Camera failed to open: " + e.getLocalizedMessage());
 				}
+				break;
+			} else if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT
+					&& !isBack){
+				try {
+					Log.i(TAG, "SETTING mCamera");
+					mCamera = Camera.open(camIdx);
+					id = camIdx;
+				} catch (RuntimeException e) {
+					Log.e(TAG,
+							"Camera failed to open: " + e.getLocalizedMessage());
+				}
+				break;
 			}
+		}
 
-			if (mCamera != null) {
+		if (mCamera != null) {
+			Camera.Parameters cameraParameters = mCamera.getParameters();
+			Display display = getActivity().getWindowManager().getDefaultDisplay();
+			Point size = new Point();
+			display.getSize(size);
+			int screenWidth = size.x;
+			int width = Integer.MAX_VALUE;
+			int height = 0;
+			Log.i(TAG, "SCREENWIDTH: " + screenWidth);
+			List<Camera.Size> sizes = cameraParameters.getSupportedPreviewSizes();
+			for (Camera.Size cSize : sizes) {
+				if (cSize.width >= screenWidth && cSize.width <= width) {
+					width = cSize.width;
+					height = cSize.height;
+				}
+			}
+			
+			Log.i(TAG, "Width: " + width + "    HEIGHT: " + height);
 
-				if (mPreview != null) {
-					mPreview.switchCamera(mCamera, id);
-				} else {
-					mPreview = new CameraPreview(getActivity(), mCamera, id);
-					FrameLayout preview = (FrameLayout) view
-							.findViewById(R.id.camera_preview);
-					preview.addView(mPreview);
-				}
-				mCamera.startPreview();
+			if (mPreview != null) {
+				mPreview.switchCamera(mCamera, id, width, height);
+			} else {
+				mPreview = new CameraPreview(getActivity(), mCamera, id, width, height);
+				FrameLayout preview = (FrameLayout) view
+						.findViewById(R.id.camera_preview);
+				preview.addView(mPreview);
 			}
-		} else {
-			for (int camIdx = 0; camIdx < cameraCount; camIdx++) {
-				Camera.getCameraInfo(camIdx, cameraInfo);
-				Log.i("CAMERA", "cameraInfoFacing = " + cameraInfo.facing);
-				if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-					try {
-						Log.i("CAMERA", "SETTING mCamera");
-						mCamera = Camera.open(camIdx);
-						id = camIdx;
-					} catch (RuntimeException e) {
-						Log.e(TAG,
-								"Camera failed to open: "
-										+ e.getLocalizedMessage());
-					}
-					break;
-				}
-			}
-
-			if (mCamera != null) {
-				if (mPreview != null) {
-					mPreview.switchCamera(mCamera, id);
-				} else {
-					mPreview = new CameraPreview(getActivity(), mCamera, id);
-					FrameLayout preview = (FrameLayout) view
-							.findViewById(R.id.camera_preview);
-					preview.addView(mPreview);
-				}
-				mCamera.startPreview();
-			}
+			mCamera.startPreview();
 		}
 	}
 }

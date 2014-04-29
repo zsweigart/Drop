@@ -18,13 +18,17 @@ public class CameraPreview extends SurfaceView implements
 	private Camera mCamera;
 	private Context mContext;
 	private int CAM_ID;
+	private int height;
+	private int width;
 
 	@SuppressWarnings("deprecation")
-	public CameraPreview(Context context, Camera camera, int id) {
+	public CameraPreview(Context context, Camera camera, int id, int w, int h) {
 		super(context);
 		mCamera = camera;
 		mContext = context;
 		CAM_ID = id;
+		width = w;
+		height = h;
 
 		// Install a SurfaceHolder.Callback so we get notified when the
 		// underlying surface is created and destroyed.
@@ -136,8 +140,11 @@ public class CameraPreview extends SurfaceView implements
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}		
 		Camera.Parameters cameraParameters = mCamera.getParameters();
+
+		Log.i(TAG, "Width: " + width + "    HEIGHT: " + height);
+		cameraParameters.setPictureSize(width, height);
 		cameraParameters.setPictureFormat(ImageFormat.JPEG);
 		cameraParameters.set("orientation", "portrait");
 		cameraParameters.setRotation(result);
@@ -157,6 +164,15 @@ public class CameraPreview extends SurfaceView implements
 
 		setCameraParams(mHolder);
 	}
+	
+	public void setCamera(Camera camera, int id, int w, int h) {
+		mCamera = camera;
+		CAM_ID = id;
+		height = h;
+		width = w;
+
+		setCameraParams(mHolder);
+	}
 
 	public void switchCamera(Camera camera) {
 		setCamera(camera);
@@ -169,6 +185,15 @@ public class CameraPreview extends SurfaceView implements
 
 	public void switchCamera(Camera camera, int id) {
 		setCamera(camera, id);
+		try {
+			camera.setPreviewDisplay(mHolder);
+		} catch (IOException exception) {
+			Log.e(TAG, "IOException caused by setPreviewDisplay()", exception);
+		}
+	}
+	
+	public void switchCamera(Camera camera, int id, int w, int h) {
+		setCamera(camera, id, w, h);
 		try {
 			camera.setPreviewDisplay(mHolder);
 		} catch (IOException exception) {
