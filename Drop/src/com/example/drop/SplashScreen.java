@@ -1,5 +1,7 @@
 package com.example.drop;
 
+import org.json.JSONException;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -27,10 +29,8 @@ public class SplashScreen extends Activity {
 		//Set default preferences (won't override user preferences)
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
     
-        loggedIn = prefs.getBoolean("loggedIn", false);  
-        
-        //startService(new Intent(getApplicationContext(), GeofenceTransitionService.class));
-     
+        loggedIn = prefs.getBoolean("loggedIn", false);          
+
         new Handler().postDelayed(new Runnable() {
  
             public void run() {
@@ -40,6 +40,7 @@ public class SplashScreen extends Activity {
             	if(loggedIn && (currentUser != null) && ParseFacebookUtils.isLinked(currentUser))
             	{
 	                Intent i = new Intent(SplashScreen.this, MainActivity.class);
+
 	                startActivity(i);
 	 
 	                // close this activity

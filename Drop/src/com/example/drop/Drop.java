@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Application;
+import android.content.Intent;
 import android.os.Environment;
 import android.util.Log;
 
@@ -22,6 +23,7 @@ import com.parse.ParseUser;
 public class Drop extends Application {
 
 	static final String TAG = "DROP";	//Used for Logging
+	static final String PICTURE_DIR = "/Android/data/com.example.drop/pictures";
 	static ParseUser loggedInUser;		//Hold the parse information for the logged in user
 	static JSONObject loggedInJSON;		//Holds the facebook information for the logged in user
 	static Note current_note;			//Holds the note about to be dropped
@@ -44,6 +46,7 @@ public class Drop extends Application {
 				Drop.this.getString(R.string.parse_client_key));
 		ParseFacebookUtils.initialize(Drop.this.getString(R.string.app_id));
 		makeMeRequest();
+		
 
 	}
 
@@ -84,6 +87,17 @@ public class Drop extends Application {
 							}
 							
 							loggedInJSON = userProfile;
+							
+							//Hopefully, this will grab your new notes and register geofences for them
+							Intent regServiceIntent = new Intent(getApplicationContext(), GeofenceRegistrationService.class);
+							try {
+								regServiceIntent.putExtra("facebookId", loggedInJSON.getString("facebookId"));
+							} catch (JSONException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							
+							startService(regServiceIntent);
 						}
 					}
 				});

@@ -51,8 +51,7 @@ public class CameraSurfaceFragment extends Fragment {
 		captureButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) { // get an image from the camera
 				Drop.current_note = new Note();
-				Drop.current_note.setPicture(Drop
-						.getOutputMediaFile("/Android/data/com.example.drop/pictures"));
+				Drop.current_note.setPicture(Drop.getOutputMediaFile(Drop.PICTURE_DIR));
 				mCamera.takePicture(null, null, mPicture);
 			}
 		});
