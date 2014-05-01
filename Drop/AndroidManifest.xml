@@ -36,6 +36,9 @@
          <service
             android:name=".GeofenceRegistrationService"
             android:exported="false" />
+         <service
+            android:name=".DropNoteService"
+            android:exported="false" />
 
         <activity
             android:name=".SplashScreen"

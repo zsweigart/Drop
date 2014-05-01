@@ -23,6 +23,13 @@ public class BounceView extends ImageView {
 		h = new Handler();
 
 	}
+	
+	public BounceView(Context context) {
+		super(context);
+		mContext = context;
+		h = new Handler();
+
+	}
 
 	private Runnable r = new Runnable() {
 		public void run() {
