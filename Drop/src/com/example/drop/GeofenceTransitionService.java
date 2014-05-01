@@ -21,6 +21,7 @@ public class GeofenceTransitionService extends IntentService{
 	 * 
 	 */
 
+	private static String TAG = "GeofenceTransitionService";
 	
 	/**
      * Sets an identifier for this class' background thread
@@ -84,7 +85,7 @@ public class GeofenceTransitionService extends IntentService{
                 for (int index = 0; index < geofences.size() ; index++) { 
                 	String id = geofences.get(index).getRequestId();
                     String transitionType = getTransitionString(transition);
-                	
+                	Log.d(TAG, transitionType+" geofence "+id);
                     sendNotification(transitionType, id);
                     
                     // Log the transition type and a message
