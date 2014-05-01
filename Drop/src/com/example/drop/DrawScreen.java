@@ -87,7 +87,7 @@ public class DrawScreen extends Activity {
 			public void onClick(View arg0) {
 				try {
 					FileOutputStream fos = new FileOutputStream(pictureFile);
-					background.getBitmap().compress(Bitmap.CompressFormat.PNG,
+					background.getBitmap().compress(Bitmap.CompressFormat.JPEG,
 							75, fos);
 					fos.close();
 				} catch (FileNotFoundException e) {
@@ -160,13 +160,31 @@ public class DrawScreen extends Activity {
 					background.getWidth(), true);
 			Matrix matrix = new Matrix();
 			matrix.postRotate(90);
+			if(!isBack)
+			{
+				float[] mirrorY = { -1, 0, 0, 0, 1, 0, 0, 0, -1};
+	            Matrix matrixMirrorY = new Matrix();
+	            matrixMirrorY.setValues(mirrorY);
+	            matrix.postConcat(matrixMirrorY);
+
+			}
 			b = Bitmap.createBitmap(b, 0, 0, b.getWidth(), b.getHeight(),
 					matrix, true);
 		} else {
 			Log.i("DRAW",
 					background.getHeight() + " x " + background.getWidth());
-			b = Bitmap.createScaledBitmap(b, background.getWidth(),
+			if(!isBack)
+			{
+	            Matrix matrix = new Matrix();
+	            matrix.postScale(-1.0f, -1.0f);
+	            b = Bitmap.createBitmap(b, 0, 0, b.getWidth(), b.getHeight(),
+						matrix, true);
+			}
+			else
+			{
+				b = Bitmap.createScaledBitmap(b, background.getWidth(),
 					background.getHeight(), true);
+			}
 		}
 
 		Log.i(TAG, b.getWidth() + " x " + b.getHeight());

@@ -11,6 +11,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -27,6 +29,7 @@ public class SelectRecipients extends  Activity {
     private RecipientsArrayAdapter adapter;
     private RelativeLayout listLayout;
     private TextView listText;
+    private Button backButton;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,14 @@ public class SelectRecipients extends  Activity {
         listItems=new ArrayList<String>();
         userlist=new ArrayList<JSONObject>();
         listLayout.setVisibility(View.GONE);
+        backButton = (Button)findViewById(R.id.recipients_select_btn);
+        backButton.setOnClickListener(new OnClickListener(){
+
+			public void onClick(View arg0) {
+				finish();				
+			}
+        	
+        });
         makeMyFriendsRequest();
     }
    

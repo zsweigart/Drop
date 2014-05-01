@@ -19,6 +19,12 @@ public class MainActivity extends DrawerFragmentActivity {
     static final int ITEMS = 3;
     MyAdapter mAdapter;
     ViewPager mPager;
+    
+    static MainActivity init()
+    {
+    	MainActivity activity = new MainActivity();
+    	return activity;
+    }
  
     @Override
     protected void onCreate(Bundle savedInstanceState) {

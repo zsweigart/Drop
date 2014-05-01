@@ -26,6 +26,6 @@
         android:layout_gravity="center"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/swap_icon" />
+        android:background="@drawable/camera_flip_icon" />
 
 </RelativeLayout>
