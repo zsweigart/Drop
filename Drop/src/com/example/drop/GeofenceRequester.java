@@ -317,7 +317,7 @@ OnConnectionFailedListener {
 
             try {
                 // Start an Activity that tries to resolve the error
-                connectionResult.startResolutionForResult(mActivity,
+                connectionResult.startResolutionForResult(,
                 		LocationUtils.CONNECTION_FAILURE_RESOLUTION_REQUEST);
 
             /*
