@@ -1,57 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+<RelativeLayout 
+    android:id="@+id/viewNoteRelativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:maxHeight="800dp"
-        android:maxWidth="600dp"
+        android:id="@+id/view_note_thumbnail"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:visibility="gone"
+        android:visibility="visible"
         android:src="@drawable/ic_action_search"
-        android:contentDescription="@string/thumbnail" />
+        android:contentDescription="@string/app_name" />
 
     <TextView
-        android:id="@+id/Note_label"
+        android:id="@+id/view_note_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/imageView"
+        android:layout_below="@id/view_note_thumbnail"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
         android:text="@string/note"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView
-        android:id="@+id/Note_content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/Note_label"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="8dp"  />
+     <viewText
+         android:id="@+id/view_note_content"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/view_note_label"
+         android:layout_centerVertical="true"
+         android:layout_marginLeft="8dp"
+         android:layout_marginTop="5dp"
+         android:maxLength="140"
+         android:inputType="textMultiLine" />
 
     <TextView
-        android:id="@+id/to"
+        android:id="@+id/view_note_from"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/Note_content"
+        android:layout_below="@id/view_note_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/from"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <viewText
+        android:id="@+id/view_note_sender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/view_note_from"
+        android:layout_below="@+id/view_note_from"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/nobody"
+        android:inputType="text" />
+    
+    <TextView
+        android:id="@+id/view_note_to"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_note_content"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
         android:text="@string/to"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView
-        android:id="@+id/recievers"
+    <viewText
+        android:id="@+id/view_note_reciever"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/to"
-        android:layout_below="@+id/to"
+        android:layout_alignLeft="@+id/view_note_to"
+        android:layout_below="@+id/view_note_to"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="5dp" />
-
+        android:layout_marginTop="5dp"
+        android:text="@string/nobody"
+        android:inputType="text" />
+    
 </RelativeLayout>
+
+</ScrollView>

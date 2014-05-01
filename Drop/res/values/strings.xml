@@ -52,6 +52,7 @@
     <string name="Login">Log In</string>
     <string name="note">Note</string>
     <string name="to">To:</string>
+    <string name="from">From:</string>
     <string name="nobody">Nobody</string>
 
     <!-- Preferences -->

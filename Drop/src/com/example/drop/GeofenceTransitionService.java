@@ -14,171 +14,211 @@ import android.util.Log;
 
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.LocationClient;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
-public class GeofenceTransitionService extends IntentService{
+public class GeofenceTransitionService extends IntentService {
 	/*
-	 * 1) Listen for Note Geofence entry transitions, and post a notification (that opens the Note in question) when those transitions occur
-	 * 
+	 * 1) Listen for Note Geofence entry transitions, and post a notification
+	 * (that opens the Note in question) when those transitions occur
 	 */
 
 	private static String TAG = "GeofenceTransitionService";
-	
+
 	/**
-     * Sets an identifier for this class' background thread
-     */
-    public GeofenceTransitionService() {
-        super("GeofenceTransitionService");
-    }
+	 * Sets an identifier for this class' background thread
+	 */
+	public GeofenceTransitionService() {
+		super("GeofenceTransitionService");
+	}
 
-    /**
-     * Handles incoming intents
-     * @param intent The Intent sent by Location Services. This Intent is provided
-     * to Location Services (inside a PendingIntent) when you call addGeofences()
-     */
-    @Override
-    protected void onHandleIntent(Intent intent) {
+	/**
+	 * Handles incoming intents
+	 * 
+	 * @param intent
+	 *            The Intent sent by Location Services. This Intent is provided
+	 *            to Location Services (inside a PendingIntent) when you call
+	 *            addGeofences()
+	 */
+	@Override
+	protected void onHandleIntent(Intent intent) {
 
-        // Create a local broadcast Intent
-        Intent broadcastIntent = new Intent();
+		// Create a local broadcast Intent
+		Intent broadcastIntent = new Intent();
 
-        // Give it the category for all intents sent by the Intent Service
-        broadcastIntent.addCategory(LocationUtils.CATEGORY_LOCATION_SERVICES);
+		// Give it the category for all intents sent by the Intent Service
+		broadcastIntent.addCategory(LocationUtils.CATEGORY_LOCATION_SERVICES);
 
-        // First check for errors
-        if (LocationClient.hasError(intent)) {
+		// First check for errors
+		if (LocationClient.hasError(intent)) {
 
-            // Get the error code
-            int errorCode = LocationClient.getErrorCode(intent);
+			// Get the error code
+			int errorCode = LocationClient.getErrorCode(intent);
 
-            // Get the error message
-            String errorMessage = LocationServiceErrorMessages.getErrorString(this, errorCode);
+			// Get the error message
+			String errorMessage = LocationServiceErrorMessages.getErrorString(
+					this, errorCode);
 
-            // Log the error
-            Log.e(LocationUtils.APPTAG,
-                    getString(R.string.geofence_transition_error_detail, errorMessage)
-            );
+			// Log the error
+			Log.e(LocationUtils.APPTAG,
+					getString(R.string.geofence_transition_error_detail,
+							errorMessage));
 
-            // Set the action and error message for the broadcast intent
-            broadcastIntent.setAction(LocationUtils.ACTION_GEOFENCE_ERROR)
-                           .putExtra(LocationUtils.EXTRA_GEOFENCE_STATUS, errorMessage);
+			// Set the action and error message for the broadcast intent
+			broadcastIntent
+					.setAction(LocationUtils.ACTION_GEOFENCE_ERROR)
+					.putExtra(LocationUtils.EXTRA_GEOFENCE_STATUS, errorMessage);
 
-            // Broadcast the error *locally* to other components in this app
-            LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent);
+			// Broadcast the error *locally* to other components in this app
+			LocalBroadcastManager.getInstance(this).sendBroadcast(
+					broadcastIntent);
 
-        // If there's no error, get the transition type and create a notification
-        } else {
+			// If there's no error, get the transition type and create a
+			// notification
+		} else {
 
-            // Get the type of transition (entry or exit)
-            int transition = LocationClient.getGeofenceTransition(intent);
+			// Get the type of transition (entry or exit)
+			int transition = LocationClient.getGeofenceTransition(intent);
 
-            // Test that a valid transition was reported
-            if (
-                    (transition == Geofence.GEOFENCE_TRANSITION_ENTER)
-                    ||
-                    (transition == Geofence.GEOFENCE_TRANSITION_EXIT)
-               ) {
+			// Test that a valid transition was reported
+			if ((transition == Geofence.GEOFENCE_TRANSITION_ENTER)
+					|| (transition == Geofence.GEOFENCE_TRANSITION_EXIT)) {
 
-                // Post a notification
-                List<Geofence> geofences = LocationClient.getTriggeringGeofences(intent);
-                
-                //Each triggering geofence creates a new notification
-                for (int index = 0; index < geofences.size() ; index++) { 
-                	String id = geofences.get(index).getRequestId();
-                    String transitionType = getTransitionString(transition);
-                	Log.d(TAG, transitionType+" geofence "+id);
-                    sendNotification(transitionType, id);
-                    
-                    // Log the transition type and a message
-                    Log.d(LocationUtils.APPTAG,
-                            getString(
-                                    R.string.geofence_transition_notification_title,
-                                    transitionType,
-                                    id));
-                    Log.d(LocationUtils.APPTAG,
-                            getString(R.string.geofence_transition_notification_text));
-                }                
+				// Post a notification
+				List<Geofence> geofences = LocationClient
+						.getTriggeringGeofences(intent);
 
-            // An invalid transition was reported
-            } else {
-                // Always log as an error
-                Log.e(LocationUtils.APPTAG,
-                        getString(R.string.geofence_transition_invalid_type, transition));
-            }
-        }
-    }
+				// Each triggering geofence creates a new notification
+				for (int index = 0; index < geofences.size(); index++) {
+					String id = geofences.get(index).getRequestId();
+					String transitionType = getTransitionString(transition);
+					Log.d(TAG, transitionType + " geofence " + id);
+					sendNotification(transitionType, id);
 
-    /**
-     * Posts a notification in the notification bar when a transition is detected.
-     * If the user clicks the notification, control goes to the main Activity.
-     * @param transitionType The type of transition that occurred.
-     *
-     */
-    private void sendNotification(String transitionType, String id) {
+					// Log the transition type and a message
+					Log.d(LocationUtils.APPTAG,
+							getString(
+									R.string.geofence_transition_notification_title,
+									transitionType, id));
+					Log.d(LocationUtils.APPTAG,
+							getString(R.string.geofence_transition_notification_text));
+				}
 
-        // Create an explicit content Intent that starts the ViewNoteScreen Activity
-        Intent notificationIntent =
-                new Intent(getApplicationContext(), ViewNoteScreen.class); 
-        
-        //Grab the note that we just found from the database and put it in the notification intent
-        //notificationIntent.putExtra(getString(R.string.note_id), id);        //note_id => requestId of the triggering geofence
-        Note justFound = DatabaseConnector.getNoteById(id);
-        notificationIntent.putExtra("com.example.drop.Note", justFound);
+				// An invalid transition was reported
+			} else {
+				// Always log as an error
+				Log.e(LocationUtils.APPTAG,
+						getString(R.string.geofence_transition_invalid_type,
+								transition));
+			}
+		}
+	}
 
-        // Construct a task stack
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+	/**
+	 * Posts a notification in the notification bar when a transition is
+	 * detected. If the user clicks the notification, control goes to the main
+	 * Activity.
+	 * 
+	 * @param transitionType
+	 *            The type of transition that occurred.
+	 * 
+	 */
+	private void sendNotification(final String transitionType, String id) {
 
-        // Adds the main Activity to the task stack as the parent
-        stackBuilder.addParentStack(ViewNoteScreen.class);
+		// Create an explicit content Intent that starts the ViewNoteScreen
+		// Activity
+		final Intent notificationIntent = new Intent(getApplicationContext(),
+				ViewNoteScreen.class);
 
-        // Push the content Intent onto the stack
-        stackBuilder.addNextIntent(notificationIntent);
+		final Note n = new Note();
 
-        // Get a PendingIntent containing the entire back stack
-        PendingIntent notificationPendingIntent =
-                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+		Log.i("GEOFENCE_TRANSITION", id);
 
-        // Get a notification builder that's compatible with platform versions >= 4
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+		ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Note");
+		query.whereEqualTo("objectId", id);
+		query.findInBackground(new FindCallback<ParseObject>() {
 
-        // Set the notification contents
-        builder.setSmallIcon(R.drawable.drop_icon)
-               .setContentTitle(
-                       getString(R.string.geofence_transition_notification_title,
-                               transitionType, id))
-               .setContentText(getString(R.string.geofence_transition_notification_text))
-               .setContentIntent(notificationPendingIntent);
+			@Override
+			public void done(List<ParseObject> loadedNotes, ParseException arg1) {
+				
+				if(arg1 != null){
+					Log.e(TAG, arg1.toString());
+				}
+				
+				n.setLat(loadedNotes.get(0).getDouble("lat"));
+				n.setLon(loadedNotes.get(0).getDouble("lon"));
+				n.setRadius((float) loadedNotes.get(0).getDouble("radius"));
+				n.setId(loadedNotes.get(0).getObjectId());
+				n.setMessage(loadedNotes.get(0).getString("message"));
+				n.setCreator(loadedNotes.get(0).getString("creator"));
 
-        // Get an instance of the Notification manager
-        NotificationManager mNotificationManager =
-            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+				Log.i("GEOFENCE_TRANSITION", "NOTE ID: " + n.getId());
 
-        // Issue the notification
-        mNotificationManager.notify(0, builder.build());
-    }
+				// Grab the note that we just found from the database and put it
+				// in the notification intent
+				// notificationIntent.putExtra(getString(R.string.note_id), id);
+				// //note_id => requestId of the triggering geofence
+				notificationIntent.putExtra("com.example.drop.Note", n);
+				// Construct a task stack
+				TaskStackBuilder stackBuilder = TaskStackBuilder
+						.create(GeofenceTransitionService.this);
 
-    /**
-     * Maps geofence transition types to their human-readable equivalents.
-     * @param transitionType A transition type constant defined in Geofence
-     * @return A String indicating the type of transition
-     */
-    private String getTransitionString(int transitionType) {
-        switch (transitionType) {
+				// Adds the main Activity to the task stack as the parent
+				stackBuilder.addParentStack(ViewNoteScreen.class);
 
-            case Geofence.GEOFENCE_TRANSITION_ENTER:
-                return getString(R.string.geofence_transition_entered);
+				// Push the content Intent onto the stack
+				stackBuilder.addNextIntent(notificationIntent);
 
-            case Geofence.GEOFENCE_TRANSITION_EXIT:
-                return getString(R.string.geofence_transition_exited);
+				// Get a PendingIntent containing the entire back stack
+				PendingIntent notificationPendingIntent = stackBuilder
+						.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
-            default:
-                return getString(R.string.geofence_transition_unknown);
-        }
-    }	
+				// Get a notification builder that's compatible with platform
+				// versions >= 4
+				NotificationCompat.Builder builder = new NotificationCompat.Builder(
+						GeofenceTransitionService.this);
+
+				// Set the notification contents
+				builder.setSmallIcon(R.drawable.drop_icon)
+						.setContentTitle(
+								getString(
+										R.string.geofence_transition_notification_title,
+										transitionType, n.getId()))
+						.setContentText(
+								getString(R.string.geofence_transition_notification_text))
+						.setContentIntent(notificationPendingIntent);
+
+				// Get an instance of the Notification manager
+				NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+				// Issue the notification
+				mNotificationManager.notify(0, builder.build());
+
+			}
+		});
+
+	}
+
+	/**
+	 * Maps geofence transition types to their human-readable equivalents.
+	 * 
+	 * @param transitionType
+	 *            A transition type constant defined in Geofence
+	 * @return A String indicating the type of transition
+	 */
+	private String getTransitionString(int transitionType) {
+		switch (transitionType) {
+
+		case Geofence.GEOFENCE_TRANSITION_ENTER:
+			return getString(R.string.geofence_transition_entered);
+
+		case Geofence.GEOFENCE_TRANSITION_EXIT:
+			return getString(R.string.geofence_transition_exited);
+
+		default:
+			return getString(R.string.geofence_transition_unknown);
+		}
+	}
 }
-	
-	
-
-	
-
-	
-
