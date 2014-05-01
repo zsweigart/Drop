@@ -16,8 +16,6 @@ import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +47,7 @@ public class ViewNoteScreen extends Activity {
 	
 	@Override
 	public void onResume(){
+		super.onResume();
 		 Note current_note = (Note) getIntent().getSerializableExtra("com.example.drop.Note");
 	        if (current_note == null) 
 	        	Toast.makeText(getApplicationContext(),"Note not passed to ViewNote Activity", 
@@ -61,7 +60,8 @@ public class ViewNoteScreen extends Activity {
 	}
 	
 	public static class ViewNoteFragment extends Fragment{
-		View thisView = getView();
+		//View thisView = getView();
+		private Note note;
 		public static ViewNoteFragment newInstance(Note note){
 			ViewNoteFragment fragment = new ViewNoteFragment();
 			Bundle bundle = new Bundle();
@@ -74,9 +74,9 @@ public class ViewNoteScreen extends Activity {
 			// The last two arguments ensure LayoutParams are inflated
 			// properly.
 			View rootView = inflater.inflate(
-			R.layout.view_note_fragment, container, false);
+					R.layout.view_note_fragment, container, false);
 			Bundle args = getArguments();
-			Note note = (Note) args.getSerializable("Note");
+			note = (Note) args.getSerializable("Note");
 	        if (note == null) 
 	        	Toast.makeText(getActivity(),"Note not passed to ViewNote Activity", 
 	        	Toast.LENGTH_LONG).show();
@@ -84,17 +84,22 @@ public class ViewNoteScreen extends Activity {
 	        	// If you need the picture from the database, 
 	        	// Grab the picture for the note with an Async Task (or not)
 		        if(note.getPictureFile() == null){
-		        	
+		        	Log.d("ViewNoteScreen", "note "+note.getId()+" doesn't have a picture");
 		        	note.setPicture(DatabaseConnector.getPictureById(note.getId()));
 		        	//new setPictureAsyncTask().execute(note);
-
-		        }	        
-		        
-		        load_note(note);
+		        	
+		        }        
+		       
 	        }
 	        return rootView;
 
 	    }
+		
+		public void onResume(){
+			super.onResume();
+			Log.d("ViewNoteScreen", "note "+note.getId()+" is loading");
+		    load_note(note);
+		}
 	    void load_note(Note note){
 	    	set_note_content(note.getMessage());
 	    	set_sender(note.getCreator().toString());
@@ -103,7 +108,7 @@ public class ViewNoteScreen extends Activity {
 	    }
 	    
 	    private void set_picture(Bitmap picture) {
-			ImageView img = (ImageView) thisView.findViewById(R.id.imageView);
+			ImageView img = (ImageView) getView().findViewById(R.id.imageView);
 			img.setImageBitmap(picture);
 		}
 
@@ -120,7 +125,7 @@ public class ViewNoteScreen extends Activity {
 			}
 			if (receiverString.length() >= 2) 
 				receiverString = receiverString.substring(0, receiverString.length()-1);
-			TextView receiver_text_view = (TextView) thisView.findViewById(R.id.recievers);
+			TextView receiver_text_view = (TextView) getView().findViewById(R.id.recievers);
 			receiver_text_view.setText(receiverString);
 		}
 
@@ -132,13 +137,13 @@ public class ViewNoteScreen extends Activity {
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
-			TextView to_text_view = (TextView) thisView.findViewById(R.id.to);
+			TextView to_text_view = (TextView) getView().findViewById(R.id.to);
 			to_text_view.setText(sender_string);
 			
 		}
 
 		private void set_note_content(String content){
-	    	TextView content_text_view = (TextView) thisView.findViewById(R.id.Note_content);
+	    	TextView content_text_view = (TextView) getView().findViewById(R.id.Note_content);
 	    	content_text_view.setText(content);
 	    }	
 	}
