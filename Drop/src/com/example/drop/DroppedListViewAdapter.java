@@ -7,12 +7,15 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class DroppedListViewAdapter extends BaseAdapter {
@@ -20,6 +23,7 @@ public class DroppedListViewAdapter extends BaseAdapter {
 	    private ArrayList <Note> data;
 	    private static LayoutInflater inflater=null;
 	    public ImageLoader imageLoader; 
+	    private Note note;
 	    
 	    public DroppedListViewAdapter(Activity a, ArrayList <Note> d) {
 	        activity = a;
@@ -50,7 +54,7 @@ public class DroppedListViewAdapter extends BaseAdapter {
 	    TextView noteText = (TextView) rowView.findViewById(R.id.dropped_row_note_content);
 	    TextView recipients = (TextView) rowView.findViewById(R.id.dropped_row_recievers);
 	    
-	    Note note = data.get(position);
+	    note = data.get(position);
 	    
 	    Log.i("DROP_ADAPTER", note.getPictureFile().getAbsolutePath());
 	    picture.setImageBitmap(note.getPicture(picture.getHeight(), picture.getWidth()));
@@ -69,6 +73,17 @@ public class DroppedListViewAdapter extends BaseAdapter {
 			}
         }
         recipients.setText(recievers.substring(0, recievers.length()-3));
+        
+        RelativeLayout row = (RelativeLayout) rowView.findViewById(R.id.dropped_row);
+        row.setOnClickListener(new OnClickListener(){
+
+			public void onClick(View arg0) {
+				Intent i = new Intent(activity, ViewNoteScreen.class);
+				i.putExtra("com.example.drop.Note", note);
+				activity.startActivity(i);
+			}
+        	
+        });
 	    	    
 	    return rowView;
 	  }

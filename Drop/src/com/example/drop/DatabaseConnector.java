@@ -74,6 +74,8 @@ public class DatabaseConnector {
 					n.setLon(loadedNotes.get(i).getDouble("lon"));
 					n.setRadius((float) loadedNotes.get(i).getDouble("radius"));
 					n.setId(loadedNotes.get(i).getString("objectId"));
+					n.setMessage(loadedNotes.get(i).getString("message"));
+					n.setCreator(loadedNotes.get(i).getString("creator"));
 				}
 				
 			} });
