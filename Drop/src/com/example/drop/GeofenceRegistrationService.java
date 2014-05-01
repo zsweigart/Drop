@@ -18,13 +18,15 @@ import android.app.IntentService;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.util.Log;
 
 public class GeofenceRegistrationService extends IntentService {
 
 	private ArrayList<Note> newNotes;	
 	private GeofenceRequester gfRequester;
-	//private Intent mIntent;
+	private Handler handler;
+	private static final int POLL_INTERVAL_MILLIS = 60*60*1000; // 1 hour
 	private String fbId;
 	private static String TAG = "GeofenceRegistrationService";
 	
@@ -32,15 +34,30 @@ public class GeofenceRegistrationService extends IntentService {
 		super("GeofenceRegistrationService");
 		
 		gfRequester = new GeofenceRequester(this);		
-		
+		handler = new Handler();
 	}
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		//mIntent = intent;
 		fbId = intent.getStringExtra("facebookId");
-		Log.d(TAG, "Calling getNewNotes("+fbId+")");		
 		
+		
+		final Runnable pollForNewNotes = new Runnable(){
+			  
+			public void run() {
+				Log.d(TAG, "Calling pollForNewNotes("+fbId+")");
+				pollForNewNotes();
+				handler.postDelayed(this, POLL_INTERVAL_MILLIS);
+			}
+		};
+		
+		handler.post(pollForNewNotes);
+		
+		//new RegisterNewNotesAsyncTask().execute(newNotes);
+	}
+	
+	private void pollForNewNotes()
+	{
 		while(!playServicesAvailable()){			
 			try {
 				Thread.sleep(1000); //wait a second so we don't just spam 
@@ -94,14 +111,24 @@ public class GeofenceRegistrationService extends IntentService {
 				
 				
 			} });
-		//** RIPPED FROM DATABASE CONNECTOR **//		
-		
-		//new RegisterNewNotesAsyncTask().execute(newNotes);
+		//** RIPPED FROM DATABASE CONNECTOR **//	
 	}
 	
 	private boolean playServicesAvailable(){
 		return GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext()) == ConnectionResult.SUCCESS;
 	}
+	
+//	private Runnable pollOnInterval = new Runnable(){
+//
+//		  @Override
+//		  public void run() {
+//		   
+//		   //Everything that we're doing above
+//		   
+//		   handler.postDelayed(pollForNewNotes, POLL_INTERVAL_MILLIS);
+//		  }};
+	
+	
 	
 //	private class RegisterNewNotesAsyncTask extends
 //	AsyncTask<ArrayList<Note>, Void, List<Geofence>> {		
