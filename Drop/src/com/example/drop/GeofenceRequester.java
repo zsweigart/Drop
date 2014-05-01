@@ -158,7 +158,7 @@ OnConnectionFailedListener {
 
         // Get a PendingIntent that Location Services issues when a geofence transition occurs
         mGeofencePendingIntent = createRequestPendingIntent();
-
+        Log.d("GeofenceRequester", "Sending request to add geofences "+mCurrentGeofences.toString());
         // Send a request to add the current geofences
         mLocationClient.addGeofences(mCurrentGeofences, mGeofencePendingIntent, this);
     }

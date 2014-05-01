@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.json.JSONException;
 
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.Geofence;
 
@@ -16,6 +17,7 @@ public class GeofenceRegistrationService extends IntentService {
 
 	private ArrayList<Note> newNotes;	
 	private GeofenceRequester gfRequester;
+	private static String TAG = "GeofenceRegistrationService";
 	
 	public GeofenceRegistrationService() {
 		super("GeofenceRegistrationService");
@@ -24,24 +26,26 @@ public class GeofenceRegistrationService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		// TODO Auto-generated method stub	
+		
 		String fbId = intent.getStringExtra("facebookId");
 		
-		//try {
-			Log.d("GEOFENCE_REGISTRATION", fbId);
-			newNotes = DatabaseConnector.getNewNotes(fbId);
-//		} catch (JSONException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		while(!playServicesAvailable()){
+			//wait, I guess.
+			
+		}
+		Log.d(TAG, "Google Play Services Available!");
 		
-		if (GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext()) == 1)
+		Log.d(TAG, fbId);
+		newNotes = DatabaseConnector.getNewNotes(fbId);
+		
+		if (newNotes.size() > 0)
 		{
+			Log.d(TAG, "GooglePlayServices are available!");
 			List<Geofence> newGeofences = new ArrayList<Geofence>();
 			//For each note we want to register with Google Play Services 
 			for (Note newNote : newNotes)
 			{
-				Log.d("GeofenceRegistrationService", "New Note Registerd! "+newNote.getId());
+				Log.d(TAG, "New Note Registered! "+newNote.getId());
 				//Create a Geofence object with the values from the new Note
 				newGeofences.add(new SimpleGeofence(newNote.getId(),
 													newNote.getLat(),
@@ -52,10 +56,15 @@ public class GeofenceRegistrationService extends IntentService {
 													.toGeofence());
 			}
 			gfRequester.addGeofences(newGeofences);
+		} else {
+			Log.d(TAG, "No New Notes!");
 		}
 		
 	}
 	
+	private boolean playServicesAvailable(){
+		return GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext()) == ConnectionResult.SUCCESS;
+	}
 	
 	
 

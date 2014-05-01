@@ -24,6 +24,7 @@ public class DatabaseConnector {
 	
 	public static ArrayList <Note> getNewNotes(String fbID)
 	{
+		Log.d(TAG, "getNewNotes() starting...");
 		final ArrayList <Note> notes = new ArrayList <Note> ();
 		
 		ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("getNewNotes"); 
@@ -33,6 +34,9 @@ public class DatabaseConnector {
 
 			@Override
 			public void done(List<ParseObject> loadedNotes, ParseException arg1) {
+				if(arg1 != null){
+					Log.e(TAG, arg1.toString());
+				}
 				for(int i = 0; i < loadedNotes.size(); i++)
 				{
 					Note n = new Note();
@@ -41,6 +45,7 @@ public class DatabaseConnector {
 					n.setRadius((float) loadedNotes.get(i).getDouble("radius"));
 					n.setId(loadedNotes.get(i).getString("objectId"));
 					notes.add(n);
+					Log.d(TAG, "New note: "+n.getId());
 				}
 				
 			} });

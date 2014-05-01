@@ -96,7 +96,7 @@ public class Drop extends Application {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-							
+							Log.d("Drop", "GeofenceRegistrationService starting");
 							startService(regServiceIntent);
 						}
 					}
