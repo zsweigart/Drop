@@ -91,18 +91,6 @@ public class CameraSurfaceFragment extends Fragment {
 
 		public void onPictureTaken(byte[] data, Camera camera) {
 			File pictureFile = Drop.current_note.getPictureFile();
-			if (!isBack) {
-				/*
-				 * Matrix matrix = new Matrix(); matrix.preScale(1.0f, 1.0f);
-				 * Bitmap bmp = BitmapFactory.decodeByteArray(data, 0,
-				 * data.length); Bitmap bm = Bitmap.createBitmap(bmp, 0, 0,
-				 * bmp.getWidth(), bmp.getHeight(), matrix, true); bmp = null;
-				 * System.gc(); ByteArrayOutputStream stream = new
-				 * ByteArrayOutputStream();
-				 * bm.compress(Bitmap.CompressFormat.PNG, 100, stream); data =
-				 * stream.toByteArray(); bm = null; System.gc();
-				 */
-			}
 
 			try {
 				FileOutputStream fos = new FileOutputStream(pictureFile);
@@ -188,7 +176,7 @@ public class CameraSurfaceFragment extends Fragment {
 			Log.i(TAG, "SCREENWIDTH: " + screenWidth);
 			List<Camera.Size> sizes = cameraParameters.getSupportedPreviewSizes();
 			for (Camera.Size cSize : sizes) {
-				if (cSize.width >= screenWidth && cSize.width <= width) {
+				if (cSize.width >= screenWidth/8 && cSize.width <= width) {
 					width = cSize.width;
 					height = cSize.height;
 				}

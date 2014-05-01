@@ -26,20 +26,22 @@ public class DatabaseConnector {
 	{
 		final ArrayList <Note> notes = new ArrayList <Note> ();
 		
-		ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("getNewNotes"); 
+		ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Note"); 
 		query.whereEqualTo("recipient", fbID);
 		query.whereEqualTo("isPickedUp", false);
+		Log.i("DBC", "FBID: " + fbID);
 		query.findInBackground(new FindCallback<ParseObject>() {
 
 			@Override
 			public void done(List<ParseObject> loadedNotes, ParseException arg1) {
+				Log.i("DBC", "NUM NOTES: " + loadedNotes.size());
 				for(int i = 0; i < loadedNotes.size(); i++)
 				{
 					Note n = new Note();
 					n.setLat(loadedNotes.get(i).getDouble("lat"));
 					n.setLon(loadedNotes.get(i).getDouble("lon"));
 					n.setRadius((float) loadedNotes.get(i).getDouble("radius"));
-					n.setId(loadedNotes.get(i).getString("objectId"));
+					n.setId(loadedNotes.get(i).getObjectId());
 					notes.add(n);
 				}
 				
@@ -52,7 +54,7 @@ public class DatabaseConnector {
 	{
 		final Note n = new Note();
 		
-		ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("getNewNotes"); 
+		ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Note"); 
 		query.whereEqualTo("objectId", objID);
 		query.findInBackground(new FindCallback<ParseObject>() {
 
