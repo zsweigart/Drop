@@ -7,6 +7,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.location.Location;
@@ -42,7 +43,7 @@ ConnectionCallbacks,
 OnConnectionFailedListener {
 
     // Storage for a reference to the calling client
-    private final Activity mActivity;
+	private final Service mService;
 
     // Stores the PendingIntent used to send geofence transitions back to the app
     private PendingIntent mGeofencePendingIntent;
@@ -59,9 +60,9 @@ OnConnectionFailedListener {
      */
     private boolean mInProgress;
 
-    public GeofenceRequester(Activity activityContext) {
+    public GeofenceRequester(Service activityContext) {
         // Save the context
-        mActivity = activityContext;
+        mService = activityContext;
 
         // Initialize the globals to null
         mGeofencePendingIntent = null;
@@ -146,7 +147,7 @@ OnConnectionFailedListener {
     private GooglePlayServicesClient getLocationClient() {
         if (mLocationClient == null) {
 
-            mLocationClient = new LocationClient(mActivity, this, this);
+            mLocationClient = new LocationClient(mService, this, this);
         }
         return mLocationClient;
 
@@ -179,7 +180,7 @@ OnConnectionFailedListener {
         if (LocationStatusCodes.SUCCESS == statusCode) {
 
             // Create a message containing all the geofence IDs added.
-            msg = mActivity.getString(R.string.add_geofences_result_success,
+            msg = mService.getString(R.string.add_geofences_result_success,
                     Arrays.toString(geofenceRequestIds));
 
             // In debug mode, log the result
@@ -196,7 +197,7 @@ OnConnectionFailedListener {
              * Create a message containing the error code and the list
              * of geofence IDs you tried to add
              */
-            msg = mActivity.getString(
+            msg = mService.getString(
                     R.string.add_geofences_result_failure,
                     statusCode,
                     Arrays.toString(geofenceRequestIds)
@@ -212,7 +213,7 @@ OnConnectionFailedListener {
         }
 
         // Broadcast whichever result occurred
-        LocalBroadcastManager.getInstance(mActivity).sendBroadcast(broadcastIntent);
+        LocalBroadcastManager.getInstance(mService).sendBroadcast(broadcastIntent);
 
         // Disconnect the location client
         requestDisconnection();
@@ -238,7 +239,7 @@ OnConnectionFailedListener {
     public void onConnected(Bundle arg0) {
         // If debugging, log the connection
 
-        Log.d(LocationUtils.APPTAG, mActivity.getString(R.string.connected));
+        Log.d(LocationUtils.APPTAG, mService.getString(R.string.connected));
 
         // Continue adding the geofences
         continueAddGeofences();
@@ -255,7 +256,7 @@ OnConnectionFailedListener {
         mInProgress = false;
 
         // In debug mode, log the disconnection
-        Log.d(LocationUtils.APPTAG, mActivity.getString(R.string.disconnected));
+        Log.d(LocationUtils.APPTAG, mService.getString(R.string.disconnected));
 
         // Destroy the current location client
         mLocationClient = null;
@@ -280,7 +281,7 @@ OnConnectionFailedListener {
         } else {
 
             // Create an Intent pointing to the IntentService
-            Intent intent = new Intent(mActivity, GeofenceTransitionService.class);
+            Intent intent = new Intent(mService, GeofenceTransitionService.class);
             /*
              * Return a PendingIntent to start the IntentService.
              * Always create a PendingIntent sent to Location Services
@@ -289,7 +290,7 @@ OnConnectionFailedListener {
              * can't match the PendingIntent to requests made with it.
              */
             return PendingIntent.getService(
-                    mActivity,
+                    mService,
                     0,
                     intent,
                     PendingIntent.FLAG_UPDATE_CURRENT);
@@ -317,7 +318,7 @@ OnConnectionFailedListener {
 
             try {
                 // Start an Activity that tries to resolve the error
-                connectionResult.startResolutionForResult(mActivity,
+                connectionResult.startResolutionForResult(MainActivity.init(),
                 		LocationUtils.CONNECTION_FAILURE_RESOLUTION_REQUEST);
 
             /*
@@ -341,7 +342,7 @@ OnConnectionFailedListener {
             errorBroadcastIntent.addCategory(LocationUtils.CATEGORY_LOCATION_SERVICES)
                                 .putExtra(LocationUtils.EXTRA_CONNECTION_ERROR_CODE,
                                         connectionResult.getErrorCode());
-            LocalBroadcastManager.getInstance(mActivity).sendBroadcast(errorBroadcastIntent);
+            LocalBroadcastManager.getInstance(mService).sendBroadcast(errorBroadcastIntent);
         }
     }
 

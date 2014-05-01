@@ -148,6 +148,7 @@ public class CameraPreview extends SurfaceView implements
 		cameraParameters.setPictureFormat(ImageFormat.JPEG);
 		cameraParameters.set("orientation", "portrait");
 		cameraParameters.setRotation(result);
+		cameraParameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
 		mCamera.setParameters(cameraParameters);
 		mCamera.startPreview();
 	}
