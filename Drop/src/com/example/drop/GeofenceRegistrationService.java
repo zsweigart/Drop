@@ -85,8 +85,9 @@ public class GeofenceRegistrationService extends IntentService {
 					Log.d(TAG, "New Note Registered! "+n.getId());
 				}
 				if(newGeofences.size() > 0)
-				{
-					gfRequester.addGeofences(newGeofences); 
+				{					
+					gfRequester.addGeofences(newGeofences);
+					
 				} else {
 					Log.d(TAG, "No Geofences to Register");
 				}

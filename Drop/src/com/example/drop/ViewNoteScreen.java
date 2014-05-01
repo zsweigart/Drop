@@ -49,7 +49,7 @@ public class ViewNoteScreen extends Activity {
 	
 	@Override
 	public void onResume(){
-		 Note current_note = (Note)getIntent().getSerializableExtra("com.example.drop.Note");
+		 Note current_note = (Note) getIntent().getSerializableExtra("com.example.drop.Note");
 	        if (current_note == null) 
 	        	Toast.makeText(getApplicationContext(),"Note not passed to ViewNote Activity", 
 	        	Toast.LENGTH_LONG).show();
@@ -65,7 +65,7 @@ public class ViewNoteScreen extends Activity {
 		public static ViewNoteFragment newInstance(Note note){
 			ViewNoteFragment fragment = new ViewNoteFragment();
 			Bundle bundle = new Bundle();
-			bundle.putParcelable("Note", (Parcelable) note);
+			bundle.putSerializable("Note", note);
 			fragment.setArguments(bundle);
 			return fragment;
 		}
@@ -76,7 +76,7 @@ public class ViewNoteScreen extends Activity {
 			View rootView = inflater.inflate(
 			R.layout.view_note_fragment, container, false);
 			Bundle args = getArguments();
-			Note note = args.getParcelable("Note");
+			Note note = (Note) args.getSerializable("Note");
 	        if (note == null) 
 	        	Toast.makeText(getActivity(),"Note not passed to ViewNote Activity", 
 	        	Toast.LENGTH_LONG).show();
