@@ -44,9 +44,9 @@ public class ViewNoteFragment extends Fragment {
 		note = (Note) args.getSerializable("Note");
 		wasFound = args.getBoolean("wasFound", true);
 		img = (ImageView) rootView.findViewById(R.id.imageView);
-		receiver_text_view = (TextView) rootView.findViewById(R.id.recievers);
+		receiver_text_view = (TextView) rootView.findViewById(R.id.view_note_from);
 		to_text_view = (TextView) rootView.findViewById(R.id.view_note_to);
-		content_text_view = (TextView) rootView.findViewById(R.id.Note_content);
+		content_text_view = (TextView) rootView.findViewById(R.id.view_note_content);
 		
 		if(wasFound)
 		{

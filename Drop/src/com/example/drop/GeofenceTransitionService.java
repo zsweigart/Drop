@@ -165,7 +165,7 @@ public class GeofenceTransitionService extends IntentService {
 				TaskStackBuilder stackBuilder = TaskStackBuilder
 						.create(GeofenceTransitionService.this);
 
-				// Adds the main Activity to the task stack as the parent
+				// Adds the View Note Activity to the task stack as the parent
 				stackBuilder.addParentStack(ViewNoteScreen.class);
 
 				// Push the content Intent onto the stack

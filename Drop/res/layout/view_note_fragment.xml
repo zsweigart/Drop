@@ -30,7 +30,7 @@
         android:text="@string/note"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-     <viewText
+     <TextView
          android:id="@+id/view_note_content"
          android:layout_width="fill_parent"
          android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
         android:text="@string/from"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <viewText
+    <TextView
         android:id="@+id/view_note_sender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
         android:text="@string/to"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <viewText
+    <TextView
         android:id="@+id/view_note_reciever"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
