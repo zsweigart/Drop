@@ -235,12 +235,8 @@ public class GeofenceTransitionService extends IntentService {
 						mNotificationManager.notify(0, builder.build());
 					}
 				});
-
-				
-
 			}
 		});
-
 	}
 
 	/**

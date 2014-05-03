@@ -44,7 +44,8 @@ public class DroppedListViewAdapter extends BaseAdapter {
 	        return position;
 	    }
 	    
-	    public View getView(int position, View convertView, ViewGroup parent) {
+	    public View getView(final int position, View convertView, ViewGroup parent) {
+	    	final Note note;
 	    	View rowView = convertView;
 	        if(convertView==null)
 	        {
@@ -75,11 +76,14 @@ public class DroppedListViewAdapter extends BaseAdapter {
         recipients.setText(recievers.substring(0, recievers.length()-3));
         
         RelativeLayout row = (RelativeLayout) rowView.findViewById(R.id.dropped_row);
+        
         row.setOnClickListener(new OnClickListener(){
 
 			public void onClick(View arg0) {
+				Log.d("DroppedListViewAdapter", "Clicked on position "+position);
 				Intent i = new Intent(activity, ViewNoteScreen.class);
 				i.putExtra("com.example.drop.Note", note);
+				i.putExtra("wasFound", false);
 				activity.startActivity(i);
 			}
         	

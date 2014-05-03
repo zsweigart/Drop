@@ -10,8 +10,8 @@
 
     <ImageView
         android:id="@+id/view_note_thumbnail"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
@@ -39,7 +39,7 @@
          android:layout_marginLeft="8dp"
          android:layout_marginTop="5dp"
          android:maxLength="140"
-         android:inputType="textMultiLine" />
+         />
 
     <TextView
         android:id="@+id/view_note_from"
@@ -60,7 +60,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="5dp"
         android:text="@string/nobody"
-        android:inputType="text" />
+        />
     
     <TextView
         android:id="@+id/view_note_to"
@@ -73,7 +73,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
-        android:id="@+id/view_note_reciever"
+        android:id="@+id/view_note_receiver"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/view_note_to"
@@ -81,7 +81,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="5dp"
         android:text="@string/nobody"
-        android:inputType="text" />
+        />
     
 </RelativeLayout>
 

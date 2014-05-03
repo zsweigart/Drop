@@ -21,7 +21,9 @@ public class ViewNoteFragment extends Fragment {
 	private Note note;
 	private boolean wasFound;
 	private ImageView img;
-	private TextView receiver_text_view;
+	private TextView from_label;
+	private TextView to_label;
+	private TextView from_text_view;
 	private TextView to_text_view;
 	private TextView content_text_view;
 
@@ -42,39 +44,46 @@ public class ViewNoteFragment extends Fragment {
 				container, false);
 		Bundle args = getArguments();
 		note = (Note) args.getSerializable("Note");
-		wasFound = args.getBoolean("wasFound", true);
-		img = (ImageView) rootView.findViewById(R.id.imageView);
-		receiver_text_view = (TextView) rootView.findViewById(R.id.view_note_from);
-		to_text_view = (TextView) rootView.findViewById(R.id.view_note_to);
+		
+		wasFound = args.getBoolean("wasFound", false);
+		Log.d("ViewNoteFragment", "wasFound? "+wasFound);
+		img = (ImageView) rootView.findViewById(R.id.view_note_thumbnail);
+		from_text_view = (TextView) rootView.findViewById(R.id.view_note_sender);
+		from_label = (TextView) rootView.findViewById(R.id.view_note_from);		
+		to_text_view = (TextView) rootView.findViewById(R.id.view_note_receiver);
+		to_label = (TextView) rootView.findViewById(R.id.view_note_to);
 		content_text_view = (TextView) rootView.findViewById(R.id.view_note_content);
 		
 		if(wasFound)
 		{
 			to_text_view.setVisibility(View.GONE);
-			receiver_text_view.setVisibility(View.VISIBLE);
+			to_label.setVisibility(View.GONE);
+			from_text_view.setVisibility(View.VISIBLE);
 		}
 		else
 		{
-			to_text_view.setVisibility(View.VISIBLE);
-			receiver_text_view.setVisibility(View.GONE);
+			to_text_view.setVisibility(View.VISIBLE);			
+			from_text_view.setVisibility(View.GONE);
+			from_label.setVisibility(View.GONE);
 		}
 
 		if (note == null) {
 			Toast.makeText(getActivity(),
 					"Note not passed to ViewNote Activity", Toast.LENGTH_LONG)
 					.show();
-		} else {
-			// If you need the picture from the database,
-			// Grab the picture for the note with an Async Task (or not)
-			if (note.getPictureFile() == null) {
-				Log.d("ViewNoteScreen", "note " + note.getId()
-						+ " doesn't have a picture");
-				note.setPicture(DatabaseConnector.getPictureById(note.getId()));
-				// new setPictureAsyncTask().execute(note);
-
-			}
-
 		}
+//		} else {
+//			// If you need the picture from the database,
+//			// Grab the picture for the note with an Async Task (or not)
+//			if (note.getPictureFile() == null) {
+//				Log.d("ViewNoteScreen", "note " + note.getId()
+//						+ " doesn't have a picture");
+//				//note.setPicture(DatabaseConnector.getPictureById(note.getId()));
+//				// new setPictureAsyncTask().execute(note);
+//
+//			}
+//
+//		}
 		return rootView;
 
 	}
@@ -93,7 +102,7 @@ public class ViewNoteFragment extends Fragment {
 
 		// Set values for fields appropriate when note was not found
 		if (!wasFound) {
-			set_reciever(note.getReceivers());
+			set_receiver(note.getReceivers());
 		}
 
 		// Set other fields that are always appropriate
@@ -105,7 +114,7 @@ public class ViewNoteFragment extends Fragment {
 		img.setImageBitmap(picture);
 	}
 
-	private void set_reciever(ArrayList<String> arrayList) {
+	private void set_receiver(ArrayList<String> arrayList) {
 		String receiverString = "";
 		for (String user : arrayList) {
 			if (receiverString != "")
@@ -120,7 +129,7 @@ public class ViewNoteFragment extends Fragment {
 		if (receiverString.length() >= 2)
 			receiverString = receiverString.substring(0,
 					receiverString.length() - 1);
-		receiver_text_view.setText(receiverString);
+		to_text_view.setText(receiverString);
 	}
 
 	private void set_sender(String string) {
@@ -131,7 +140,7 @@ public class ViewNoteFragment extends Fragment {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		to_text_view.setText(sender_string);
+		from_text_view.setText(sender_string);
 
 	}
 

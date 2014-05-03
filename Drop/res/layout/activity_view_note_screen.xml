@@ -3,54 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:visibility="gone"
-        android:src="@drawable/ic_action_search" />
-
-    <TextView
-        android:id="@+id/Note_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/imageView"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
-        android:text="Note"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/Note_content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/Note_label"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="8dp"
-        android:text="Note Content Loading" />
-
-    <TextView
-        android:id="@+id/sent_or_recieved"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/Note_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
-        android:text="People"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/Recipient_Content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/sent_or_recieved"
-        android:layout_below="@+id/sent_or_recieved"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="5dp"
-        android:text="People Loading" />
+    
 
 </RelativeLayout>
