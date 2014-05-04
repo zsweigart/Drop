@@ -115,8 +115,10 @@ public class DrawerFragmentActivity extends FragmentActivity {
 	        	startActivity(i);
 	        	break;
 	        case 2:		//saved
-	        	i = new Intent(getApplicationContext(), SavedListFragment.class);
+	        	Drop.currentPage = 0;
+	        	i = new Intent(getApplicationContext(), MainActivity.class);
 	        	i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	        	DroppedListFragment.updateDropped = true;
 	        	startActivity(i);
 	        	break;
 	        case 3:		//map
