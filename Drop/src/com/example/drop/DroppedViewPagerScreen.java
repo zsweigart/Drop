@@ -17,9 +17,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 
-public class GalleryScreen extends DrawerFragmentActivity {
+public class DroppedViewPagerScreen extends DrawerFragmentActivity {
 	// private static final String TAG = "GALLERY";
-	private GalleryPageAdapter pageAdapter;
+	private DroppedPageAdapter pageAdapter;
 	private ViewPager pager;
 	private final int LAZY_NUM = 8;
 	private int pos;
@@ -39,7 +39,7 @@ public class GalleryScreen extends DrawerFragmentActivity {
 		fragList = new ArrayList<Fragment>();
 		getFragments();
 		
-		pageAdapter = new GalleryPageAdapter(getSupportFragmentManager(),
+		pageAdapter = new DroppedPageAdapter(getSupportFragmentManager(),
 				fragList);
 
 		// This is where we get the position passed from the SavedListScreen
@@ -179,7 +179,7 @@ public class GalleryScreen extends DrawerFragmentActivity {
 
 	private void getFragments() {
 		File directory = new File(Environment.getExternalStorageDirectory()
-				.getAbsolutePath() + Drop.SAVED_NOTE_DIR);
+				.getAbsolutePath() + Drop.DROPPED_NOTE_DIR);
 		Note note = new Note();
 
 		Log.i("DROPPED_LIST_ASYNC", directory.getAbsolutePath());

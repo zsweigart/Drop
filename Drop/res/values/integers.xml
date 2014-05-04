@@ -7,6 +7,6 @@
         <item>2</item>
     </integer-array>    
     
-    <integer name="pref_note_radius_default">50</integer>
+    <integer name="pref_note_radius_default_int">50</integer>
     
 </resources>

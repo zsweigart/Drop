@@ -88,7 +88,7 @@ public class DrawScreen extends Activity {
 				try {
 					FileOutputStream fos = new FileOutputStream(pictureFile);
 					background.getBitmap().compress(Bitmap.CompressFormat.JPEG,
-							75, fos);
+							100, fos);
 					fos.close();
 				} catch (FileNotFoundException e) {
 					Log.d(TAG, "File not found: " + e.getMessage());

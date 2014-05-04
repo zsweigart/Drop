@@ -6,10 +6,10 @@
         android:summary="@string/pref_monkeys_summ"
         android:defaultValue="true"/>
     <EditTextPreference 
-        android:key="pref_note_radius_key"
+        android:key="@string/pref_note_radius_key"
         android:title="@string/pref_note_radius_title"
         android:summary="@string/pref_note_radius_summary"
-        android:defaultValue="@integer/pref_note_radius_default"
+        android:defaultValue="@string/pref_note_radius_default"
         android:inputType="number"/>    
    
 </PreferenceScreen>

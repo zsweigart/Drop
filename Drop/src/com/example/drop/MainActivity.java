@@ -53,6 +53,16 @@ public class MainActivity extends DrawerFragmentActivity {
 
 			public void onPageSelected(int position) {
 				Log.i("MAIN", "PAGE SELECTED: " +position);
+				Drop.currentPage = position;
+				if(position == 0)
+				{
+					SavedListFragment fragment = (SavedListFragment)findFragmentByPosition(position);
+					if(fragment != null)
+					{
+						fragment.updateList();
+					}
+				}
+				
 				if(position == 2)
 				{
 					DroppedListFragment fragment = (DroppedListFragment)findFragmentByPosition(position);

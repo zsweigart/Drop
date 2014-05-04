@@ -72,6 +72,10 @@
             android:label="@string/title_activity_gallery" >
         </activity>
         <activity
+            android:name=".DroppedViewPagerScreen"
+            android:label="@string/title_activity_gallery" >
+        </activity>
+        <activity
             android:name=".MapScreen"
             android:label="@string/title_activity_map_screen" >
         </activity>

@@ -1,37 +1,47 @@
 package com.example.drop;
 
-import android.content.Context;
+import java.util.ArrayList;
+
+import android.app.Activity;
+import android.content.Intent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
 public class SavedListAdapter extends BaseAdapter {
-    private Context mContext;
+	private Activity activity;
+	private ArrayList<Note> data;
+	public ImageLoader imageLoader;
+	private final int imageHeight = 300;
+	private final int imageWidth = 300;
+	public static final String GRID_ITEM_POS = "GRID_ITEM_POS";
 
-    public SavedListAdapter(Context c) {
-        mContext = c;
-    }
+	public SavedListAdapter(Activity a, ArrayList<Note> d) {
+		activity = a;
+		data = d;
+		imageLoader = new ImageLoader(activity.getApplicationContext());
+	}
 
-    public int getCount() {
-        return mThumbIds.length;
-    }
+	public int getCount() {
+		return data.size();
+	}
 
-    public Object getItem(int position) {
-        return null;
-    }
+	public Note getItem(int position) {
+		return data.get(position);
+	}
 
-    public long getItemId(int position) {
-        return 0;
-    }
-
+	public long getItemId(int position) {
+		return position;
+	}
     // create a new ImageView for each item referenced by the Adapter
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ImageView imageView;
         if (convertView == null) {  // if it's not recycled, initialize some attributes
-            imageView = new ImageView(mContext);
-            imageView.setLayoutParams(new GridView.LayoutParams(300, 300));
+            imageView = new ImageView(activity);
+            imageView.setLayoutParams(new GridView.LayoutParams(imageWidth, imageHeight));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setPadding(1, 1, 1, 1);
         } else {
@@ -39,15 +49,20 @@ public class SavedListAdapter extends BaseAdapter {
         }
 
         //We should have a list of thumbails for this
-        imageView.setImageResource(mThumbIds[position]);
+        imageView.setImageBitmap(data.get(position).getPicture(imageHeight, imageWidth));
+        
+        imageView.setOnClickListener(new OnClickListener() {
+				// When you click an item in the grid, grab the position and
+				// send it on to the Gallery
+				public void onClick(View v) {
+				// TODO Auto-generated method stub
+					Intent launchGallery = new Intent(activity,
+							GalleryScreen.class);
+					launchGallery.putExtra(GRID_ITEM_POS, position);
+					activity.startActivity(launchGallery);
+			}
+		});
+        
         return imageView;
     }
-
-    // references to our images
-    private Integer[] mThumbIds = {
-            R.drawable.sample_1, R.drawable.sample_2,
-            R.drawable.sample_3, R.drawable.sample_4,
-            R.drawable.sample_5, R.drawable.sample_6,
-            R.drawable.sample_7, R.drawable.sample_8
-    };
 }

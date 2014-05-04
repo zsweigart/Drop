@@ -24,6 +24,8 @@ public class Drop extends Application {
 
 	static final String TAG = "DROP";	//Used for Logging
 	static final String PICTURE_DIR = "/Android/data/com.example.drop/pictures";
+	static final String DROPPED_NOTE_DIR = "/Android/data/com.example.drop/dropped";
+	static final String SAVED_NOTE_DIR = "/Android/data/com.example.drop/saved";
 	static ParseUser loggedInUser;		//Hold the parse information for the logged in user
 	static JSONObject loggedInJSON;		//Holds the facebook information for the logged in user
 	static Note current_note;			//Holds the note about to be dropped

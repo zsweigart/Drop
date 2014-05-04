@@ -19,76 +19,80 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class DroppedListViewAdapter extends BaseAdapter {
-	 private Activity activity;
-	    private ArrayList <Note> data;
-	    private static LayoutInflater inflater=null;
-	    public ImageLoader imageLoader; 
-	    private Note note;
-	    
-	    public DroppedListViewAdapter(Activity a, ArrayList <Note> d) {
-	        activity = a;
-	        data=d;
-	        inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	        imageLoader=new ImageLoader(activity.getApplicationContext());
-	    }
+	private Activity activity;
+	private ArrayList<Note> data;
+	private static LayoutInflater inflater = null;
+	public ImageLoader imageLoader;
 
-	    public int getCount() {
-	        return data.size();
-	    }
+	public DroppedListViewAdapter(Activity a, ArrayList<Note> d) {
+		activity = a;
+		data = d;
+		inflater = (LayoutInflater) activity
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		imageLoader = new ImageLoader(activity.getApplicationContext());
+	}
 
-	    public Note getItem(int position) {
-	        return data.get(position);
-	    }
+	public int getCount() {
+		return data.size();
+	}
 
-	    public long getItemId(int position) {
-	        return position;
-	    }
-	    
-	    public View getView(final int position, View convertView, ViewGroup parent) {
-	    	final Note note;
-	    	View rowView = convertView;
-	        if(convertView==null)
-	        {
-	        	rowView = inflater.inflate(R.layout.dropped_listview_item, null);
-	        }
-	    ImageView picture = (ImageView) rowView.findViewById(R.id.dropped_row_imageView);
-	    TextView noteText = (TextView) rowView.findViewById(R.id.dropped_row_note_content);
-	    TextView recipients = (TextView) rowView.findViewById(R.id.dropped_row_recievers);
-	    
-	    note = data.get(position);
-	    
-	    Log.i("DROP_ADAPTER", note.getPictureFile().getAbsolutePath());
-	    picture.setImageBitmap(note.getPicture(picture.getHeight(), picture.getWidth()));
-        
-	    noteText.setText(note.getMessage());
-        String recievers = "";
-        ArrayList <String> r = note.getReceivers();
-        for(int i = 0; i < r.size(); i++)
-        {
-        	try {
+	public Note getItem(int position) {
+		return data.get(position);
+	}
+
+	public long getItemId(int position) {
+		return position;
+	}
+
+	public View getView(final int position, View convertView, ViewGroup parent) {
+		final Note note;
+		View rowView = convertView;
+		if (convertView == null) {
+			rowView = inflater.inflate(R.layout.dropped_listview_item, null);
+		}
+		ImageView picture = (ImageView) rowView
+				.findViewById(R.id.dropped_row_imageView);
+		TextView noteText = (TextView) rowView
+				.findViewById(R.id.dropped_row_note_content);
+		TextView recipients = (TextView) rowView
+				.findViewById(R.id.dropped_row_recievers);
+
+		note = data.get(position);
+
+		Log.i("DROP_ADAPTER", note.getPictureFile().getAbsolutePath());
+		picture.setImageBitmap(note.getPicture(picture.getHeight(),
+				picture.getWidth()));
+
+		noteText.setText(note.getMessage());
+		String recievers = "";
+		ArrayList<String> r = note.getReceivers();
+		for (int i = 0; i < r.size(); i++) {
+			try {
 				JSONObject obj = new JSONObject(r.get(i));
-				recievers += obj.getString("name") +", ";
+				recievers += obj.getString("name") + ", ";
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-        }
-        recipients.setText(recievers.substring(0, recievers.length()-3));
-        
-        RelativeLayout row = (RelativeLayout) rowView.findViewById(R.id.dropped_row);
-        
-        row.setOnClickListener(new OnClickListener(){
+		}
+		recipients.setText(recievers.substring(0, recievers.length() - 3));
+
+		RelativeLayout row = (RelativeLayout) rowView
+				.findViewById(R.id.dropped_row);
+
+		row.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View arg0) {
-				Log.d("DroppedListViewAdapter", "Clicked on position "+position);
-				Intent i = new Intent(activity, ViewNoteScreen.class);
-				i.putExtra("com.example.drop.Note", note);
-				i.putExtra("wasFound", false);
-				activity.startActivity(i);
+				Log.d("DroppedListViewAdapter", "Clicked on position "
+						+ position);
+				Intent launchGallery = new Intent(activity,
+						DroppedViewPagerScreen.class);
+				launchGallery.putExtra("GRID_ITEM_POS", position);
+				activity.startActivity(launchGallery);
 			}
-        	
-        });
-	    	    
-	    return rowView;
-	  }
+
+		});
+
+		return rowView;
+	}
 }

@@ -1,10 +1,7 @@
 package com.example.drop;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.json.JSONException;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -15,15 +12,12 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import android.app.IntentService;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
 
 public class GeofenceRegistrationService extends IntentService {
 
-	private ArrayList<Note> newNotes;	
 	private GeofenceRequester gfRequester;
 	private Handler handler;
 	private static final int POLL_INTERVAL_MILLIS = 60*60*1000; // 1 hour
@@ -116,75 +110,6 @@ public class GeofenceRegistrationService extends IntentService {
 	
 	private boolean playServicesAvailable(){
 		return GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext()) == ConnectionResult.SUCCESS;
-	}
-	
-//	private Runnable pollOnInterval = new Runnable(){
-//
-//		  @Override
-//		  public void run() {
-//		   
-//		   //Everything that we're doing above
-//		   
-//		   handler.postDelayed(pollForNewNotes, POLL_INTERVAL_MILLIS);
-//		  }};
-	
-	
-	
-//	private class RegisterNewNotesAsyncTask extends
-//	AsyncTask<ArrayList<Note>, Void, List<Geofence>> {		
-//		
-//		List<Geofence> newGeofences = new ArrayList<Geofence>();
-//		@Override
-//		protected List<Geofence> doInBackground(ArrayList<Note>... notes) {		
-//			ArrayList<Note> newNotes = notes[0];
-//			Log.d(TAG, "doInBackground with newNotes.size("+newNotes.size()+")");
-//			while(!playServicesAvailable()){			
-//				try {
-//					Thread.sleep(1000); //wait a second so we don't just spam 
-//				} catch (InterruptedException e) {						
-//					Log.e(TAG, "Interrupted Exception!");
-//				} 
-//			}
-//			Log.d(TAG, "Google Play Services Available!");
-//			
-//			Log.d(TAG, "Calling getNewNotes("+fbId+")");
-//			newNotes = DatabaseConnector.getNewNotes(fbId);
-//			
-//			
-//			if (newNotes.size() > 0)
-//			{
-//				Log.d(TAG, newNotes.size()+" New Notes Found!");
-//				List<Geofence> newGeofences = new ArrayList<Geofence>();
-//				
-//				//For each note we want to register with Google Play Services 
-//				for (Note newNote : newNotes)
-//				{
-//					Log.d(TAG, "New Note Registered! "+newNote.getId());
-//					//Create a Geofence object with the values from the new Note
-//					newGeofences.add(new SimpleGeofence(newNote.getId(),
-//														newNote.getLat(),
-//														newNote.getLon(),
-//														newNote.getRadius(),												
-//														Geofence.NEVER_EXPIRE, // Wait until they're found
-//														Geofence.GEOFENCE_TRANSITION_ENTER) // Only care about entry events
-//														.toGeofence());
-//				}
-//			}
-//			return newGeofences;
-//		}
-//		
-//		@Override
-//		protected void onPostExecute(List<Geofence> result)
-//		{
-//			if(result.size() > 0)
-//			{
-//				gfRequester.addGeofences(newGeofences); 
-//			} else {
-//				Log.d(TAG, "No Geofences to Register");
-//			}
-//		}
-//		
-//	}
-	
+	}	
 
 }

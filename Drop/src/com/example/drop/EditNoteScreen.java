@@ -9,9 +9,11 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +28,7 @@ import android.widget.Toast;
 
 public class EditNoteScreen extends DrawerFragmentActivity  {
 
+	private String TAG = "EditNoteScreen";
 	private EditText recipientsEdt;
 	private EditText messageEdt;
 	private final int REQUEST_CODE = 1;
@@ -122,11 +125,8 @@ public class EditNoteScreen extends DrawerFragmentActivity  {
 					}
 					startActivityForResult(i, REQUEST_CODE);
 				}
-
 			}
-
 		});
-
 	}
 
 	public void load_note(Note note) {
@@ -175,10 +175,22 @@ public class EditNoteScreen extends DrawerFragmentActivity  {
 		Drop.current_note.setMessage(messageEdt.getText().toString());
 		Drop.current_note.setPickedUp(false);
 		
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this); 
+		
 		Location loc = client.getLastLocation(); //** Using the new LocationService
 		
 		Drop.current_note.setLon(loc.getLongitude());
-		Drop.current_note.setLat(loc.getLatitude());
+		Drop.current_note.setLat(loc.getLatitude());		
+		
+		Log.d(TAG, "the radius pref key is"+getString(R.string.pref_note_radius_key));
+		Log.d(TAG, "the radius default is"+getString(R.string.pref_note_radius_default));
+		//Grab the radius from the sharedPreferences
+		float radiusFromPrefs = Float.parseFloat(prefs.getString(getString(R.string.pref_note_radius_key), //The saved radius 
+														getString(R.string.pref_note_radius_default)));   //Default radius
+		
+		Log.d(TAG, "radius loaded from preferences is:"+ radiusFromPrefs);
+		Drop.current_note.setRadius(radiusFromPrefs);		
+		
 		Intent i = new Intent(EditNoteScreen.this, DropNoteScreen.class);
 		startActivity(i);
 

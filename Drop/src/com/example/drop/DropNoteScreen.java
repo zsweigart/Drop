@@ -34,7 +34,7 @@ public class DropNoteScreen extends DrawerFragmentActivity {
 		startService(dropIntent);
 		
 		Note note =  Drop.current_note;
-        File saveNote = Drop.getOutputMediaFile("/Android/data/com.example.drop/notes");
+        File saveNote = Drop.getOutputMediaFile(Drop.DROPPED_NOTE_DIR);
         try {
 			FileOutputStream fos = new FileOutputStream(saveNote);
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
