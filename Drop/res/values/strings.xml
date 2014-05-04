@@ -62,6 +62,8 @@
     <string name="pref_monkeys">Monkeys?</string>
     <string name="pref_monkeys_summ">If you want monkeys.</string>
     <string name="title_activity_drawer">DrawerActivity</string>
+    <string name="pref_note_radius_title">Radius</string>
+    <string name="pref_note_radius_summary">Radius in meters of the geofence surrounding your dropped notes.</string>
 
     <!-- Geofence Messages -->
     <string name="add_geofences_result_success">        Add Geofences: Success GeofenceRequestIds=%1$s</string>

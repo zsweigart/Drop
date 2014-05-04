@@ -29,13 +29,7 @@ public class MainActivity extends DrawerFragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        try{
-        	Log.d("Is The FacebookId Ready Yet?", Drop.loggedInJSON.getString("facebookId"));
-        } catch (JSONException e){
-        	Log.e("Is The FacebookId Ready Yet?", "JSON EXCEPTION");
-        } catch (NullPointerException x){
-        	Log.e("Is The FacebookId Ready Yet?", "NULL PTR EXCEPTION");
-        }
+       
         
         View layout = getLayoutInflater().inflate(
 				R.layout.activity_main, null);
