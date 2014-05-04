@@ -15,9 +15,7 @@
     <string name="save">Save</string>
     <string name="toss">Toss</string>
     <string name="note">Note</string>
-    <string name="to">To:</string>
-    <string name="from">From:</string>
-    <string name="nobody">Nobody</string>
+  
 
     <!-- Menu Titles -->
     <string name="menu_settings">settings</string>
@@ -65,6 +63,12 @@
     <string name="pref_note_radius_title">Radius</string>
     <string name="pref_note_radius_summary">Radius in meters of the geofence surrounding your dropped notes.</string>
     <string name="pref_note_radius_default">50</string>
+    
+    <!-- Edit Note -->
+    <string name="to">To:</string>
+    <string name="from">From:</string>
+    <string name="nobody">drop to..</string>
+    <string name="edit_note_field_hint">Type a message..</string>
 
     <!-- Geofence Messages -->
     <string name="add_geofences_result_success">        Add Geofences: Success GeofenceRequestIds=%1$s</string>
