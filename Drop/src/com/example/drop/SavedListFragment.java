@@ -91,6 +91,8 @@ public class SavedListFragment extends Fragment {
 					}
 				}
 			}
+			
+			
 
 			Log.i("DROPPED_LIST", "FILES SIZE = " + files.size());
 

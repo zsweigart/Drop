@@ -179,6 +179,13 @@ public class GalleryScreen extends FragmentActivity {
 
 		Log.i("DROPPED_LIST_ASYNC", directory.getAbsolutePath());
 		fileList = directory.listFiles();
+		
+		for(int i = 0; i < fileList.length / 2; i++)
+		{
+			File temp = fileList[i];
+		    fileList[i] = fileList[fileList.length - i - 1];
+		    fileList[fileList.length - i - 1] = temp;
+		}
 
 		if (fileList != null) {
 
