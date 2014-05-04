@@ -13,8 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"        
         android:visibility="visible"
         android:src="@drawable/ic_action_search"
         android:contentDescription="@string/app_name" />
@@ -24,6 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:paddingBottom="80dp"
         android:background="@color/transWhite">       
 
 	     <EditText
@@ -33,25 +33,16 @@
 	         android:layout_centerVertical="true"
 	         android:layout_marginLeft="8dp"
 	         android:layout_marginTop="5dp"
+	         android:layout_alignParentTop="true"
 	         android:maxLength="140"
-	         android:inputType="textMultiLine" />
-	
-	    <TextView
-	        android:id="@+id/from"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_below="@id/edit_note_content"
-	        android:layout_marginLeft="5dp"
-	        android:layout_marginTop="5dp"
-	        android:text="@string/to"
-	        android:textAppearance="?android:attr/textAppearanceMedium" />
+	         android:hint="@string/edit_note_field_hint"
+	         android:inputType="textMultiLine" />	
 	
 	    <EditText
 	        android:id="@+id/recievers"
 	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignLeft="@+id/from"
-	        android:layout_below="@+id/from"
+	        android:layout_height="wrap_content"	       
+	        android:layout_below="@+id/edit_note_content"
 	        android:layout_marginLeft="8dp"
 	        android:layout_marginTop="5dp"
 	        android:text="@string/nobody"
