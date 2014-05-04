@@ -1,7 +1,5 @@
 package com.example.drop;
 
-import org.json.JSONException;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;

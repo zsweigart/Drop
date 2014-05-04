@@ -11,6 +11,13 @@
     <string name="thumbnail">Thumbnail</string>
     <string name="note_id">Note ID</string>
     <string name="new_note">New Note</string>
+    <string name="Login">Log In</string>
+    <string name="save">Save</string>
+    <string name="toss">Toss</string>
+    <string name="note">Note</string>
+    <string name="to">To:</string>
+    <string name="from">From:</string>
+    <string name="nobody">Nobody</string>
 
     <!-- Menu Titles -->
     <string name="menu_settings">settings</string>
@@ -49,14 +56,6 @@
     <string name="title_activity_settings">settings</string>
     <string name="title_activity_login_screen">LoginScreen</string>
     <string name="title_activity_view_note_screen">ViewNoteScreen</string>
-    
-    <string name="Login">Log In</string>
-    
-    
-    <string name="note">Note</string>
-    <string name="to">To:</string>
-    <string name="from">From:</string>
-    <string name="nobody">Nobody</string>
 
     <!-- Preferences -->
     <string name="pref_monkeys">Monkeys?</string>

@@ -194,6 +194,8 @@ public class GeofenceTransitionService extends IntentService {
 						// notificationIntent.putExtra(getString(R.string.note_id), id);
 						// //note_id => requestId of the triggering geofence
 						notificationIntent.putExtra("com.example.drop.Note", n);
+						notificationIntent.putExtra("justPickedUp", true);
+						
 						// Construct a task stack
 						TaskStackBuilder stackBuilder = TaskStackBuilder
 								.create(GeofenceTransitionService.this);

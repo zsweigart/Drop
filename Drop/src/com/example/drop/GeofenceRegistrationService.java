@@ -1,10 +1,7 @@
 package com.example.drop;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.json.JSONException;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -15,15 +12,12 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import android.app.IntentService;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
 
 public class GeofenceRegistrationService extends IntentService {
 
-	private ArrayList<Note> newNotes;	
 	private GeofenceRequester gfRequester;
 	private Handler handler;
 	private static final int POLL_INTERVAL_MILLIS = 60*60*1000; // 1 hour

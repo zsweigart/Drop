@@ -82,7 +82,7 @@ public class DroppedListFragment extends Fragment {
 		@Override
 		protected ArrayList<Note> doInBackground(Void... params) {
 			Log.i("DROPPED_LIST_ASYNC", "DO IN BACKGROUND");
-			File directory = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Android/data/com.example.drop/notes");
+			File directory = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+Drop.DROPPED_NOTE_DIR);
 			files = new ArrayList<File>();
 			ArrayList<Note> notes = new ArrayList<Note> ();
 
