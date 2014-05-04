@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,11 +17,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
-public class DrawScreen extends DrawerFragmentActivity {
+public class DrawScreen extends Activity {
 
 	private static final String TAG = "DRAW"; // Used for logging
 	Bitmap b; //Used to load the picture from the file
@@ -33,12 +33,8 @@ public class DrawScreen extends DrawerFragmentActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
-		View layout = getLayoutInflater().inflate(
-				R.layout.activity_draw_screen, null);
-		FrameLayout frame = (FrameLayout) findViewById(R.id.content_frame);
-		frame.addView(layout);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_draw_screen);
 
 		// Get the location of the picture
 		Intent i = getIntent();
