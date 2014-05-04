@@ -10,16 +10,11 @@ public class Settings extends DrawerFragmentActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_settings);
-        
-        View layout =  getLayoutInflater().inflate(R.layout.activity_dropped_list_screen, null);
-        FrameLayout frame = (FrameLayout) findViewById(R.id.content_frame);
-        frame.addView(layout);
+        super.onCreate(savedInstanceState);      
         
      // Display the fragment as the main content.
         getFragmentManager().beginTransaction()
-                .replace(android.R.id.content, new SettingsFragment())
+                .replace(R.id.content_frame, new SettingsFragment())
                 .commit();       
     }  
 	

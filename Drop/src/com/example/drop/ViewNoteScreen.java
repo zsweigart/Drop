@@ -14,7 +14,7 @@ public class ViewNoteScreen extends DrawerFragmentActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); 
         //These three lines might make the drawer menu work. That's the hope, anyway.
-        View layout =  getLayoutInflater().inflate(R.layout.activity_dropped_list_screen, null);
+        View layout =  getLayoutInflater().inflate(R.layout.activity_view_note_screen, null);
         FrameLayout frame = (FrameLayout) findViewById(R.id.content_frame);
         frame.addView(layout);
     }	
@@ -50,5 +50,4 @@ public class ViewNoteScreen extends DrawerFragmentActivity {
 						ViewNoteFragment.newInstance(current_note, wasFound,
 								justPickedUp)).commit();
 	}
-
 }
