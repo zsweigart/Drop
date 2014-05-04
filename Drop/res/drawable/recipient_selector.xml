@@ -3,5 +3,6 @@
     <item android:state_focused="true" android:drawable="@color/dropBlue" /> <!-- focused -->
     <item android:state_focused="true" android:state_pressed="true" android:drawable="@color/dropBlue" /> <!-- focused and pressed-->
     <item android:state_pressed="true" android:drawable="@color/dropBlue" /> <!-- pressed -->
-    <item android:drawable="@color/white" /> <!-- default -->
+    <item android:state_selected="true" android:drawable="@color/white" />
+    <item android:drawable="@color/lightGrey" /> <!-- default -->
 </selector> 

@@ -30,7 +30,8 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toLeftOf="@id/recipients_select_btn" >
+            android:layout_toLeftOf="@id/recipients_select_btn"
+            android:background="@color/dropBlue" >
 
             <TextView
                 android:id="@+id/recipients_selected_text"
@@ -42,7 +43,8 @@
                 android:maxLines="100"
                 android:scrollHorizontally="false"
                 android:textColor="@color/white"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+        		android:background="@color/dropBlue" />
         </ScrollView>
     </RelativeLayout>
 

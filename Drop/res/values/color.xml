@@ -1,5 +1,6 @@
 <resources>
     <color name="dropBlue">#41D8D8</color>
     <color name="white">#FFFFFF</color>
+    <color name="lightGrey">#DDDDDD</color>
     <color name="transWhite">#88ffffff</color>
 </resources>

@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
@@ -25,7 +26,6 @@ public class RecipientsArrayAdapter extends ArrayAdapter<JSONObject> implements 
 	  private final ArrayList<JSONObject> values;
 	  HashMap<String, Integer> alphaIndexer;
       String[] sections;
-	  RelativeLayout recipientRow;
 	  private Activity parentActivity;
 
 	  public RecipientsArrayAdapter(Context context, ArrayList<JSONObject> listItems, Activity parent) {
@@ -83,7 +83,8 @@ public class RecipientsArrayAdapter extends ArrayAdapter<JSONObject> implements 
 	        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	    View rowView = inflater.inflate(R.layout.recipients_listview_item, parent, false);
 	    TextView textView = (TextView) rowView.findViewById(R.id.recipients_name);
-	    recipientRow = (RelativeLayout) rowView.findViewById(R.id.recipient_list_row);
+	    final ImageView icon = (ImageView) rowView.findViewById(R.id.recipients_icon);
+	    final RelativeLayout recipientRow = (RelativeLayout) rowView.findViewById(R.id.recipient_list_row);
 	    final int loc = position;
 	    recipientRow.setOnClickListener(new OnClickListener(){
 			public void onClick(View arg0) {
@@ -96,6 +97,8 @@ public class RecipientsArrayAdapter extends ArrayAdapter<JSONObject> implements 
 				}
 				if(!isSelected)
 				{
+					icon.setVisibility(View.VISIBLE);
+					recipientRow.setSelected(true);
 					try {
 						values.get(loc).put("checked",true);
 					} catch (JSONException e) {
@@ -105,6 +108,8 @@ public class RecipientsArrayAdapter extends ArrayAdapter<JSONObject> implements 
 				}
 				else
 				{
+					icon.setVisibility(View.INVISIBLE);
+					recipientRow.setSelected(false);
 					try {
 						values.get(loc).put("checked",false);
 					} catch (JSONException e) {
