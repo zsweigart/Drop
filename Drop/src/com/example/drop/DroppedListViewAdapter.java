@@ -85,10 +85,10 @@ public class DroppedListViewAdapter extends BaseAdapter {
 			public void onClick(View arg0) {
 				Log.d("DroppedListViewAdapter", "Clicked on position "
 						+ position);
-				Intent i = new Intent(activity, ViewNoteScreen.class);
-				i.putExtra("com.example.drop.Note", note);
-				i.putExtra("wasFound", false);
-				activity.startActivity(i);
+				Intent launchGallery = new Intent(activity,
+						DroppedViewPagerScreen.class);
+				launchGallery.putExtra("GRID_ITEM_POS", position);
+				activity.startActivity(launchGallery);
 			}
 
 		});
