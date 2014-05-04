@@ -9,13 +9,13 @@
 
     <Button
         android:id="@+id/button_capture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_marginBottom="20dp"
-        android:background="@drawable/roundbutton" />
+        android:background="@drawable/circle_icon" />
 
     <Button
         android:id="@+id/button_switch_camera"
