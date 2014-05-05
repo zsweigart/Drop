@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -45,6 +46,7 @@ public class EditNoteScreen extends DrawerFragmentActivity  {
 				R.layout.activity_edit_note_screen, null);
 		FrameLayout frame = (FrameLayout) findViewById(R.id.content_frame);
 		frame.addView(layout);
+		//setContentView(R.layout.activity_edit_note_screen);
 		
 		client = new LocationService(this); //** Using the new LocationService
 		recipients = new ArrayList<String>();

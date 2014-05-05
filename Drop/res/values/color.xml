@@ -3,4 +3,5 @@
     <color name="white">#FFFFFF</color>
     <color name="lightGrey">#DDDDDD</color>
     <color name="transWhite">#bbffffff</color>
+     <color name="transBlack">#bb000000</color>
 </resources>

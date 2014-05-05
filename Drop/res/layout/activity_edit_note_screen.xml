@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
 
-<RelativeLayout 
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/editNoteRelativeLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/edit_note_thumbnail"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"        
         android:visibility="visible"
@@ -20,19 +20,22 @@
 
     <RelativeLayout
         android:id="@+id/editNoteFields"
-        android:layout_width="match_parent"
+        android:background="@color/transBlack"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:paddingBottom="80dp"
-        android:background="@color/transWhite">       
+        android:layout_centerHorizontal="true"                
+        >       
 
 	     <EditText
 	         android:id="@+id/edit_note_content"
+	         android:background="@drawable/edit_note_field_rounded"
 	         android:layout_width="fill_parent"
 	         android:layout_height="wrap_content"	       
-	         android:layout_centerVertical="true"
-	         android:layout_marginLeft="8dp"
-	         android:layout_marginTop="5dp"
+	         android:layout_centerVertical="true"	         
+	         android:layout_marginLeft="5dp"
+	         android:layout_marginRight="5dp"
+	         android:layout_marginTop="15dp"	         
 	         android:layout_alignParentTop="true"
 	         android:maxLength="140"
 	         android:hint="@string/edit_note_field_hint"
@@ -40,11 +43,13 @@
 	
 	    <EditText
 	        android:id="@+id/recievers"
-	        android:layout_width="wrap_content"
+	        android:background="@drawable/edit_note_field_rounded"
+	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"	       
-	        android:layout_below="@+id/edit_note_content"
-	        android:layout_marginLeft="8dp"
-	        android:layout_marginTop="5dp"
+	        android:layout_below="@id/edit_note_content"
+	        android:layout_marginLeft="5dp"
+	        android:layout_marginRight="5dp"
+	        android:layout_marginTop="15dp"
 	        android:text="@string/nobody"
 	        android:inputType="text" />	
 	
@@ -53,11 +58,12 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center"
-			android:layout_below="@id/recievers"
-			android:layout_alignParentRight="true"
-			android:layout_marginRight="20dp"
+			android:layout_below="@id/recievers"	
+			android:layout_marginTop="15dp"		
+			android:layout_marginBottom="15dp"			
+			android:layout_centerHorizontal="true"			
 			android:text="@string/drop" />         
     </RelativeLayout>    
 </RelativeLayout>
 
-</ScrollView>
+
