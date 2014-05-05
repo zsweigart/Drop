@@ -6,10 +6,10 @@
     
 	<TextView 
 	    android:id="@+id/tv"
-	    android:textColor="#DDDDDD"
+	    android:textColor="@color/dropBlue"
 	    android:padding="5sp"
 	    android:layout_width="fill_parent"
-	    android:background="#000000"
+	    android:background="@color/white"
 	    android:singleLine="true"
 	    android:gravity="left"
 	    android:layout_height="wrap_content"
@@ -19,6 +19,6 @@
 	<View
 	    android:layout_width="fill_parent"
 	    android:layout_height="2dp"
-	    android:background="#AAAAAA"/>
+	    android:background="@color/white"/>
 
 </LinearLayout>
