@@ -2,18 +2,18 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- the theme applied to the application or activity -->
-    <style name="CustomActionBarTheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">
+    <style name="CustomTheme" parent="@android:style/Theme.Holo.Light">
         <item name="android:actionBarStyle">@style/MyActionBar</item>
-        <item name="android:titleTextStyle">@style/MyActionBar.Text</item>
-        <item name="android:background">@drawable/actionbar_background</item>
     </style>
 
     <!-- ActionBar styles -->
     <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
         <item name="android:background">@drawable/actionbar_background</item>
+        <item name="android:textColor">@color/dropBlue</item>
+        <item name="android:titleTextStyle">@style/MyActionBar.Text</item>
     </style>
-
-    <style name="MyActionBar.Text" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+    
+    <style name="MyActionBar.Text" parent="@android:style/TextAppearance.Medium">
         <item name="android:textColor">@color/dropBlue</item>
     </style>
 

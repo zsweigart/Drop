@@ -75,7 +75,7 @@ public class DroppedListViewAdapter extends BaseAdapter {
 				e.printStackTrace();
 			}
 		}
-		recipients.setText(recievers.substring(0, recievers.length() - 3));
+		recipients.setText(recievers.substring(0, recievers.length() - 2));
 
 		RelativeLayout row = (RelativeLayout) rowView
 				.findViewById(R.id.dropped_row);
