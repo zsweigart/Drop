@@ -9,6 +9,8 @@
         android:layout_height="fill_parent"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
         tools:context=".DrawScreen" />
     
     <Button

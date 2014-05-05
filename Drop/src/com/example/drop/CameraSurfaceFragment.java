@@ -176,7 +176,7 @@ public class CameraSurfaceFragment extends Fragment {
 			Log.i(TAG, "SCREENWIDTH: " + screenWidth);
 			List<Camera.Size> sizes = cameraParameters.getSupportedPreviewSizes();
 			for (Camera.Size cSize : sizes) {
-				if (cSize.width >= screenWidth/8 && cSize.width <= width) {
+				if (cSize.width >= screenWidth && cSize.width <= width) {
 					width = cSize.width;
 					height = cSize.height;
 				}
