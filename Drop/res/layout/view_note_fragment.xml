@@ -32,11 +32,14 @@
 	         android:background="@drawable/edit_note_field_rounded"
 	         android:layout_width="fill_parent"
 	         android:layout_height="wrap_content"	         
-	         android:layout_centerVertical="true"
-	         android:layout_marginLeft="8dp"
+	       
+	         android:layout_marginLeft="5dp"
+	         android:layout_marginRight="5dp"
 	         android:layout_marginTop="5dp"
+	         
+	         android:layout_alignParentTop="true"
 	         android:maxLength="140"
-	         android:hint="Note Content"
+	         android:hint="@string/view_note_field_hint"
 	         />
 	
 	    <TextView
@@ -46,6 +49,7 @@
 	        android:layout_height="wrap_content"
 	        android:layout_below="@id/view_note_content"
 	        
+	        
 	        android:layout_marginLeft="5dp"
 	        android:layout_marginTop="20dp"
 	        
@@ -54,13 +58,13 @@
 	
 	    <TextView
 	        android:id="@+id/view_note_sender"
-	          android:background="@drawable/edit_note_field_rounded"
+	         android:background="@drawable/edit_note_field_rounded"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_toRightOf="@id/view_note_from"
 	        android:layout_alignBaseline="@id/view_note_from"	        
 	        
-	        android:layout_marginLeft="8dp"
+	        android:layout_marginLeft="5dp"
 	        android:layout_marginTop="5dp"
 	        
 	        android:text="@string/nobody"
@@ -70,7 +74,7 @@
 	        android:id="@+id/view_note_to"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        
+	        android:layout_below="@id/view_note_content"
 	        
 	        android:layout_marginLeft="5dp"
 	        android:layout_marginTop="15dp"
@@ -80,13 +84,13 @@
 	
 	    <TextView
 	        android:id="@+id/view_note_receiver"
-	          android:background="@drawable/edit_note_field_rounded"
+	        android:background="@drawable/edit_note_field_rounded"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_toRightOf="@id/view_note_to"
 	        android:layout_alignBaseline="@id/view_note_to"
 	        
-	        android:layout_marginLeft="8dp"
+	        android:layout_marginLeft="5dp"
 	        android:layout_marginTop="5dp"
 	        
 	        android:text="@string/nobody"
