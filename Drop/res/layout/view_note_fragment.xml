@@ -35,7 +35,7 @@
 	       
 	         android:layout_marginLeft="5dp"
 	         android:layout_marginRight="5dp"
-	         android:layout_marginTop="5dp"
+	         android:layout_marginTop="15dp"
 	         
 	         android:layout_alignParentTop="true"
 	         android:maxLength="140"
@@ -44,21 +44,22 @@
 	
 	    <TextView
 	        android:id="@+id/view_note_from"
-	      
+	        android:background="@drawable/edit_note_field_rounded"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_below="@id/view_note_content"
 	        
 	        
 	        android:layout_marginLeft="5dp"
-	        android:layout_marginTop="20dp"
+	        android:layout_marginTop="15dp"
+	        android:layout_marginBottom="5dp"
 	        
 	        android:text="@string/from"
 	        android:textAppearance="?android:attr/textAppearanceMedium" />
 	
 	    <TextView
 	        android:id="@+id/view_note_sender"
-	         android:background="@drawable/edit_note_field_rounded"
+	        android:background="@drawable/edit_note_field_rounded"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_toRightOf="@id/view_note_from"
@@ -66,18 +67,21 @@
 	        
 	        android:layout_marginLeft="5dp"
 	        android:layout_marginTop="5dp"
+	         android:layout_marginBottom="5dp"
 	        
 	        android:text="@string/nobody"
 	        />
 	    
 	    <TextView
 	        android:id="@+id/view_note_to"
+	        android:background="@drawable/edit_note_field_rounded"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_below="@id/view_note_content"
 	        
 	        android:layout_marginLeft="5dp"
 	        android:layout_marginTop="15dp"
+	         android:layout_marginBottom="5dp"
 	        
 	        android:text="@string/to"
 	        android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -92,6 +96,7 @@
 	        
 	        android:layout_marginLeft="5dp"
 	        android:layout_marginTop="5dp"
+	         android:layout_marginBottom="5dp"
 	        
 	        android:text="@string/nobody"
 	        />

@@ -80,12 +80,14 @@ public class ViewNoteFragment extends Fragment {
 		content_text_view = (TextView) rootView
 				.findViewById(R.id.view_note_content);
 
-		if (wasFound) {
+		if (wasFound) { // We want to see who left it for us
+			//We want to see the "From" stuff
 			to_label.setVisibility(View.GONE);
 			to_text_view.setVisibility(View.GONE);
 			from_label.setVisibility(View.VISIBLE);
 			from_text_view.setVisibility(View.VISIBLE);
-		} else {
+		} else { // Otherwise, we left it for someone else
+			//We want to see the "To" stuff
 			to_label.setVisibility(View.VISIBLE);
 			to_text_view.setVisibility(View.VISIBLE);
 			from_text_view.setVisibility(View.GONE);
@@ -143,13 +145,13 @@ public class ViewNoteFragment extends Fragment {
 	}
 
 	void load_note(Note note) {
-		// Set the values for fields appropriate when note was found
-		if (wasFound) {
+		// Set the values for fields appropriate when note was not found
+		if (!wasFound) {
 			set_receiver(note.getReceivers());
 		}
 
-		// Set values for fields appropriate when note was not found
-		if (!wasFound) {
+		// Set values for fields appropriate when note was found
+		if (wasFound) {
 			set_sender(note.getCreator().toString());
 		}
 
@@ -159,25 +161,13 @@ public class ViewNoteFragment extends Fragment {
 	}
 
 	private void set_picture(Bitmap picture) {
+		//TODO: UniversalImageLoader here?
 		img.setImageBitmap(picture);
 	}
 
 	private void set_receiver(ArrayList<String> arrayList) {
-		String receiverString = "";
-		for (String user : arrayList) {
-			if (receiverString != "")
-				receiverString += ", ";
-			try {
-				JSONObject obj = new JSONObject(user);
-				receiverString += obj.getString("id");
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-		}
-		if (receiverString.length() >= 2)
-			receiverString = receiverString.substring(0,
-					receiverString.length() - 1);
-		to_text_view.setText(receiverString);
+		
+		to_text_view.setText(TextFormatter.receivers(arrayList));
 	}
 
 	private void set_sender(String string) {
