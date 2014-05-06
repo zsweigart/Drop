@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
@@ -17,6 +18,8 @@ public class MainActivity extends DrawerFragmentActivity {
     static final int ITEMS = 3;
     MyAdapter mAdapter;
     ViewPager mPager;
+    static DroppedListFragment droppedFrag;
+    static SavedListFragment savedFrag;
     
     static MainActivity init()
     {
@@ -36,6 +39,7 @@ public class MainActivity extends DrawerFragmentActivity {
         mAdapter = new MyAdapter(getSupportFragmentManager());
         mPager = (ViewPager) findViewById(R.id.pager);
         mPager.setAdapter(mAdapter);
+        mPager.setOffscreenPageLimit(0);
         mPager.setOnPageChangeListener(new OnPageChangeListener(){
 
 			public void onPageScrollStateChanged(int arg0) {
@@ -53,20 +57,12 @@ public class MainActivity extends DrawerFragmentActivity {
 				Drop.currentPage = position;
 				if(position == 0)
 				{
-					SavedListFragment fragment = (SavedListFragment)findFragmentByPosition(position);
-					if(fragment != null)
-					{
-						fragment.updateList();
-					}
+					savedFrag.updateList();
 				}
 				
 				if(position == 2)
 				{
-					DroppedListFragment fragment = (DroppedListFragment)findFragmentByPosition(position);
-					if(fragment != null)
-					{
-						fragment.updateList();
-					}
+					droppedFrag.updateList();
 				}
 				
 			}
@@ -89,7 +85,7 @@ public class MainActivity extends DrawerFragmentActivity {
     	}
     }
 
-    public static class MyAdapter extends FragmentPagerAdapter  {
+    public static class MyAdapter extends FragmentStatePagerAdapter  {
         public MyAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
         }
@@ -105,20 +101,16 @@ public class MainActivity extends DrawerFragmentActivity {
         	switch(position)
         	{
         	case 0:
-        		return SavedListFragment.init();
+        		savedFrag = (SavedListFragment) SavedListFragment.init();
+        		return savedFrag;
         	case 1:
         		//return CameraFragment.init();
         		return CameraSurfaceFragment.init();
         	default:
-        		return DroppedListFragment.init();
+        		droppedFrag =  (DroppedListFragment) DroppedListFragment.init();
+        		return droppedFrag;
         	}
         }
-    }
-    
-    public Fragment findFragmentByPosition(int position) {
-        return getSupportFragmentManager().findFragmentByTag(
-                "android:switcher:" + mPager.getId() + ":"
-                        + mAdapter.getItemId(position));
     }
     
     protected void onActivityResult(int requestCode, int resultCode, Intent retData) {

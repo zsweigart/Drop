@@ -25,6 +25,7 @@ public class SavedListFragment extends Fragment {
 	private View layout;
 	private ArrayList<File> files;
 	private final int LAZY_NUM = 8;
+    public static boolean updateDropped = false;
 
 	static Fragment init() {
 		SavedListFragment savedFrag = new SavedListFragment();
@@ -48,6 +49,11 @@ public class SavedListFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();		
+		if(updateDropped)
+		{
+			updateList();
+			updateDropped = false;
+		}
 	}
 
 	@Override

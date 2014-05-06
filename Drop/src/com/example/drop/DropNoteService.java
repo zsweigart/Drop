@@ -20,6 +20,7 @@ public class DropNoteService extends IntentService {
 	private Note note;
 	private ParseFile file;
 	private Iterator<String> i;
+	private  Bitmap bitmap;
 	
 	public DropNoteService() {
 		super("DropNoteService");
@@ -28,7 +29,7 @@ public class DropNoteService extends IntentService {
 	protected void onHandleIntent(Intent intent) {
 		note =  (Note) intent.getSerializableExtra("note");
 
-        Bitmap bitmap = note.getPicture();
+        bitmap = note.getPicture();
         ByteArrayOutputStream stream = new ByteArrayOutputStream(); 
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream); 
         byte[] data = stream.toByteArray(); 
@@ -66,7 +67,9 @@ public class DropNoteService extends IntentService {
 			    			@Override
 			    			public void done(ParseException arg0)
 			    			{
-			    				
+			    				bitmap.recycle();
+			    				bitmap = null;
+			    				System.gc();
 			    			}
 			            });
 		            }

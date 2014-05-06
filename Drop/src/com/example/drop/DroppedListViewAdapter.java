@@ -1,13 +1,25 @@
 package com.example.drop;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +27,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -22,14 +35,32 @@ public class DroppedListViewAdapter extends BaseAdapter {
 	private Activity activity;
 	private ArrayList<Note> data;
 	private static LayoutInflater inflater = null;
-	public ImageLoader imageLoader;
+	protected ImageLoader imageLoader = ImageLoader.getInstance();
+	DisplayImageOptions options;
+	private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
+	
+	private class ViewHolder {
+		public ImageView picture;
+		public TextView noteText;
+		public TextView recipients;
+		public RelativeLayout rowView;
+	}
 
 	public DroppedListViewAdapter(Activity a, ArrayList<Note> d) {
 		activity = a;
 		data = d;
 		inflater = (LayoutInflater) activity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		imageLoader = new ImageLoader(activity.getApplicationContext());
+		
+		options = new DisplayImageOptions.Builder()
+		.showImageOnLoading(R.drawable.drop_icon)
+		.showImageForEmptyUri(R.drawable.drop_icon)
+		.showImageOnFail(R.drawable.drop_icon)
+		.cacheInMemory(true)
+		.cacheOnDisc(true)
+		.considerExifParams(true)
+		.displayer(new RoundedBitmapDisplayer(20))
+		.build();
 	}
 
 	public int getCount() {
@@ -45,25 +76,22 @@ public class DroppedListViewAdapter extends BaseAdapter {
 	}
 
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		final Note note;
-		View rowView = convertView;
+		final Note note = data.get(position);
+		View view = convertView;
+		final ViewHolder holder;
 		if (convertView == null) {
-			rowView = inflater.inflate(R.layout.dropped_listview_item, null);
+			view = inflater.inflate(R.layout.dropped_listview_item, null);
+			holder = new ViewHolder();
+			holder.picture = (ImageView) view.findViewById(R.id.dropped_row_imageView);
+			holder.picture.setScaleType(ScaleType.CENTER_CROP);
+			holder.noteText = (TextView) view.findViewById(R.id.dropped_row_note_content);
+			holder.recipients = (TextView) view.findViewById(R.id.dropped_row_recievers);
+			view.setTag(holder);
+		} else {
+			holder = (ViewHolder) view.getTag();
 		}
-		ImageView picture = (ImageView) rowView
-				.findViewById(R.id.dropped_row_imageView);
-		TextView noteText = (TextView) rowView
-				.findViewById(R.id.dropped_row_note_content);
-		TextView recipients = (TextView) rowView
-				.findViewById(R.id.dropped_row_recievers);
 
-		note = data.get(position);
-
-		Log.i("DROP_ADAPTER", note.getPictureFile().getAbsolutePath());
-		picture.setImageBitmap(note.getPicture(picture.getHeight(),
-				picture.getWidth()));
-
-		noteText.setText(note.getMessage());
+		holder.noteText.setText(note.getMessage());
 		
 		StringBuilder sb = new StringBuilder();
 		ArrayList<String> r = note.getReceivers();
@@ -88,12 +116,12 @@ public class DroppedListViewAdapter extends BaseAdapter {
 				e.printStackTrace();
 			}
 		}		
-		recipients.setText(sb.toString());
-
-		RelativeLayout row = (RelativeLayout) rowView
+		holder.recipients.setText(sb.toString());
+		
+		holder.rowView = (RelativeLayout) view
 				.findViewById(R.id.dropped_row);
 
-		row.setOnClickListener(new OnClickListener() {
+		holder.rowView.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View arg0) {
 				Log.d("DroppedListViewAdapter", "Clicked on position "
@@ -105,7 +133,27 @@ public class DroppedListViewAdapter extends BaseAdapter {
 			}
 
 		});
+		
+		imageLoader.displayImage(Uri.fromFile(note.getPictureFile()).toString(), holder.picture, options, animateFirstListener);
 
-		return rowView;
+		return view;
+
+	}
+	
+	private static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
+
+		static final List<String> displayedImages = Collections.synchronizedList(new LinkedList<String>());
+
+		@Override
+		public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+			if (loadedImage != null) {
+				ImageView imageView = (ImageView) view;
+				boolean firstDisplay = !displayedImages.contains(imageUri);
+				if (firstDisplay) {
+					FadeInBitmapDisplayer.animate(imageView, 500);
+					displayedImages.add(imageUri);
+				}
+			}
+		}
 	}
 }

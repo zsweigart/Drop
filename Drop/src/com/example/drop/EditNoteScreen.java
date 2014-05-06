@@ -37,6 +37,7 @@ public class EditNoteScreen extends DrawerFragmentActivity  {
 	private Button dropButton;
 	private ArrayList<String> recipients;
 	private LocationService client;
+	private Bitmap bit;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -136,6 +137,7 @@ public class EditNoteScreen extends DrawerFragmentActivity  {
 	}
 
 	public void setImage(Bitmap b) {
+		bit = b;
 		thumbnail.setVisibility(0);
 		thumbnail.setImageBitmap(b);
 	}
@@ -193,6 +195,12 @@ public class EditNoteScreen extends DrawerFragmentActivity  {
 		Log.d(TAG, "radius loaded from preferences is:"+ radiusFromPrefs);
 		Drop.current_note.setRadius(radiusFromPrefs);		
 		
+		try {
+			bit.recycle();
+			bit = null;
+			System.gc();
+		} catch(Exception e){
+		}
 		Intent i = new Intent(EditNoteScreen.this, DropNoteScreen.class);
 		startActivity(i);
 

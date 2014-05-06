@@ -22,9 +22,9 @@ public class DroppedListFragment extends Fragment {
 
 	private ProgressDialog progress;
 	private ListView list;
-	private final int LAZY_NUM = 8;
 	private ArrayList<File> files;
-    static boolean updateDropped = false;
+    public static boolean updateDropped = false;
+    private DroppedListViewAdapter adapter;
 	
 	static Fragment init() {
 		DroppedListFragment droppedFrag = new DroppedListFragment();
@@ -60,7 +60,6 @@ public class DroppedListFragment extends Fragment {
 	public void onPause()
 	{
 		super.onPause();
-		System.gc();
 	}
 	
 	public void updateList()
@@ -100,7 +99,7 @@ public class DroppedListFragment extends Fragment {
 			
 			Log.i("DROPPED_LIST", "FILES SIZE = " +files.size());
 			
-			for (int i = 0; i < LAZY_NUM; i++) {
+			for (int i = 0; i < files.size(); i++) {
 				if(i > files.size()-1)
 				{
 					break;
@@ -133,7 +132,7 @@ public class DroppedListFragment extends Fragment {
 	        super.onPostExecute(result);
 	        Log.i("DROPPED_LIST", "ON POST EXECUTE "+result.size());
 	        progress.dismiss();
-	        DroppedListViewAdapter adapter = new DroppedListViewAdapter(getActivity(), result);
+	        adapter = new DroppedListViewAdapter(getActivity(), result);
 	        list.setAdapter(adapter);
 	    }
 
