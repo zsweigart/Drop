@@ -29,6 +29,7 @@
 	
 	     <TextView
 	         android:id="@+id/view_note_content"
+	         style="@style/message"
 	         android:background="@drawable/edit_note_field_rounded"
 	         android:layout_width="fill_parent"
 	         android:layout_height="wrap_content"	         
@@ -44,6 +45,7 @@
 	
 	    <TextView
 	        android:id="@+id/view_note_from"
+	        style="@style/message"
 	        android:background="@drawable/edit_note_field_rounded"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
@@ -59,6 +61,7 @@
 	
 	    <TextView
 	        android:id="@+id/view_note_sender"
+	        style="@style/message"
 	        android:background="@drawable/edit_note_field_rounded"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
@@ -74,6 +77,7 @@
 	    
 	    <TextView
 	        android:id="@+id/view_note_to"
+	        style="@style/message"
 	        android:background="@drawable/edit_note_field_rounded"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
@@ -88,9 +92,10 @@
 	
 	    <TextView
 	        android:id="@+id/view_note_receiver"
+	        style="@style/message"
 	        android:background="@drawable/edit_note_field_rounded"
 	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
+        	android:layout_height="wrap_content"
 	        android:layout_toRightOf="@id/view_note_to"
 	        android:layout_alignBaseline="@id/view_note_to"
 	        
