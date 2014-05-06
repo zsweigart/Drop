@@ -95,6 +95,11 @@ public class GalleryScreen extends DrawerFragmentActivity {
 	private void getFragments() {
 		File directory = new File(Environment.getExternalStorageDirectory()
 				.getAbsolutePath() + Drop.SAVED_NOTE_DIR);
+		if(!isSaved)
+		{
+			directory = new File(Environment.getExternalStorageDirectory()
+					.getAbsolutePath() + Drop.DROPPED_NOTE_DIR);
+		}
 		Note note = new Note();
 
 		Log.i("DROPPED_LIST_ASYNC", directory.getAbsolutePath());
