@@ -127,7 +127,8 @@ public class DroppedListViewAdapter extends BaseAdapter {
 				Log.d("DroppedListViewAdapter", "Clicked on position "
 						+ position);
 				Intent launchGallery = new Intent(activity,
-						DroppedViewPagerScreen.class);
+						GalleryScreen.class);
+				launchGallery.putExtra("type", "dropped");
 				launchGallery.putExtra("GRID_ITEM_POS", position);
 				activity.startActivity(launchGallery);
 			}

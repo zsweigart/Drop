@@ -4,10 +4,13 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -72,6 +75,19 @@ public class SavedListAdapter extends BaseAdapter {
 			holder = new ViewHolder();
 			assert view != null;
 			holder.imageView = (ImageView) view.findViewById(R.id.image);
+			holder.imageView.setOnClickListener(new OnClickListener(){
+
+				public void onClick(View arg0) {
+					Log.d("SavedListViewAdapter", "Clicked on position "
+							+ position);
+					Intent launchGallery = new Intent(activity,
+							GalleryScreen.class);
+					launchGallery.putExtra("type", "saved");
+					launchGallery.putExtra("GRID_ITEM_POS", position);
+					activity.startActivity(launchGallery);					
+				}
+				
+			});
 			holder.progressBar = (ProgressBar) view.findViewById(R.id.progress);
 			view.setTag(holder);
 		} else {
