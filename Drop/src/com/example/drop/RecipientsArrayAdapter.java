@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +32,7 @@ public class RecipientsArrayAdapter extends ArrayAdapter<JSONObject> implements 
 	  HashMap<String, Integer> alphaIndexer;
       String[] sections;
 	  private Activity parentActivity;
+	  Drawable bkgrnd = parentActivity.getResources().getDrawable(R.drawable.actionbar_background);
 
 	  public RecipientsArrayAdapter(Context context, ArrayList<JSONObject> listItems, Activity parent) {
 	    super(context, R.layout.recipients_listview_item, listItems);
@@ -97,6 +99,7 @@ public class RecipientsArrayAdapter extends ArrayAdapter<JSONObject> implements 
 	    final ImageView icon = (ImageView) rowView.findViewById(R.id.recipients_icon);
 	    final RelativeLayout recipientRow = (RelativeLayout) rowView.findViewById(R.id.recipient_list_row);
 	    final int loc = position;
+	    Log.d("ArrayAdapter", loc + "/" + values.size());
 	    if (values.size() > loc) try {
 			boolean isSelected = values.get(loc).getBoolean("checked");
 			if (isSelected){
@@ -111,6 +114,7 @@ public class RecipientsArrayAdapter extends ArrayAdapter<JSONObject> implements 
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+
 	    recipientRow.invalidate();
 	    recipientRow.setOnClickListener(new OnClickListener(){
 			public void onClick(View arg0) {
