@@ -175,15 +175,15 @@ public class CameraPreview extends SurfaceView implements
 		ArrayList <Camera.Size> pictureSizes = (ArrayList<Camera.Size>) cameraParameters.getSupportedPictureSizes();
 		for(Camera.Size s : previewSizes)
 		{
-			Log.d(TAG, s.toString());
+			Log.d(TAG, "previewSize"+s.width+"x"+s.height);
 		}
 		
 		for(Camera.Size s : pictureSizes){
-			Log.d(TAG, s.toString());
+			Log.d(TAG, "pictureSize"+s.width+"x"+s.height);
 		}
 		
 		for(String s : focusModes){
-			Log.d(TAG, s);
+			Log.d(TAG, "focusMode"+s);
 		}
 	}
 
