@@ -160,8 +160,30 @@ public class CameraPreview extends SurfaceView implements
 		else
 		{
 			cameraParameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+			
+			printCameraShit(cameraParameters);		
+			
+			
 			mCamera.setParameters(cameraParameters);
 			mCamera.startPreview();
+		}
+	}
+	
+	private void printCameraShit(Camera.Parameters cameraParameters){
+		ArrayList <String> focusModes = (ArrayList<String>) cameraParameters.getSupportedFocusModes();
+		ArrayList <Camera.Size> previewSizes = (ArrayList<Camera.Size>) cameraParameters.getSupportedPreviewSizes();
+		ArrayList <Camera.Size> pictureSizes = (ArrayList<Camera.Size>) cameraParameters.getSupportedPictureSizes();
+		for(Camera.Size s : previewSizes)
+		{
+			Log.d(TAG, s.toString());
+		}
+		
+		for(Camera.Size s : pictureSizes){
+			Log.d(TAG, s.toString());
+		}
+		
+		for(String s : focusModes){
+			Log.d(TAG, s);
 		}
 	}
 
