@@ -57,12 +57,6 @@ public class GalleryScreen extends DrawerFragmentActivity {
 		
 		pageAdapter = new GalleryPageAdapter(getSupportFragmentManager(),
 				fragList);
-
-		// This is where we get the position passed from the SavedListScreen
-		if (this.getIntent().getExtras() != null) {
-			position = this.getIntent().getExtras()
-					.getInt(SavedListAdapter.GRID_ITEM_POS);
-		}
 		
 		pager = (ViewPager) findViewById(R.id.galleryViewPager);
 		pager.setAdapter(pageAdapter);
@@ -83,6 +77,14 @@ public class GalleryScreen extends DrawerFragmentActivity {
 			}
 			
 		});
+		
+		// This is where we get the position passed from the SavedListScreen
+		if (this.getIntent().getExtras() != null) {
+			position = this.getIntent().getExtras()
+					.getInt(SavedListAdapter.GRID_ITEM_POS);
+			Log.i("GALLERY", "POSITION: " + position);
+			pager.setCurrentItem(position);
+		}
 
 	}
 
