@@ -1,110 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
 
-<RelativeLayout 
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
     android:id="@+id/viewNoteRelativeLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
 
     <ImageView
         android:id="@+id/view_note_thumbnail"
-        android:layout_width="400dp"
-        android:layout_height="400dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:visibility="visible"
         android:src="@drawable/ic_action_search"
         android:contentDescription="@string/app_name" />
-
-    <TextView
-        android:id="@+id/view_note_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/view_note_thumbnail"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
-        android:text="@string/note"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-     <TextView
-         android:id="@+id/view_note_content"
-         android:layout_width="fill_parent"
-         android:layout_height="wrap_content"
-         android:layout_below="@+id/view_note_label"
-         android:layout_centerVertical="true"
-         android:layout_marginLeft="8dp"
-         android:layout_marginTop="5dp"
-         android:maxLength="140"
-         />
-
-    <TextView
-        android:id="@+id/view_note_from"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/view_note_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
-        android:text="@string/from"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/view_note_sender"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/view_note_from"
-        android:layout_below="@+id/view_note_from"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="5dp"
-        android:text="@string/nobody"
-        />
     
-    <TextView
-        android:id="@+id/view_note_to"
-        android:layout_width="wrap_content"
+	<RelativeLayout
+        android:id="@+id/viewNoteFields"
+        android:background="@color/transBlack"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/view_note_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
-        android:text="@string/to"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/view_note_receiver"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/view_note_to"
-        android:layout_below="@+id/view_note_to"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="5dp"
-        android:text="@string/nobody"
-        />
-    
-    <Button android:id="@+id/view_note_saveBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/view_note_receiver"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginBottom="5dp"
-        android:text="@string/save"
-        android:visibility="gone"
-        />
-    
-    <Button android:id="@+id/view_note_tossBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/view_note_receiver"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="5dp"
-        android:text="@string/toss"
-        android:visibility="gone"
-        />
-    
+        android:layout_centerHorizontal="true"                
+        >	    
+	
+	     <TextView
+	         android:id="@+id/view_note_content"
+	         android:background="@drawable/edit_note_field_rounded"
+	         android:layout_width="fill_parent"
+	         android:layout_height="wrap_content"	         
+	         android:layout_centerVertical="true"
+	         android:layout_marginLeft="8dp"
+	         android:layout_marginTop="5dp"
+	         android:maxLength="140"
+	         android:hint="Note Content"
+	         />
+	
+	    <TextView
+	        android:id="@+id/view_note_from"
+	      
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@id/view_note_content"
+	        
+	        android:layout_marginLeft="5dp"
+	        android:layout_marginTop="20dp"
+	        
+	        android:text="@string/from"
+	        android:textAppearance="?android:attr/textAppearanceMedium" />
+	
+	    <TextView
+	        android:id="@+id/view_note_sender"
+	          android:background="@drawable/edit_note_field_rounded"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_toRightOf="@id/view_note_from"
+	        android:layout_alignBaseline="@id/view_note_from"	        
+	        
+	        android:layout_marginLeft="8dp"
+	        android:layout_marginTop="5dp"
+	        
+	        android:text="@string/nobody"
+	        />
+	    
+	    <TextView
+	        android:id="@+id/view_note_to"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        
+	        
+	        android:layout_marginLeft="5dp"
+	        android:layout_marginTop="15dp"
+	        
+	        android:text="@string/to"
+	        android:textAppearance="?android:attr/textAppearanceMedium" />
+	
+	    <TextView
+	        android:id="@+id/view_note_receiver"
+	          android:background="@drawable/edit_note_field_rounded"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_toRightOf="@id/view_note_to"
+	        android:layout_alignBaseline="@id/view_note_to"
+	        
+	        android:layout_marginLeft="8dp"
+	        android:layout_marginTop="5dp"
+	        
+	        android:text="@string/nobody"
+	        />
+	    
+	    <Button android:id="@+id/view_note_saveBtn"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@id/view_note_receiver"
+	        android:layout_alignParentBottom="true"
+	        android:layout_alignParentLeft="true"
+	        android:layout_marginBottom="5dp"
+	        android:text="@string/save"
+	        android:visibility="gone"
+	        />
+	    
+	    <Button android:id="@+id/view_note_tossBtn"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@id/view_note_receiver"
+	        android:layout_alignParentBottom="true"
+	        android:layout_alignParentRight="true"
+	        android:layout_marginBottom="5dp"
+	        android:text="@string/toss"
+	        android:visibility="gone"
+	        />
+	 </RelativeLayout>   
 </RelativeLayout>
-
-</ScrollView>
