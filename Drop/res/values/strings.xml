@@ -72,6 +72,7 @@
     
     <!-- Note List View -->
     <string name="no_receivers">no one in particular</string>
+    <string name="search_recipients_hint">Enter a name</string>
 
     <!-- Geofence Messages -->
     <string name="add_geofences_result_success">        Add Geofences: Success GeofenceRequestIds=%1$s</string>
