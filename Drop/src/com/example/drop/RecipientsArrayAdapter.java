@@ -102,10 +102,12 @@ public class RecipientsArrayAdapter extends ArrayAdapter<JSONObject> implements 
 			boolean isSelected = values.get(loc).getBoolean("checked");
 			if (isSelected){
 				recipientRow.setSelected(true);
+				recipientRow.setActivated(true);
 				icon.setVisibility(View.VISIBLE);
 			}
 			else{
 				recipientRow.setSelected(false);
+				recipientRow.setActivated(false);
 				icon.setVisibility(View.INVISIBLE);
 			}
 		} catch (JSONException e1) {
@@ -127,6 +129,7 @@ public class RecipientsArrayAdapter extends ArrayAdapter<JSONObject> implements 
 				{
 					icon.setVisibility(View.VISIBLE);
 					recipientRow.setSelected(true);
+					recipientRow.setActivated(true);
 					try {
 						values.get(loc).put("checked",true);
 					} catch (JSONException e) {
@@ -138,6 +141,7 @@ public class RecipientsArrayAdapter extends ArrayAdapter<JSONObject> implements 
 				{
 					icon.setVisibility(View.INVISIBLE);
 					recipientRow.setSelected(false);
+					recipientRow.setActivated(false);
 					try {
 						values.get(loc).put("checked",false);
 					} catch (JSONException e) {
@@ -145,6 +149,7 @@ public class RecipientsArrayAdapter extends ArrayAdapter<JSONObject> implements 
 						e.printStackTrace();
 					}
 				}
+				Log.i("RECIPIENTS", "IS SELECTED: " + recipientRow.isSelected());
 				
 				((SelectRecipients)parentActivity).updateSelection();
 			}

@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -59,6 +62,19 @@ public class Note implements Serializable{
 	public String getCreator()
 	{
 		return creator;
+	}
+	
+	//Creator get Name
+	public String getCreatorName()
+	{
+		try {
+			JSONObject creatorJSON = new JSONObject(creator);
+			return creatorJSON.getString("name");
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
 	}
 		
 	public void setCreator(String user)

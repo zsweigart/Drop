@@ -82,6 +82,7 @@ public class GalleryScreen extends DrawerFragmentActivity {
 		if (this.getIntent().getExtras() != null) {
 			position = this.getIntent().getExtras()
 					.getInt(SavedListAdapter.GRID_ITEM_POS);
+			Log.i("GALLERY", "POSITION: " + position);
 			pager.setCurrentItem(position);
 		}
 

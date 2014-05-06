@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:background="@drawable/recipient_selector"
     android:layout_marginTop="10dp"
-    android:layout_marginBottom="10dp" >
+    android:layout_marginBottom="10dp"
+    android:clickable="true" >
     
     <TextView android:id="@+id/recipients_name"
         android:layout_width="wrap_content"
