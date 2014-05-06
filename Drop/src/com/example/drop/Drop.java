@@ -15,6 +15,10 @@ import android.util.Log;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.model.GraphUser;
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseFacebookUtils;
@@ -49,7 +53,15 @@ public class Drop extends Application {
 		ParseFacebookUtils.initialize(Drop.this.getString(R.string.app_id));
 		makeMeRequest();
 		
-
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
+		.threadPriority(Thread.NORM_PRIORITY - 2)
+		.denyCacheImageMultipleSizesInMemory()
+		.discCacheFileNameGenerator(new Md5FileNameGenerator())
+		.tasksProcessingOrder(QueueProcessingType.LIFO)
+		.writeDebugLogs() // Remove for release app
+		.build();
+		// Initialize ImageLoader with configuration.
+		ImageLoader.getInstance().init(config);
 	}
 
 	//Get the Facebook information for the logged in parse user

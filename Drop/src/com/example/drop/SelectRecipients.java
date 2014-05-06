@@ -9,10 +9,13 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -24,12 +27,13 @@ import com.parse.ParseFacebookUtils;
 
 public class SelectRecipients extends  Activity {
     private ArrayList<String> listItems;
-    private ListView list;
+    public ListView list;
     private ArrayList <JSONObject> userlist;
     private RecipientsArrayAdapter adapter;
     private RelativeLayout listLayout;
     private TextView listText;
     private Button backButton;
+    String TAG = "SELECT";
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,14 +47,27 @@ public class SelectRecipients extends  Activity {
         userlist=new ArrayList<JSONObject>();
         listLayout.setVisibility(View.GONE);
         backButton = (Button)findViewById(R.id.recipients_select_btn);
+        list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         backButton.setOnClickListener(new OnClickListener(){
-
 			public void onClick(View arg0) {
 				finish();				
 			}
         	
         });
         makeMyFriendsRequest();
+        EditText inputSearch = (EditText) findViewById(R.id.search_recipients);
+   
+        inputSearch.addTextChangedListener(new TextWatcher() {
+
+         public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+             // When user changed the Text
+        	 SelectRecipients.this.adapter.getFilter().filter(cs);
+         }
+
+         public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) { }
+
+         public void afterTextChanged(Editable arg0) {}
+     });
     }
    
     private void makeMyFriendsRequest() {
@@ -175,7 +192,7 @@ public class SelectRecipients extends  Activity {
 	{
 		ArrayList <JSONObject> recipients = new ArrayList <JSONObject> ();
 		String selectedUsers = "";
-    	for(int i = 0; i < adapter.getCount(); i++)
+    	for(int i = 0; i < userlist.size(); i++)
     	{
     	    try {
 				if (userlist.get(i).getBoolean("checked")){                                          
@@ -190,10 +207,12 @@ public class SelectRecipients extends  Activity {
     	}
     	if(recipients.size() <= 0)
     	{
+    		Log.d(TAG, "No recipients found");
     		listLayout.setVisibility(View.GONE);
     	}
     	else
     	{
+    		Log.d(TAG, recipients.size() + " recipients found");
     		selectedUsers = selectedUsers.substring(0, selectedUsers.length()-2);
     		listLayout.setVisibility(View.VISIBLE);
     		listText.setText(selectedUsers);

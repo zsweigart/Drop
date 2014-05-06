@@ -133,7 +133,7 @@ public class GalleryScreen extends DrawerFragmentActivity {
 					e.printStackTrace();
 				}
 
-				fragList.add(i, ViewNoteFragment.newInstance(note, true, true));
+				fragList.add(i, ViewNoteFragment.newInstance(note, true, false));
 			}
 		}
 		else
@@ -172,7 +172,7 @@ public class GalleryScreen extends DrawerFragmentActivity {
 					e.printStackTrace();
 				}
 
-				fragList.add(fileList.length-1-i, ViewNoteFragment.newInstance(note, true, true));
+				fragList.add(fileList.length-1-i, ViewNoteFragment.newInstance(note, true, false));
 			}
 		}
 	}

@@ -104,6 +104,8 @@ public class CameraSurfaceFragment extends Fragment {
 			Intent i = new Intent(getActivity(), DrawScreen.class);
 			i.putExtra("image", pictureFile);
 			i.putExtra("isBack", isBack);
+			data = null;
+			System.gc();
 			startActivity(i);
 		}
 	};
@@ -111,7 +113,7 @@ public class CameraSurfaceFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-
+		System.gc();
 		if (mCamera == null) {
 			Log.i(TAG, "OPENING");
 			setCamera();

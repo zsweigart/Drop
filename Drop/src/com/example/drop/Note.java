@@ -197,4 +197,6 @@ public class Note implements Serializable{
 	{
 		isDropped = dropped;
 	}
+	
+	
 }
