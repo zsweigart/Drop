@@ -1,4 +1,6 @@
-<resources>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+  tools:ignore="MissingTranslation">
 
     <string name="app_id">237283639728754</string>
     <string name="parse_id">zdWe11jTmmRmb5wCR9dtQdF3GohrPyHeuLAzihnP</string>

@@ -135,7 +135,7 @@ public class DatabaseConnector {
 
 			@Override
 			public void done(List<ParseObject> loadedNotes, ParseException arg1) {
-				loadedNotes.get(0).put("picture", null);
+				//loadedNotes.get(0).put("picture", null);
 				loadedNotes.get(0).put("isPickedUp", true);
 				loadedNotes.get(0).saveInBackground();
 			}

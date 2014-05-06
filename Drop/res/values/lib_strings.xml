@@ -14,7 +14,10 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<resources>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+  tools:ignore="MissingTranslation">
+  
     <string name="connection_error_code">Connection failure error code: %1$d</string>
     <string name="connection_error_disabled">Google Play services is disabled</string>
     <string name="connection_error_internal">An internal error occurred</string>
