@@ -6,6 +6,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
@@ -38,7 +39,10 @@ public class GeofenceRemover implements
             OnRemoveGeofencesResultListener {
 
     // Storage for a context from the calling client
-    private Context mContext;
+    //private Context mContext;
+    
+    // Storage for a reference to the calling client
+  	private final Context mContext;
 
     // Stores the current list of geofences
     private List<String> mCurrentGeofenceIds;
@@ -364,7 +368,7 @@ public class GeofenceRemover implements
 
             try {
                 // Start an Activity that tries to resolve the error
-                connectionResult.startResolutionForResult((Activity) mContext,
+                connectionResult.startResolutionForResult(MainActivity.init(),
                     LocationUtils.CONNECTION_FAILURE_RESOLUTION_REQUEST);
 
             /*

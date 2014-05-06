@@ -146,7 +146,7 @@ OnConnectionFailedListener {
     private GooglePlayServicesClient getLocationClient() {
         if (mLocationClient == null) {
 
-            mLocationClient = new LocationClient(mService, this, this);
+            mLocationClient = new LocationClient(mService, this, this);            
         }
         return mLocationClient;
 
@@ -155,12 +155,14 @@ OnConnectionFailedListener {
      * Once the connection is available, send a request to add the Geofences
      */
     private void continueAddGeofences() {
+    	Log.d("GeofenceRegistration", mLocationClient.getLastLocation().toString() );
 
         // Get a PendingIntent that Location Services issues when a geofence transition occurs
         mGeofencePendingIntent = createRequestPendingIntent();
         Log.d("GeofenceRequester", "Sending request to add geofences "+mCurrentGeofences.toString());
         // Send a request to add the current geofences
         mLocationClient.addGeofences(mCurrentGeofences, mGeofencePendingIntent, this);
+        
     }
 
     /*

@@ -47,7 +47,6 @@ public class GeofenceRegistrationService extends IntentService {
 		
 		handler.post(pollForNewNotes);
 		
-		//new RegisterNewNotesAsyncTask().execute(newNotes);
 	}
 	
 	private void pollForNewNotes()
@@ -60,6 +59,7 @@ public class GeofenceRegistrationService extends IntentService {
 			} 
 		}
 		Log.d(TAG, "Google Play Services Available!");
+		
 		
 		//** Ripped from DatabaseConnector **//
 		ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Note"); 

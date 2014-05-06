@@ -64,18 +64,31 @@ public class DroppedListViewAdapter extends BaseAdapter {
 				picture.getWidth()));
 
 		noteText.setText(note.getMessage());
-		String recievers = "";
+		
+		StringBuilder sb = new StringBuilder();
 		ArrayList<String> r = note.getReceivers();
 		for (int i = 0; i < r.size(); i++) {
 			try {
 				JSONObject obj = new JSONObject(r.get(i));
-				recievers += obj.getString("name") + ", ";
+				//Append first and last initial to receiver list				
+				String fullName = obj.getString("name");							
+				String[] firstAndLast = fullName.split("\\s+");				
+				sb.append(firstAndLast[0]);//Add first name
+				if(firstAndLast.length > 1) // If there's a last name, add the initial and a period
+				{
+					sb.append(" "+firstAndLast[1].substring(0, 1)+".");					
+				}
+				if(i < r.size()-1) //unless it's the last name in the list, add comma
+				{
+					sb.append(", ");					
+				}
+				
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		recipients.setText(recievers.substring(0, recievers.length() - 2));
+		}		
+		recipients.setText(sb.toString());
 
 		RelativeLayout row = (RelativeLayout) rowView
 				.findViewById(R.id.dropped_row);

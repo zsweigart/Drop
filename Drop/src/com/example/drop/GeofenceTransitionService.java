@@ -3,6 +3,7 @@ package com.example.drop;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONException;
@@ -34,12 +35,15 @@ public class GeofenceTransitionService extends IntentService {
 	 */
 
 	private static String TAG = "GeofenceTransitionService";
+	
+	private GeofenceRemover gfRemover;
 
 	/**
 	 * Sets an identifier for this class' background thread
 	 */
 	public GeofenceTransitionService() {
 		super("GeofenceTransitionService");
+		gfRemover = new GeofenceRemover(this);
 	}
 
 	/**
@@ -133,7 +137,7 @@ public class GeofenceTransitionService extends IntentService {
 	 *            The type of transition that occurred.
 	 * 
 	 */
-	private void sendNotification(final String transitionType, String id) {
+	private void sendNotification(final String transitionType, final String id) {
 
 		// Create an explicit content Intent that starts the ViewNoteScreen
 		// Activity
@@ -146,7 +150,8 @@ public class GeofenceTransitionService extends IntentService {
 
 		ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Note");
 		query.whereEqualTo("objectId", id);
-		query.findInBackground(new FindCallback<ParseObject>() {
+		query.findInBackground(new FindCallback<ParseObject>() 
+		{
 
 			@Override
 			public void done(List<ParseObject> loadedNotes, ParseException arg1) {
@@ -154,95 +159,109 @@ public class GeofenceTransitionService extends IntentService {
 				if (arg1 != null) {
 					Log.e(TAG, arg1.toString());
 				}
-
-				n.setLat(loadedNotes.get(0).getDouble("lat"));
-				n.setLon(loadedNotes.get(0).getDouble("lon"));
-				n.setRadius((float) loadedNotes.get(0).getDouble("radius"));
-				n.setId(loadedNotes.get(0).getObjectId());
-				n.setMessage(loadedNotes.get(0).getString("message"));
-				n.setCreator(loadedNotes.get(0).getString("creator"));
-
-				ParseFile fileObject = (ParseFile) loadedNotes.get(0).get("picture");
 				
-				fileObject.getDataInBackground(new GetDataCallback() {
-					public void done(byte[] data, ParseException e) {
-						if (e == null) {
-							Log.d("test", "We've got data in data.");
-							// Write the picture byte[] to the picture File
-							n.setPicture(Drop
-									.getOutputMediaFile(Drop.PICTURE_DIR));
-							try {
-								FileOutputStream fos = new FileOutputStream(
-										n.getPictureFile());
-								fos.write(data);
-								fos.close();
-							} catch (FileNotFoundException z) {
-								Log.d(TAG, "File not found: " + z.getMessage());
-							} catch (IOException x) {
-								Log.d(TAG,
-										"Error accessing file: "
-												+ x.getMessage());
+				ParseObject loadedNote;
+				if(loadedNotes.isEmpty())
+				{
+					//loadedNotes is empty! GHOST NOTE! REMOVE IT!
+					List<String> fencesToRemove = new ArrayList<String>();
+					fencesToRemove.add(id);
+					gfRemover.removeGeofencesById(fencesToRemove);					
+				}
+				else
+				{									
+					loadedNote = loadedNotes.get(0);
+
+					n.setLat(loadedNote.getDouble("lat"));
+					n.setLon(loadedNote.getDouble("lon"));
+					n.setRadius((float) loadedNote.getDouble("radius"));
+					n.setId(loadedNote.getObjectId());
+					n.setMessage(loadedNote.getString("message"));
+					n.setCreator(loadedNote.getString("creator"));
+	
+					ParseFile fileObject = (ParseFile) loadedNote.get("picture");
+				
+					fileObject.getDataInBackground(new GetDataCallback() {
+						public void done(byte[] data, ParseException e) {
+							if (e == null) {
+								Log.d("test", "We've got data in data.");
+								// Write the picture byte[] to the picture File
+								n.setPicture(Drop
+										.getOutputMediaFile(Drop.PICTURE_DIR));
+								try {
+									FileOutputStream fos = new FileOutputStream(
+											n.getPictureFile());
+									fos.write(data);
+									fos.close();
+								} catch (FileNotFoundException z) {
+									Log.d(TAG, "File not found: " + z.getMessage());
+								} catch (IOException x) {
+									Log.d(TAG,
+											"Error accessing file: "
+													+ x.getMessage());
+								}
+							} else {
+								Log.d("test",
+										"There was a problem downloading the data.");
 							}
-						} else {
-							Log.d("test",
-									"There was a problem downloading the data.");
+							Log.i("GEOFENCE_TRANSITION", "NOTE ID: " + n.getId());
+	
+							// Grab the note that we just found from the database and put it
+							// in the notification intent
+							// notificationIntent.putExtra(getString(R.string.note_id), id);
+							// //note_id => requestId of the triggering geofence
+							notificationIntent.putExtra("com.example.drop.Note", n);
+							notificationIntent.putExtra("justPickedUp", true);
+							
+							// Construct a task stack
+							TaskStackBuilder stackBuilder = TaskStackBuilder
+									.create(GeofenceTransitionService.this);
+	
+							// Adds the View Note Activity to the task stack as the parent
+							//stackBuilder.addParentStack(ViewNoteScreen.class);
+							
+							//Adds the MainActivity as the parent of the task stack
+							stackBuilder.addParentStack(MainActivity.class);					
+	
+							// Push the content Intent onto the stack
+							stackBuilder.addNextIntent(notificationIntent);
+	
+							// Get a PendingIntent containing the entire back stack
+							PendingIntent notificationPendingIntent = stackBuilder
+									.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+	
+							// Get a notification builder that's compatible with platform
+							// versions >= 4
+							NotificationCompat.Builder builder = new NotificationCompat.Builder(
+									GeofenceTransitionService.this);
+	
+							String creatorName = "";
+							try {
+								creatorName = (String) (new JSONObject(n.getCreator()))
+										.get("name");
+							} catch (JSONException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+	
+							// Set the notification contents
+							builder.setSmallIcon(R.drawable.drop_icon)
+									.setContentTitle("You found a note!")
+									.setContentText(creatorName + " has left you a note")
+									.setContentIntent(notificationPendingIntent);
+	
+							// Get an instance of the Notification manager
+							NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+	
+							// Issue the notification
+							mNotificationManager.notify(0, builder.build());
 						}
-						Log.i("GEOFENCE_TRANSITION", "NOTE ID: " + n.getId());
-
-						// Grab the note that we just found from the database and put it
-						// in the notification intent
-						// notificationIntent.putExtra(getString(R.string.note_id), id);
-						// //note_id => requestId of the triggering geofence
-						notificationIntent.putExtra("com.example.drop.Note", n);
-						notificationIntent.putExtra("justPickedUp", true);
-						
-						// Construct a task stack
-						TaskStackBuilder stackBuilder = TaskStackBuilder
-								.create(GeofenceTransitionService.this);
-
-						// Adds the View Note Activity to the task stack as the parent
-						//stackBuilder.addParentStack(ViewNoteScreen.class);
-						
-						//Adds the MainActivity as the parent of the task stack
-						stackBuilder.addParentStack(MainActivity.class);					
-
-						// Push the content Intent onto the stack
-						stackBuilder.addNextIntent(notificationIntent);
-
-						// Get a PendingIntent containing the entire back stack
-						PendingIntent notificationPendingIntent = stackBuilder
-								.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-
-						// Get a notification builder that's compatible with platform
-						// versions >= 4
-						NotificationCompat.Builder builder = new NotificationCompat.Builder(
-								GeofenceTransitionService.this);
-
-						String creatorName = "";
-						try {
-							creatorName = (String) (new JSONObject(n.getCreator()))
-									.get("name");
-						} catch (JSONException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-
-						// Set the notification contents
-						builder.setSmallIcon(R.drawable.drop_icon)
-								.setContentTitle("You found a note!")
-								.setContentText(creatorName + " has left you a note")
-								.setContentIntent(notificationPendingIntent);
-
-						// Get an instance of the Notification manager
-						NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-						// Issue the notification
-						mNotificationManager.notify(0, builder.build());
-					}
-				});
-			}
-		});
+					});
+				}
+			}				
+		});	
 	}
+	
 
 	/**
 	 * Maps geofence transition types to their human-readable equivalents.
