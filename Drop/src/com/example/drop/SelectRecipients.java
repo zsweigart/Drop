@@ -161,7 +161,7 @@ public class SelectRecipients extends  Activity {
 	@Override
     public void finish() {
     	ArrayList <JSONObject> recipients = new ArrayList <JSONObject> ();
-    	for(int i = 0; i < adapter.getCount(); i++)
+    	for(int i = 0; i < userlist.size(); i++)
     	{
     	    try {
 				if (userlist.get(i).getBoolean("checked")){                                          
