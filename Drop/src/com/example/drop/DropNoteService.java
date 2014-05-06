@@ -67,9 +67,12 @@ public class DropNoteService extends IntentService {
 			    			@Override
 			    			public void done(ParseException arg0)
 			    			{
-			    				bitmap.recycle();
-			    				bitmap = null;
-			    				System.gc();
+			    				if(bitmap != null)
+			    				{
+				    				bitmap.recycle();
+				    				bitmap = null;
+				    				System.gc();
+			    				}
 			    			}
 			            });
 		            }

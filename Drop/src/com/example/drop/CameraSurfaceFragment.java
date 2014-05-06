@@ -44,27 +44,30 @@ public class CameraSurfaceFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 		view = inflater.inflate(R.layout.fragment_camera_surface, container,
 				false);
-		
-		view.setOnTouchListener(new OnTouchListener() {
-
-			public boolean onTouch(View arg0, MotionEvent arg1) {
-
-				mCamera.autoFocus(new AutoFocusCallback(){
-
-					public void onAutoFocus(boolean success, Camera mCamera) {
-				        Log.i(TAG, "Inside autofocus callback. autofocused="+success);
-				        //play the autofocus sound
-					}
-					
-				});
-				return true;
-			}
-			
-		});
 
 		isBack = true;
 
 		setCamera();
+		
+		if(!mCamera.getParameters().getFocusMode().equals(Camera.Parameters.FOCUS_MODE_FIXED))
+		{
+			view.setOnTouchListener(new OnTouchListener() {
+	
+				public boolean onTouch(View arg0, MotionEvent arg1) {
+	
+					mCamera.autoFocus(new AutoFocusCallback(){
+	
+						public void onAutoFocus(boolean success, Camera mCamera) {
+					        Log.i(TAG, "Inside autofocus callback. autofocused="+success);
+					        //play the autofocus sound
+						}
+						
+					});
+					return true;
+				}
+				
+			});
+		}
 
 		// Add a listener to the Capture button Button captureButton =
 		Button captureButton = (Button) view.findViewById(R.id.button_capture);

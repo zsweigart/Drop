@@ -157,13 +157,19 @@ public class CameraPreview extends SurfaceView implements
 			mCamera.setParameters(cameraParameters);
 			mCamera.startPreview();
 		}
-		else
+		else if(focusModes.contains(Camera.Parameters.FOCUS_MODE_AUTO))
 		{
 			cameraParameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
 			
 			printCameraShit(cameraParameters);		
 			
 			
+			mCamera.setParameters(cameraParameters);
+			mCamera.startPreview();
+		}
+		else
+		{
+			cameraParameters.setFocusMode(Camera.Parameters.FOCUS_MODE_FIXED);
 			mCamera.setParameters(cameraParameters);
 			mCamera.startPreview();
 		}

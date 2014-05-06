@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.OptionalDataException;
 import java.util.ArrayList;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
@@ -20,16 +21,32 @@ public class GalleryScreen extends DrawerFragmentActivity {
 	// private static final String TAG = "GALLERY";
 	private GalleryPageAdapter pageAdapter;
 	private ViewPager pager;
-	private final int LAZY_NUM = 8;
-	private int pos;
 	private int position;
 	private ArrayList <Fragment> fragList;
 	private File[] fileList;
+	private boolean isSaved;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		Intent intent = getIntent();
+		if(intent.hasExtra("type"))
+		{
+			if(intent.getStringExtra("type").equals("saved"))
+			{
+				isSaved = true;
+			}
+			else
+			{
+				isSaved = false;
+			}
+		}
+		else
+		{
+			isSaved = false;
+		}
 		
 		View layout =  getLayoutInflater().inflate(R.layout.activity_gallery, null);
         FrameLayout frame = (FrameLayout) findViewById(R.id.content_frame);
@@ -47,12 +64,6 @@ public class GalleryScreen extends DrawerFragmentActivity {
 					.getInt(SavedListAdapter.GRID_ITEM_POS);
 		}
 		
-		pos = position - LAZY_NUM/2;
-		if(pos < 0)
-		{
-			pos = 0;
-		}
-
 		pager = (ViewPager) findViewById(R.id.galleryViewPager);
 		pager.setAdapter(pageAdapter);
 		pager.setOnPageChangeListener(new OnPageChangeListener(){
@@ -68,17 +79,6 @@ public class GalleryScreen extends DrawerFragmentActivity {
 			}
 
 			public void onPageSelected(int page) {
-				//If we are near the ends of the loaded pages => load more pages
-				if(page < position - LAZY_NUM/4)
-				{
-					position = page;
-					updateFragmentList(true);
-				}
-				else if(page > position + LAZY_NUM/4)
-				{
-					position = page;
-					updateFragmentList(false);
-				}
 				
 			}
 			
@@ -90,90 +90,6 @@ public class GalleryScreen extends DrawerFragmentActivity {
 	@Override
 	public void onResume() {
 		super.onResume();
-		// And make the ViewPager item in the same position the current item
-		pager.setCurrentItem(position);
-	}
-	
-	private void updateFragmentList(boolean less)
-	{
-		if(less)
-		{
-			//Remove fragments from right
-			for(int i = 0; i < LAZY_NUM/4; i++)
-			{
-				fragList.remove(fragList.get(fragList.size()-1));
-			}
-			
-			//Update the position
-			pos = position - LAZY_NUM/2;
-			if(pos < 0)
-			{
-				pos = 0;
-			}
-			
-			//Add new fragments to the beginning
-			for(int i = pos; i < pos + LAZY_NUM/4; i++)
-			{
-				Note note = new Note();
-				try {
-					FileInputStream fin = new FileInputStream(
-							fileList[i].getAbsolutePath());
-					ObjectInputStream ois = new ObjectInputStream(fin);
-					note = (Note) ois.readObject();
-					ois.close();
-				} catch (OptionalDataException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-				fragList.add(i, ViewNoteFragment.newInstance(note, true, false));
-			}
-		}
-		else
-		{
-			//Remove from the left
-			for(int i = 0; i < LAZY_NUM/4; i++)
-			{
-				fragList.remove(0);
-			}
-			
-			//Update the position
-			pos = position + LAZY_NUM/2;
-			if(pos > fileList.length-1)
-			{
-				pos = fileList.length-1;
-			}
-			
-			//Add new fragments to the beginning
-			for(int i = pos; i > pos - LAZY_NUM/4; i--)
-			{
-				Note note = new Note();
-				try {
-					FileInputStream fin = new FileInputStream(
-							fileList[i].getAbsolutePath());
-					ObjectInputStream ois = new ObjectInputStream(fin);
-					note = (Note) ois.readObject();
-					ois.close();
-				} catch (OptionalDataException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-				fragList.add(fileList.length-1-i, ViewNoteFragment.newInstance(note, true, false));
-			}
-		}
 	}
 
 	private void getFragments() {
@@ -193,7 +109,7 @@ public class GalleryScreen extends DrawerFragmentActivity {
 
 		if (fileList != null) {
 
-			for (int i = pos; i < pos+LAZY_NUM; i++) {
+			for (int i = 0; i < fileList.length; i++) {
 				if(i > fileList.length-1)
 				{
 					break;
@@ -214,8 +130,7 @@ public class GalleryScreen extends DrawerFragmentActivity {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
-				fragList.add(ViewNoteFragment.newInstance(note, true, false));
+				fragList.add(ViewNoteFragment.newInstance(note, isSaved, false));
 			}
 		}
 	}
