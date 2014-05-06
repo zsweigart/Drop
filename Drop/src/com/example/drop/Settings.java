@@ -2,8 +2,6 @@ package com.example.drop;
 
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
-import android.view.View;
-import android.widget.FrameLayout;
 
 
 public class Settings extends DrawerFragmentActivity {

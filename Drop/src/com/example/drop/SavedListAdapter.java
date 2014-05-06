@@ -24,8 +24,6 @@ public class SavedListAdapter extends BaseAdapter {
 	private Activity activity;
 	private ArrayList<Note> data;
 	protected ImageLoader imageLoader = ImageLoader.getInstance();
-	private final int imageHeight = 300;
-	private final int imageWidth = 300;
 	private static LayoutInflater inflater = null;
 	public static final String GRID_ITEM_POS = "GRID_ITEM_POS";
 	DisplayImageOptions options;

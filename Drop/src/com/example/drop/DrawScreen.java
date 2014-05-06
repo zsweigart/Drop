@@ -144,6 +144,7 @@ public class DrawScreen extends Activity {
 
 		// Clear out the current bitmap if there is already one
 		if (b != null) {
+			b.recycle();
 			b = null;
 			System.gc();
 		}

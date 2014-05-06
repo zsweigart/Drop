@@ -9,13 +9,16 @@ import java.util.List;
 import android.content.Intent;
 import android.graphics.Point;
 import android.hardware.Camera;
+import android.hardware.Camera.AutoFocusCallback;
 import android.hardware.Camera.PictureCallback;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -41,6 +44,23 @@ public class CameraSurfaceFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 		view = inflater.inflate(R.layout.fragment_camera_surface, container,
 				false);
+		
+		view.setOnTouchListener(new OnTouchListener() {
+
+			public boolean onTouch(View arg0, MotionEvent arg1) {
+
+				mCamera.autoFocus(new AutoFocusCallback(){
+
+					public void onAutoFocus(boolean success, Camera mCamera) {
+				        Log.i(TAG, "Inside autofocus callback. autofocused="+success);
+				        //play the autofocus sound
+					}
+					
+				});
+				return true;
+			}
+			
+		});
 
 		isBack = true;
 
