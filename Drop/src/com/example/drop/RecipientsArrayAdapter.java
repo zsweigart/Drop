@@ -11,19 +11,23 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
-public class RecipientsArrayAdapter extends ArrayAdapter<JSONObject> implements SectionIndexer {
+public class RecipientsArrayAdapter extends ArrayAdapter<JSONObject> implements SectionIndexer, Filterable {
 	  private final Context context;
-	  private final ArrayList<JSONObject> values;
+	  private ArrayList<JSONObject> values;
+	  private ArrayList<JSONObject> listItems;
 	  HashMap<String, Integer> alphaIndexer;
       String[] sections;
 	  private Activity parentActivity;
@@ -32,6 +36,7 @@ public class RecipientsArrayAdapter extends ArrayAdapter<JSONObject> implements 
 	    super(context, R.layout.recipients_listview_item, listItems);
 	    this.context = context;
 	    this.values = listItems;
+	    this.listItems = listItems;
 	    parentActivity = parent;
 	    
 	    alphaIndexer = new HashMap<String, Integer>();
@@ -43,6 +48,7 @@ public class RecipientsArrayAdapter extends ArrayAdapter<JSONObject> implements 
 				try {
 					element = values.get(i).getString("name");
 	                alphaIndexer.put(element.substring(0, 1), i);
+	                values.get(i).put("orig_id", i);
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -78,6 +84,11 @@ public class RecipientsArrayAdapter extends ArrayAdapter<JSONObject> implements 
 	  }
 
 	  @Override
+	  public int getCount(){
+		  return values.size();
+	  }
+	  
+	  @Override
 	  public View getView(int position, View convertView, ViewGroup parent) {
 	    LayoutInflater inflater = (LayoutInflater) context
 	        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -86,6 +97,21 @@ public class RecipientsArrayAdapter extends ArrayAdapter<JSONObject> implements 
 	    final ImageView icon = (ImageView) rowView.findViewById(R.id.recipients_icon);
 	    final RelativeLayout recipientRow = (RelativeLayout) rowView.findViewById(R.id.recipient_list_row);
 	    final int loc = position;
+	    if (values.size() > loc) try {
+			boolean isSelected = values.get(loc).getBoolean("checked");
+			if (isSelected){
+				recipientRow.setSelected(true);
+				icon.setVisibility(View.VISIBLE);
+			}
+			else{
+				recipientRow.setSelected(false);
+				icon.setVisibility(View.INVISIBLE);
+			}
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	    recipientRow.invalidate();
 	    recipientRow.setOnClickListener(new OnClickListener(){
 			public void onClick(View arg0) {
 				boolean isSelected = false;
@@ -124,7 +150,8 @@ public class RecipientsArrayAdapter extends ArrayAdapter<JSONObject> implements 
 	    });
 	    
 	    try {
-			textView.setText(values.get(position).get("name").toString());
+	    	if (position < values.size())
+	    		textView.setText(values.get(position).getString("name").toString());
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -146,4 +173,50 @@ public class RecipientsArrayAdapter extends ArrayAdapter<JSONObject> implements 
 	public Object[] getSections() {
 		 return sections;
 	}
+	@Override
+    public Filter getFilter() {
+
+        Filter filter = new android.widget.Filter() {
+
+            @SuppressWarnings("unchecked")
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+
+                values = (ArrayList<JSONObject>) results.values;
+                notifyDataSetChanged();
+            }
+
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+
+                FilterResults results = new FilterResults();
+                ArrayList<JSONObject> FilteredArrayNames = new ArrayList<JSONObject>();
+
+                // perform your search here using the searchConstraint String.
+
+                constraint = constraint.toString().toLowerCase();
+                for (int i = 0; i < listItems.size(); i++) {
+                    String dataNames;
+					try {
+						JSONObject user = listItems.get(i);
+						dataNames = listItems.get(i).getString("name").toString();
+						if (dataNames.toLowerCase().startsWith(constraint.toString()))  {
+	                        FilteredArrayNames.add(user);
+	                    }
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+                    
+                }
+
+                results.count = FilteredArrayNames.size();
+                results.values = FilteredArrayNames;
+
+                return results;
+            }
+        };
+
+        return filter;
+    }
 } 

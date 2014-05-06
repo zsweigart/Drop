@@ -1,5 +1,6 @@
 package com.example.drop;
 
+import java.security.MessageDigest;
 import java.util.Arrays;
 import java.util.List;
 
@@ -7,8 +8,12 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,7 +35,18 @@ public class LoginScreen extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
-                
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "com.example.drop", 
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+                }
+        } catch (Exception e) {
+        	Log.d(TAG, "Error printing keyhash");
+        } 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         
         Button loginButton = (Button)findViewById(R.id.loginscreen_button_login);

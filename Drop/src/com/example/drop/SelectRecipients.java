@@ -9,10 +9,13 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -51,6 +54,19 @@ public class SelectRecipients extends  Activity {
         	
         });
         makeMyFriendsRequest();
+        EditText inputSearch = (EditText) findViewById(R.id.search_recipients);
+   
+        inputSearch.addTextChangedListener(new TextWatcher() {
+
+         public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+             // When user changed the Text
+        	 SelectRecipients.this.adapter.getFilter().filter(cs);
+         }
+
+         public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) { }
+
+         public void afterTextChanged(Editable arg0) {}
+     });
     }
    
     private void makeMyFriendsRequest() {

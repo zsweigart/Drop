@@ -69,6 +69,7 @@
     <string name="from">From:</string>
     <string name="nobody">drop to..</string>
     <string name="edit_note_field_hint">Type a message..</string>
+    <string name="search_recipients_hint">Enter a name</string>
 
     <!-- Geofence Messages -->
     <string name="add_geofences_result_success">        Add Geofences: Success GeofenceRequestIds=%1$s</string>
