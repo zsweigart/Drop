@@ -29,7 +29,8 @@
         android:allowBackup="true"
         android:icon="@drawable/drop_icon"
         android:label="@string/app_name"
-        android:theme="@style/CustomTheme" >
+        android:theme="@style/CustomTheme"
+        android:largeHeap="true" >
         <service
             android:name=".GeofenceTransitionService"
             android:exported="false" />

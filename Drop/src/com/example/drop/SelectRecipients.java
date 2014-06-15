@@ -61,7 +61,10 @@ public class SelectRecipients extends  Activity {
 
          public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
              // When user changed the Text
-        	 SelectRecipients.this.adapter.getFilter().filter(cs);
+        	 if(SelectRecipients.this.adapter != null)
+        	 {
+        		 SelectRecipients.this.adapter.getFilter().filter(cs);
+        	 }
          }
 
          public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) { }

@@ -326,6 +326,8 @@ public class MyCameraFragment extends CameraFragment implements
 					}
 				});
 
+				Drop.current_note = new Note();
+				Drop.current_note.setPicture(Drop.getOutputMediaFile(Drop.PICTURE_DIR));
 				File pictureFile = Drop.current_note.getPictureFile();
 
 				try {
@@ -419,6 +421,11 @@ public class MyCameraFragment extends CameraFragment implements
 
 		public boolean mirrorFFC() {
 			return (mirrorFFC.isChecked());
+		}
+		
+		public float maxPictureCleanupHeapUsage()
+		{
+			return 0.5f;
 		}
 	}
 }
