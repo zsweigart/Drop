@@ -1,0 +1,51 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/camera"
+        android:showAsAction="never"
+        android:title="Take Picture">
+    </item>
+    <item
+        android:id="@+id/record"
+        android:showAsAction="never"
+        android:title="Record">
+    </item>
+    <item
+        android:id="@+id/stop"
+        android:showAsAction="never"
+        android:title="Stop"
+        android:visible="false">
+    </item>
+    <item
+        android:id="@+id/autofocus"
+        android:enabled="false"
+        android:showAsAction="never"
+        android:title="AutoFocus">
+    </item>
+    <item
+        android:id="@+id/single_shot"
+        android:checkable="true"
+        android:checked="false"
+        android:showAsAction="never"
+        android:title="Single Shot">
+    </item>
+    <item
+        android:id="@+id/show_zoom"
+        android:checkable="true"
+        android:checked="false"
+        android:title="ShowZoom">
+    </item>
+    <item
+        android:id="@+id/flash"
+        android:checkable="true"
+        android:checked="true"
+        android:title="Flash">
+    </item>
+    <item
+        android:id="@+id/mirror_ffc"
+        android:checkable="true"
+        android:checked="false"
+        android:title="Use Front">
+    </item>
+
+</menu>

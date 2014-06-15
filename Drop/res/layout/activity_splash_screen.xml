@@ -9,15 +9,8 @@
         android:layout_height="200dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-		android:background="@drawable/drop_logo"
-        tools:context=".SplashScreen"
-        android:contentDescription="@string/app_name" />
-    
-    <com.example.drop.BounceView
-        android:id="@+id/splash_anim_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true" />
+        android:background="@drawable/drop_logo"
+        android:contentDescription="@string/app_name"
+        tools:context=".SplashScreen" />
 
 </RelativeLayout>
